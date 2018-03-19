@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Edit {{investment?.name}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <investment-form 
+    [handleFormSubmit]="handleFormSubmit" 
+    [investment]="investment"
+    [isError]="isError"
+    [errorMsg]="errorMsg"
+    [maxDate]="maxDate"
+    [isDisabled]="isDisabled"
+    isEdit="true"
+    submitButtonText="Save"
+  ></investment-form>
+</ion-content>

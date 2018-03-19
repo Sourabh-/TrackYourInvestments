@@ -1,0 +1,32 @@
+<form #iForm="ngForm" (ngSubmit)="handleFormSubmit()" novalidate>
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Name (Give a name to your investment)</ion-label>
+        <ion-input type="text" [(ngModel)]="investment.name" name="name" required [disabled]="isEdit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Type</ion-label>
+        <ion-select [(ngModel)]="investment.type" name="type" required>
+          <ion-option [value]="type.type" *ngFor="let type of types">{{type.name}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Amount Invested</ion-label>
+        <ion-input type="number" [(ngModel)]="investment.totalAmount" name="totalAmount" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Started On</ion-label>
+        <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="investment.startDate" name="startDate" [max]="maxDate" required></ion-datetime>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Profit Till Date</ion-label>
+        <ion-input type="number" [(ngModel)]="investment.profit" name="profit" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Loss Till Date</ion-label>
+        <ion-input type="number" [(ngModel)]="investment.loss" name="loss" required></ion-input>
+      </ion-item>
+      <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>
+    </ion-list>
+    <button class="add-btn" ion-button block [disabled]="!iForm.form.valid || isDisabled">{{submitButtonText}}</button>
+  </form>

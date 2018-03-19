@@ -1,0 +1,31 @@
+page-existing {
+	.item-details {
+		font-size: 12px;
+	}
+
+	.item-loss {
+		border: 1px solid #FF0000;
+		border-radius: 45%;
+		padding: 7px;
+		color: #FF0000;
+	}
+
+	.item-profit {
+		border: 1px solid #589a6c;
+		border-radius: 45%;
+		padding: 7px;
+		color: #589a6c;
+	}
+
+	.no-data {
+		text-align: center;
+	    font-size: 38px;
+	    width: 80%;
+	    margin: 0 auto;
+	    color: #000000;
+	    opacity: 0.48;
+	    font-family: courier;
+	    font-weight: bold;
+	    margin-top: 55px;
+	}
+}

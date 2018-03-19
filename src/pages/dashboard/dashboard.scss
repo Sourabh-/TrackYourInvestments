@@ -1,0 +1,70 @@
+page-dashboard {
+	.graph-container {
+	    background-color: #dad3d333;
+	}
+
+	.card {
+		border-radius: 2px !important;
+	}
+
+	.text-bold {
+		font-weight: bold;
+	}
+
+	.profit-text {
+		color: #589a6c;
+	}
+
+	.loss-text {
+		color: #FF0000;
+	}
+
+	.total-text {
+		color: #488aff;
+	}
+
+	.text-large {
+		font-size: 16px;
+	}
+
+	.no-margin {
+		margin: 0 !important;
+	}
+
+	.loader {
+	  border: 6px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 6px solid #3498db;
+	  width: 40px;
+	  height: 40px;
+	  -webkit-animation: spin 2s linear infinite; /* Safari */
+	  animation: spin 2s linear infinite;
+	  position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+	}
+
+	/* Safari */
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+
+	.no-data {
+		text-align: center;
+	    font-size: 38px;
+	    width: 80%;
+	    margin: 0 auto;
+	    color: #000000;
+	    opacity: 0.48;
+	    font-family: courier;
+	    font-weight: bold;
+	    margin-top: 55px;
+	}
+}
