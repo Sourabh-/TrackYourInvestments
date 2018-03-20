@@ -60,7 +60,7 @@ export class DashboardPage implements OnInit {
     })
     .catch((err) => {
       console.log(err.message);
-      if(err.message === 'DB NOT READY' && this.callCount != 3) {
+      if(err.message === 'DB NOT READY' && this.callCount != 10) {
         this.callCount++;
         setTimeout(() => { this.initiate(); }, 200);
       } else 

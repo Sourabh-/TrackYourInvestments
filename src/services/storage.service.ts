@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { Platform } from 'ionic-angular';
 
 @Injectable()
 export class SQLStorageService {
@@ -7,34 +8,36 @@ export class SQLStorageService {
   public dbObj: SQLiteObject;
   public allInvestments = [];
 
-  constructor(private sqlite: SQLite) {
-    this.sqlite.create({
+  constructor(private sqlite: SQLite, platform: Platform) {
+    platform.ready().then(() => {
+      this.sqlite.create({
         name: 'data.db',
         location: 'default'
       })
       .then((db: SQLiteObject) => {
-      	this.dbObj = db;
+        this.dbObj = db;
         //CREATE TABLE IF DOES NOT EXIST
         db.executeSql(`CREATE TABLE investments 
-			( 
-				name varchar(30) NOT NULL PRIMARY KEY,
-				type varchar(50),
-				totalAmount number(30),
-				startDate number(20),
-				profit number(20),
-				loss number(20)
-			)`, {})
+      ( 
+        name varchar(30) NOT NULL PRIMARY KEY,
+        type varchar(50),
+        totalAmount number(30),
+        startDate number(20),
+        profit number(20),
+        loss number(20)
+      )`, {})
           .then(() => {
-          	console.log("Connection established.");
+            console.log("Connection established.");
           })
           .catch(e => {
-          	console.log(e);
+            console.log(e);
           });
 
       })
       .catch((e) => {
-      	console.log(e);
+        console.log(e);
       })
+    });
   }
 
   async getInvestments(force?) {
