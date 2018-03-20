@@ -32,8 +32,6 @@ export class UtilService {
 	}
 
 	getDate(timestamp) {
-		console.log("=============>>>>>> T: " + timestamp);
-		console.log("=============>>>>>> S: " + typeof timestamp);
 		let _d = new Date(timestamp);
 		return ('0' + _d.getDate()).slice(-2) + "-" + months[_d.getMonth()] + "-" + _d.getFullYear();
 	}
