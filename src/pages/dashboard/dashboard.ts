@@ -199,7 +199,7 @@ export class DashboardPage implements OnInit {
         data.push(inv.profit - inv.loss);
         bColors.push(this.utilService.getProfitColor());
       } else if(inv.profit < inv.loss) {
-        data.push(inv.loss - inv.profit);
+        data.push(inv.profit - inv.loss);
         bColors.push(this.utilService.getLossColor());
       } else {
         bColors.push(this.utilService.getZeroColor());
@@ -239,7 +239,7 @@ export class DashboardPage implements OnInit {
             callbacks: {
                 label: function(tooltipItems, data) { 
                   if(Number(data.datasets[0].data[tooltipItems.index]) < 0)
-                    return 'Loss: ' + data.datasets[0].data[tooltipItems.index];
+                    return 'Loss: ' + Math.abs(Number(data.datasets[0].data[tooltipItems.index]));
                   else
                     return 'Profit: ' + data.datasets[0].data[tooltipItems.index];
                 }

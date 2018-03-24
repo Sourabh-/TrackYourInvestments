@@ -26,6 +26,7 @@
         <ion-label floating>Loss Till Date</ion-label>
         <ion-input type="number" [(ngModel)]="investment.loss" name="loss" required></ion-input>
       </ion-item>
+      <ion-item class="last-list-item"></ion-item>
       <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>
     </ion-list>
     <button class="add-btn" ion-button block [disabled]="!iForm.form.valid || isDisabled">{{submitButtonText}}</button>

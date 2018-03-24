@@ -54,7 +54,7 @@ export class AddNewPage {
 
   handleFormSubmit() {
     _.isError = false;
-    if(_.investment.loss > _.investment.totalAmount) {
+    if(Number(_.investment.loss) > Number(_.investment.totalAmount)) {
       _.errorMsg = "Loss cannot be more than total investment amount *";
       _.isError = true;
     } else {
