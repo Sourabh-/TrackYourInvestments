@@ -1,6 +1,9 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { Market } from '@ionic-native/market';
+
 import { MyApp } from './app.component';
 
 import { AddNewPage } from '../pages/addNew/addNew';
@@ -46,6 +49,8 @@ import { UtilService } from '../services/util.service';
   providers: [
     StatusBar,
     SplashScreen,
+    InAppBrowser,
+    Market,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     SQLStorageService,

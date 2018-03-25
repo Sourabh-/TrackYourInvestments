@@ -145,7 +145,7 @@ export class ExistingPage implements OnInit {
   }
 
   isProfit(investment) {
-    return (investment.profit > investment.loss);
+    return (investment.profit > investment.loss) ? 'TRUE' : (investment.profit < investment.loss ? 'FALSE' : 'NONE');
   }
 
   getLossPer(investment) {

@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.uns.trackYourInvestments" version="0.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Track Your Investments</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <description>Analyze your investments</description>
+    <author email="shibadebnath@gmail.com" href="http://ionicframework.com/">Sourabh Debnath</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -84,5 +84,7 @@
     <plugin name="cordova-sqlite-storage" spec="^2.2.1" />
     <allow-navigation href="http://192.168.2.3:8100" />
     <allow-navigation href="http://10.65.78.246:8100" />
+    <plugin name="cordova-plugin-inappbrowser" spec="^2.0.2" />
+    <plugin name="cordova-plugin-market" spec="^1.2.0" />
     <engine name="android" spec="7.0.0" />
 </widget>

@@ -119,6 +119,7 @@ export class DashboardPage implements OnInit {
       bColors.push(this.utilService.getRandomColor());
     });
 
+    try { this.barChart.destroy() } catch(e) { console.log(e); }
     this.barChart = new Chart(barCtx, {
         type: 'bar',
         data: {
@@ -138,7 +139,10 @@ export class DashboardPage implements OnInit {
             scales: {
                 xAxes: [{
                     categoryPercentage: 1.0,
-                    barPercentage: 1.0
+                    barPercentage: 1.0,
+                    ticks: {
+                      autoSkip: false
+                    }
                 }],
                 yAxes: [{
                     ticks: {
@@ -165,6 +169,7 @@ export class DashboardPage implements OnInit {
       data.push(((val*100)/ta).toFixed(2));
     });
 
+    try { this.pieChart.destroy() } catch(e) { console.log(e); }
     this.pieChart = new Chart(pieCtx, {
         type: 'pie',
         data: {
@@ -202,10 +207,12 @@ export class DashboardPage implements OnInit {
         data.push(inv.profit - inv.loss);
         bColors.push(this.utilService.getLossColor());
       } else {
+        data.push(0);
         bColors.push(this.utilService.getZeroColor());
       }
     });
 
+    try { this.plChart.destroy() } catch(e) { console.log(e); }
     this.plChart = new Chart(plCtx, {
         type: 'bar',
         data: {
@@ -225,7 +232,10 @@ export class DashboardPage implements OnInit {
           scales: {
               xAxes: [{
                   categoryPercentage: 1.0,
-                  barPercentage: 1.0
+                  barPercentage: 1.0,
+                  ticks: {
+                    autoSkip: false
+                  }
               }],
               yAxes: [{
                   ticks: {

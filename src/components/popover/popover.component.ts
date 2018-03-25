@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ToastController, ViewController, AlertController } from 'ionic-angular';
+import { Market } from '@ionic-native/market';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 @Component({
   selector: 'page-popover',
@@ -11,7 +13,9 @@ export class PopoverPage {
   constructor(
   	public toastCtrl: ToastController,
   	public viewCtrl: ViewController,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private iab: InAppBrowser,
+    private market: Market
   ) {
   	this.toastCS = this.toastCtrl.create({
       message: 'Coming in next edition.',
@@ -35,12 +39,12 @@ export class PopoverPage {
 
   openRateUs() {
     this.viewCtrl.dismiss();
-    this.toastCS.present();
+    this.market.open('io.uns.trackYourInvestments');
   }
 
   openWhyInvest() {
   	this.viewCtrl.dismiss();
-  	this.toastCS.present();
+  	this.iab.create('https://www.allbusiness.com/top-10-reasons-to-invest-money-93916-1.html');
   }
 
   openHelp() {

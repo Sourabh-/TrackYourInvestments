@@ -21,8 +21,9 @@
         {{investment.name}}
         <p class="item-details">{{typesObj[investment.type]}}</p>
         <p class="item-details">Started on {{utilService.getDate(investment.startDate)}}</p>
-        <div *ngIf="!isProfit(investment)" class="item-loss" item-end>{{getLossPer(investment)}}</div>
-        <div *ngIf="isProfit(investment)" class="item-profit" item-end>{{getProfitPer(investment)}}</div>
+        <div *ngIf="isProfit(investment) === 'FALSE'" class="item-loss" item-end>{{getLossPer(investment)}}</div>
+        <div *ngIf="isProfit(investment) === 'TRUE'" class="item-profit" item-end>{{getProfitPer(investment)}}</div>
+        <div *ngIf="isProfit(investment) === 'NONE'" class="item-even" item-end>{{getProfitPer(investment)}}</div>
       </ion-item>
 
       <ion-item-options side="right">
