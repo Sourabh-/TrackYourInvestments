@@ -13,12 +13,14 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { PopoverPage } from '../components/popover/popover.component';
 import { FormComponent } from '../components/investmentForm/investmentForm.component';
 import { EditModal } from '../components/editModal/editModal.component';
+import { CurrencyModal } from '../components/currencyModal/currencyModal.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SQLite } from '@ionic-native/sqlite';
 import { SQLStorageService } from '../services/storage.service';
 import { UtilService } from '../services/util.service';
+import { CurrencyService } from '../services/currency.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { UtilService } from '../services/util.service';
     TabsPage,
     PopoverPage,
     FormComponent,
-    EditModal
+    EditModal,
+    CurrencyModal
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { UtilService } from '../services/util.service';
     TabsPage,
     PopoverPage,
     FormComponent,
-    EditModal
+    EditModal,
+    CurrencyModal
   ],
   providers: [
     StatusBar,
@@ -54,7 +58,8 @@ import { UtilService } from '../services/util.service';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     SQLStorageService,
-    UtilService
+    UtilService,
+    CurrencyService
   ]
 })
 export class AppModule {}

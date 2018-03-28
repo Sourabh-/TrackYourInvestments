@@ -5,6 +5,7 @@ import { PopoverController, ToastController } from 'ionic-angular';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { UtilService } from '../../services/util.service';
 import { SQLStorageService } from '../../services/storage.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'page-dashboard',
@@ -26,13 +27,15 @@ export class DashboardPage implements OnInit {
   public loss = 0;
   public lossPercent:any = 0;
   private callCount = 0;
+  public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' };
 
   constructor(
     public navCtrl: NavController, 
     public popoverCtrl: PopoverController,
     private utilService: UtilService,
     public sqlStorageService: SQLStorageService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public currencyService: CurrencyService
   ) {
 
   }
@@ -82,6 +85,10 @@ export class DashboardPage implements OnInit {
 
   ngOnInit() {
      this.initiate(); 
+     this.currencyService.changeCurrency.subscribe(() => {
+       this.selectedCurr = JSON.parse(localStorage.currency);
+       this.reload();
+     })
   }
 
   reload() {
@@ -149,6 +156,15 @@ export class DashboardPage implements OnInit {
                       beginAtZero: true
                     }
                 }]
+            },
+            tooltips: {
+              enabled: true,
+              mode: 'single',
+              callbacks: {
+                  label: (tooltipItems, data) => { 
+                      return 'Invested Amount: ' + this.selectedCurr.symbol + Math.abs(Number(data.datasets[0].data[tooltipItems.index]));
+                  }
+              }
             }
         }
     });
@@ -247,11 +263,11 @@ export class DashboardPage implements OnInit {
             enabled: true,
             mode: 'single',
             callbacks: {
-                label: function(tooltipItems, data) { 
+                label: (tooltipItems, data) => { 
                   if(Number(data.datasets[0].data[tooltipItems.index]) < 0)
-                    return 'Loss: ' + Math.abs(Number(data.datasets[0].data[tooltipItems.index]));
+                    return 'Loss: ' + this.selectedCurr.symbol + Math.abs(Number(data.datasets[0].data[tooltipItems.index]));
                   else
-                    return 'Profit: ' + data.datasets[0].data[tooltipItems.index];
+                    return 'Profit: ' + this.selectedCurr.symbol + data.datasets[0].data[tooltipItems.index];
                 }
             }
           }
