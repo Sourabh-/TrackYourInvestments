@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Send Email
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #eForm="ngForm" (ngSubmit)="handleEmailSend()" novalidate>
+    <ion-textarea rows="10" class="textarea" [(ngModel)]="email" name="email" minlength="30" required placeholder="Min. 30 characters"></ion-textarea>
+    <button class="add-btn" ion-button block [disabled]="!eForm.form.valid">Send</button>
+  </form>
+</ion-content>

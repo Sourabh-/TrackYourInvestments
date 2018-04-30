@@ -47,6 +47,12 @@ export const types = [{
 	name: "Commodities",
 	type: "comm"
 }, {
+	name: "Fixed Deposit",
+	type: "fd"
+}, {
+	name: "Recurring Deposit",
+	type: "rd"
+}, {
 	name: "Others",
 	type: "others"
 }];

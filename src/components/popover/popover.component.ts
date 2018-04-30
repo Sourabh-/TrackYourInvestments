@@ -4,6 +4,7 @@ import { Market } from '@ionic-native/market';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import CurrencyToSymbolMap from 'currency-symbol-map/map';
 import { CurrencyModal } from '../currencyModal/currencyModal.component';
+import { EmailModal } from '../emailModal/emailModal.component';
 
 @Component({
   selector: 'page-popover',
@@ -28,7 +29,7 @@ export class PopoverPage {
   }
 
   openAboutUs() {
-    this.viewCtrl.dismiss();
+    this.dismiss();
     let alert = this.alertCtrl.create({
       title: 'About Us',
       subTitle: `We are a bunch of enthusiastic people who loves the idea of having a passive income. 
@@ -41,23 +42,33 @@ export class PopoverPage {
   }
 
   openRateUs() {
-    this.viewCtrl.dismiss();
+    this.dismiss();
     this.market.open('io.uns.trackYourInvestments');
   }
 
   openWhyInvest() {
-  	this.viewCtrl.dismiss();
+  	this.dismiss();
   	this.iab.create('https://www.allbusiness.com/top-10-reasons-to-invest-money-93916-1.html');
   }
 
   openHelp() {
-  	this.viewCtrl.dismiss();
+  	this.dismiss();
   	this.toastCS.present();
   }
 
   chooseCurr(curr) {
-    this.viewCtrl.dismiss();
+    this.dismiss();
     let modal = this.modalCtrl.create(CurrencyModal);
     modal.present();
+  }
+
+  openEmailUs() {
+    this.dismiss();
+    let modal = this.modalCtrl.create(EmailModal);
+    modal.present();
+  }
+
+  dismiss() {
+    this.viewCtrl.dismiss();
   }
 }
