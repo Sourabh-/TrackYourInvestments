@@ -16,6 +16,7 @@ import { FormComponent } from '../components/investmentForm/investmentForm.compo
 import { EditModal } from '../components/editModal/editModal.component';
 import { EmailModal } from '../components/emailModal/emailModal.component';
 import { CurrencyModal } from '../components/currencyModal/currencyModal.component';
+import { HelpModal } from '../components/helpModal/helpModal.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -35,7 +36,8 @@ import { CurrencyService } from '../services/currency.service';
     FormComponent,
     EditModal,
     CurrencyModal,
-    EmailModal
+    EmailModal,
+    HelpModal
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import { CurrencyService } from '../services/currency.service';
     FormComponent,
     EditModal,
     CurrencyModal,
-    EmailModal
+    EmailModal,
+    HelpModal
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>
+      Invest Tips & Tricks
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item (click)="addNewLink()">
+      Click Here To Add Your Own Link
+      <button ion-button clear item-end icon-only>
+        <ion-icon name='add'></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <h2>8 Financial Tips</h2>
+      <p>https://www.investopedia.com/articles/younginvestors/08/eight-tips.asp</p>
+      <button ion-button clear item-end icon-only (click)="openLink('https://www.investopedia.com/articles/younginvestors/08/eight-tips.asp')">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>  
+    <ion-item>
+      <h2>How To Invest In Your 20's: Financial Advisors Share Their Best Tips</h2>
+      <p>https://www.forbes.com/sites/jrose/2017/08/23/financial-advisors-share-their-best-tips-on-how-to-invest-in-your-20s/#5d53eb6807bd</p>
+      <button ion-button clear item-end icon-only (click)="openLink('https://www.forbes.com/sites/jrose/2017/08/23/financial-advisors-share-their-best-tips-on-how-to-invest-in-your-20s/#5d53eb6807bd')">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>  
+    <ion-item>
+      <h2>5 Money Saving Tips</h2>
+      <p>https://localfirstbank.com/content/saving-tips-for-young-adults</p>
+      <button ion-button clear item-end icon-only (click)="openLink('https://localfirstbank.com/content/saving-tips-for-young-adults')">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>  
+    <ion-item>
+      <h2>6 Stock Market Investing Tips</h2>
+      <p>https://www.moneycrashers.com/stock-market-investing-tips-guide-checklist/</p>
+      <button ion-button clear item-end icon-only (click)="openLink('https://www.moneycrashers.com/stock-market-investing-tips-guide-checklist/')">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>  
+    <ion-item>
+      <h2>10 golden rules of investing in stock markets</h2>
+      <p>https://economictimes.indiatimes.com/slideshows/investments-markets/10-golden-rules-of-investing-in-stock-markets/10-monitor-rigorously/slideshow/18570942.cms</p>
+      <button ion-button clear item-end icon-only (click)="openLink('https://economictimes.indiatimes.com/slideshows/investments-markets/10-golden-rules-of-investing-in-stock-markets/10-monitor-rigorously/slideshow/18570942.cms')">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item>
+      <h2>4 Best Investments To Make In 2018</h2>
+      <p>https://www.forbes.com/sites/jrose/2018/01/05/best-investments-to-make/#c73c8b94b72b</p>
+      <button ion-button clear item-end icon-only (click)="openLink('https://www.forbes.com/sites/jrose/2018/01/05/best-investments-to-make/#c73c8b94b72b')">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>
+    <ion-item *ngFor="let link of links">
+      <h2>{{link.title}}</h2>
+      <p>{{link.link}}</p>
+      <button ion-button clear item-end icon-only (click)="deleteLink(link)">
+        <ion-icon name='trash' color='danger'></ion-icon>
+      </button>
+      <button ion-button clear item-end icon-only (click)="openLink(link.link)">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>  
+  </ion-list>
+</ion-content>

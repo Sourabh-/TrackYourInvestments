@@ -57,6 +57,7 @@ export class ExistingPage implements OnInit {
       this.reload();
     })
     .catch((err) => {
+      return this.reload();
       console.log(err);
       if(err.message === 'DB NOT READY' && this.callCount != 10) {
         this.callCount++;
@@ -84,6 +85,17 @@ export class ExistingPage implements OnInit {
   
   reload() {
     this.investments = this.sqlStorageService.allInvestments;
+    if(this.investments.length) {
+      let count = window.localStorage.infoCount ? +window.localStorage.infoCount : 0;
+      if(count < 3) {
+        window.localStorage.infoCount = count + 1;
+        this.toastCtrl.create({
+          message: "Swipe item to EDIT or DELETE",
+          duration: 3000,
+          position: 'bottom'
+        }).present();
+      } 
+    }
   }
 
   openPopover(ev) {

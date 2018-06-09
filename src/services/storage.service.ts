@@ -47,8 +47,6 @@ export class SQLStorageService {
     } else {
       throw new Error('DB NOT READY');
     }
-
-    //return this.allInvestments.length && !force ? this.allInvestments : localStorage.investments ? JSON.parse(localStorage.investments) : [];
   }
 
   async getInvestment(name) {
@@ -58,17 +56,6 @@ export class SQLStorageService {
   	} else {
   		throw new Error('DB NOT READY');
   	}
-
-    /*if(localStorage.investments) {
-      let stor = JSON.parse(localStorage.investments);
-      for(let i=0; i<stor.length; i++) {
-        if(stor[i].name == name) {
-          return [stor[i]];
-        }
-      }
-    }
-    
-    return [];*/
   }
 
   async setInvestment(investment) {
@@ -86,17 +73,6 @@ export class SQLStorageService {
   	} else {
   		throw new Error('DB NOT READY');
   	}
-
-    /*let investments = localStorage.investments ? JSON.parse(localStorage.investments) : [];
-    for(let i=0; i<investments.length; i++) {
-      if(investment.name == investments[i].name) {
-        throw new Error('EXISTS');
-      }
-    }
-    investments.push(investment);
-
-    localStorage.investments = JSON.stringify(investments);
-    return 'SUCCESS';*/
   }
 
   async updateInvestment(name, investment) {
@@ -113,19 +89,6 @@ export class SQLStorageService {
     } else {
       throw new Error('DB NOT READY');
     }
-
-    /*let investments = JSON.parse(localStorage.investments);
-    for(let i=0; i<investments.length; i++) {
-      if(investments[i].name == name) {
-        for(let key in investment) {
-          investments[i][key] = investment[key];
-        }
-        break;
-      }
-    }
-
-    localStorage.investments = JSON.stringify(investments);
-    return "";*/
   }
 
   async delInvestment(name) {
@@ -135,17 +98,40 @@ export class SQLStorageService {
     } else {
       throw new Error('DB NOT READY');
     }
+  }
 
+  addNewLink(link) {
+    let links = [];
+    try {
+      links = localStorage.getItem('links') ? JSON.parse(localStorage.getItem('links')) : [];
+    } catch(e) {
+      links = [];
+    }
 
-    /*let investments = JSON.parse(localStorage.investments);
-    for(let i=0; i<investments.length; i++) {
-      if(investments[i].name == name) {
-        investments.splice(i, 1);
+    links.push(link);
+    localStorage.setItem('links', JSON.stringify(links));
+  }
+
+  deleteLink(id) {
+    let links = JSON.parse(localStorage.links);
+    for(let i=0; i<links.length; i++) {
+      if(links[i].id == id) {
+        links.splice(i, 1);
         break;
       }
     }
 
-    localStorage.investments = JSON.stringify(investments);
-    return "";*/
+    localStorage.setItem('links', JSON.stringify(links));
+  }
+
+  getLinks() {
+    let links = [];
+    try {
+      links = localStorage.getItem('links') ? JSON.parse(localStorage.getItem('links')) : [];
+    } catch(e) {
+      links = [];
+    }
+
+    return links;
   }
 }

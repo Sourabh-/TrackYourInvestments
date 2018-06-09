@@ -5,6 +5,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import CurrencyToSymbolMap from 'currency-symbol-map/map';
 import { CurrencyModal } from '../currencyModal/currencyModal.component';
 import { EmailModal } from '../emailModal/emailModal.component';
+import { HelpModal } from '../helpModal/helpModal.component';
 
 @Component({
   selector: 'page-popover',
@@ -53,7 +54,8 @@ export class PopoverPage {
 
   openHelp() {
   	this.dismiss();
-  	this.toastCS.present();
+  	let modal = this.modalCtrl.create(HelpModal);
+    modal.present();
   }
 
   chooseCurr(curr) {
