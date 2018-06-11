@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar [color]="getTheme()">
     <ion-title>
       Invest Tips & Tricks
     </ion-title>
@@ -20,6 +20,16 @@
         <ion-icon name='add'></ion-icon>
       </button>
     </ion-item>
+    <ion-item *ngFor="let link of links">
+      <h2>{{link.title}}</h2>
+      <p>{{link.link}}</p>
+      <button ion-button clear item-end icon-only (click)="deleteLink(link)">
+        <ion-icon name='trash' color='danger'></ion-icon>
+      </button>
+      <button ion-button clear item-end icon-only (click)="openLink(link.link)">
+        <ion-icon name='open'></ion-icon>
+      </button>
+    </ion-item>  
     <ion-item>
       <h2>8 Financial Tips</h2>
       <p>https://www.investopedia.com/articles/younginvestors/08/eight-tips.asp</p>
@@ -62,15 +72,5 @@
         <ion-icon name='open'></ion-icon>
       </button>
     </ion-item>
-    <ion-item *ngFor="let link of links">
-      <h2>{{link.title}}</h2>
-      <p>{{link.link}}</p>
-      <button ion-button clear item-end icon-only (click)="deleteLink(link)">
-        <ion-icon name='trash' color='danger'></ion-icon>
-      </button>
-      <button ion-button clear item-end icon-only (click)="openLink(link.link)">
-        <ion-icon name='open'></ion-icon>
-      </button>
-    </ion-item>  
   </ion-list>
 </ion-content>

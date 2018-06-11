@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar [color]="getTheme()">
     <ion-title>
       Send Email
     </ion-title>
@@ -15,6 +15,6 @@
 <ion-content>
   <form #eForm="ngForm" (ngSubmit)="handleEmailSend()" novalidate>
     <ion-textarea rows="10" class="textarea" [(ngModel)]="email" name="email" minlength="30" required placeholder="Min. 30 characters"></ion-textarea>
-    <button class="add-btn" ion-button block [disabled]="!eForm.form.valid">Send</button>
+    <button [color]="utilService.theme || 'primary'" class="add-btn" ion-button block [disabled]="!eForm.form.valid">Send</button>
   </form>
 </ion-content>

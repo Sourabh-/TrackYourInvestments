@@ -1,0 +1,96 @@
+ .welcome-sliders {
+   .ion-slide-1 {
+     background: url('../assets/imgs/finance-slide.jpeg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     &:before {
+       content: '';
+       position: absolute;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       left: 0;
+       background-image: linear-gradient(to bottom right, #015689, #007fef);
+       opacity: .6;
+       z-index: -1;
+     }
+   }
+
+   .ion-slide-2 {
+     background: url('../assets/imgs/graph-slide.jpeg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     &:before {
+       content: '';
+       position: absolute;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       left: 0;
+       background-image: linear-gradient(to bottom right, #015689, #007fef);
+       opacity: .6;
+       z-index: -1;
+     }
+   }
+
+   .ion-slide-3 {
+     background: url('../assets/imgs/money-slide.jpeg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+     &:before {
+       content: '';
+       position: absolute;
+       top: 0;
+       right: 0;
+       bottom: 0;
+       left: 0;
+       background-image: linear-gradient(to bottom right, #015689, #007fef);
+       opacity: .6;
+       z-index: -1;
+     }
+   }
+
+   .toolbar-background {
+     background: transparent;
+     border-color: transparent;
+   }
+
+   .slide-zoom {
+     height: 100%;
+   }
+
+   .slide-title {
+     margin-top: 2.8rem;
+   }
+
+   .slide-image {
+     width: 100%;
+     height: 100%;
+     margin: 0;
+     position: fixed;
+     left: 0;
+     bottom: 0;
+   }
+
+   b {
+     font-weight: 500;
+   }
+
+   p {
+     padding: 0 40px;
+     font-size: 14px;
+     line-height: 1.5;
+     color: #FFFFFF;
+
+     b {
+       color: #FFFFFF;
+     }
+   }
+
+   h2, button {
+     color: #FFFFFF !important;
+   }
+ }

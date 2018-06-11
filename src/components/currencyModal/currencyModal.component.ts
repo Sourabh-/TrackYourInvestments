@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { CurrencyService } from '../../services/currency.service';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'currency-modal',
@@ -12,7 +13,8 @@ export class CurrencyModal implements OnInit {
 
 	constructor(
 		public viewCtrl: ViewController,
-		public currencyService: CurrencyService
+		public currencyService: CurrencyService,
+		public utilService: UtilService
 	) {
 		
 	}
@@ -25,10 +27,14 @@ export class CurrencyModal implements OnInit {
     this.viewCtrl.dismiss();
   }
 
-	selectCurrency(curr) {
-		this.selectedCurr = curr;
-		localStorage.currency = JSON.stringify(this.selectedCurr);
-		this.currencyService.changeCurrency.emit();
+  selectCurrency(curr) {
+	this.selectedCurr = curr;
+	localStorage.currency = JSON.stringify(this.selectedCurr);
+	this.currencyService.changeCurrency.emit();
     this.dismiss();
-	}
+  }
+
+  getTheme() {
+  	return this.utilService.theme || 'primary';
+  }
 }

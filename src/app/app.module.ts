@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Market } from '@ionic-native/market';
 import { EmailComposer } from '@ionic-native/email-composer';
+import { File } from '@ionic-native/file';
 
 import { MyApp } from './app.component';
 
@@ -11,6 +12,7 @@ import { AddNewPage } from '../pages/addNew/addNew';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ExistingPage } from '../pages/existing/existing';
 import { TabsPage } from '../pages/tabs/tabs';
+import { SliderPage } from '../pages/slides/slides';
 import { PopoverPage } from '../components/popover/popover.component';
 import { FormComponent } from '../components/investmentForm/investmentForm.component';
 import { EditModal } from '../components/editModal/editModal.component';
@@ -32,6 +34,7 @@ import { CurrencyService } from '../services/currency.service';
     DashboardPage,
     ExistingPage,
     TabsPage,
+    SliderPage,
     PopoverPage,
     FormComponent,
     EditModal,
@@ -50,6 +53,7 @@ import { CurrencyService } from '../services/currency.service';
     DashboardPage,
     ExistingPage,
     TabsPage,
+    SliderPage,
     PopoverPage,
     FormComponent,
     EditModal,
@@ -63,6 +67,7 @@ import { CurrencyService } from '../services/currency.service';
     InAppBrowser,
     Market,
     EmailComposer,
+    File,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     SQLStorageService,

@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar color="primary">
+  <ion-navbar [color]="utilService.theme || 'primary'">
     <ion-title>
       <div class="flex-container-header">
         <img class="header-logo" alt="logo" src="assets/imgs/logo.png">
@@ -39,4 +39,9 @@
   <div [style.display]="!investments.length ? 'block' : 'none'" class="no-data">
     You haven't added any investments yet. Click on 'Add New' to get started
   </div>
+  <ion-fab right bottom *ngIf="investments.length">
+    <button ion-fab [color]="utilService.theme || 'primary'" (click)="exportCSV()">
+      <ion-icon name="download"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

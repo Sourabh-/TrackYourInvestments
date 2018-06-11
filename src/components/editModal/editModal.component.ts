@@ -29,7 +29,7 @@ export class EditModal {
     _ = this;
     this.reload = this.params.get('reload');
     let sDate = new Date(this.investment.startDate);
-  	this.investment.startDate = sDate.getFullYear() + "-" + ("0" + (sDate.getMonth()+1)).slice(-2) + "-" + ("0" + sDate.getDate()).slice(-2);
+  	this.investment.startDate = sDate.getFullYear() + "-" + ("0" + (sDate.getMonth() + 1)).slice(-2) + "-" + ("0" + sDate.getDate()).slice(-2);
     this.setMaxDate();
   }
 

@@ -6,6 +6,7 @@ import { FormComponent } from '../../components/investmentForm/investmentForm.co
 import { SQLStorageService } from '../../services/storage.service';
 import { UtilService } from '../../services/util.service';
 let _;
+
 @Component({
   selector: 'page-add',
   templateUrl: 'addNew.html'
@@ -31,7 +32,7 @@ export class AddNewPage {
 
   setMaxDate() {
     let today = new Date();
-    this.maxDate = today.getFullYear() + "-" + ('0' + today.getMonth()).slice(-2) + "-" + ('0' + today.getDate()).slice(-2);
+    this.maxDate = today.getFullYear() + "-" + ('0' + (today.getMonth() + 1)).slice(-2) + "-" + ('0' + today.getDate()).slice(-2);
   }
 
   resetInvestment() {

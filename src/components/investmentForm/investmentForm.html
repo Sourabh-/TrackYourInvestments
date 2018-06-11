@@ -29,5 +29,5 @@
       <ion-item class="last-list-item"></ion-item>
       <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>
     </ion-list>
-    <button class="add-btn" ion-button block [disabled]="!iForm.form.valid || isDisabled">{{submitButtonText}}</button>
+    <button [color]="getTheme()" class="add-btn" ion-button block [disabled]="!iForm.form.valid || isDisabled">{{submitButtonText}}</button>
   </form>

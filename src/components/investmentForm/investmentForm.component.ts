@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { types } from '../../data/data';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'investment-form',
@@ -17,7 +18,13 @@ export class FormComponent {
 	@Input() submitButtonText: string;
 	public types = types;
 
-	constructor() {
+	constructor(
+		public utilService: UtilService
+	) {
 
 	}
+
+	getTheme() {
+  		return this.utilService.theme || 'primary';
+  	}
 }

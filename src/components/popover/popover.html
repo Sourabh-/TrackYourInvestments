@@ -8,6 +8,9 @@
 	<ion-item class="d-menu-item" (click)="chooseCurr()">
 		Choose Currency
 	</ion-item>
+	<ion-item class="d-menu-item" (click)="switchTheme()">
+		{{utilService?.theme == 'primary' ? 'Dark Theme' : 'Light Theme'}}
+	</ion-item>
 	<ion-item class="d-menu-item" (click)="openRateUs()">
 		Rate Us
 	</ion-item>

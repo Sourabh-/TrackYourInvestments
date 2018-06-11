@@ -1,0 +1,39 @@
+<ion-content class="welcome-sliders">
+  <ion-slides pager>
+    <ion-slide class="ion-slide-1">
+      <ion-toolbar>
+        <ion-buttons end>
+          <button ion-button color="primary" (click)="goToLastSlide()">Skip</button>
+        </ion-buttons>
+      </ion-toolbar>
+      <h2 class="slide-title">
+        Investment Tracker
+      </h2>
+      <p>
+        Keep track of your investments, finance, profit & loss statements.
+      </p>
+    </ion-slide>
+    <ion-slide class="ion-slide-2">
+      <ion-toolbar>
+        <ion-buttons end>
+          <button ion-button color="primary" (click)="goToLastSlide()">Skip</button>
+        </ion-buttons>
+      </ion-toolbar>
+      <h2 class="slide-title">
+        Track & Analyze
+      </h2>
+      <p>
+        Easy to read graphs & charts to analyze your assets that are actually making money.
+      </p>
+    </ion-slide>
+    <ion-slide class="ion-slide-3">
+      <ion-toolbar>
+      </ion-toolbar>
+      <h2 class="slide-title">Ready to analyze?</h2>
+      <button ion-button large clear icon-end color="primary" (click)="continue()">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

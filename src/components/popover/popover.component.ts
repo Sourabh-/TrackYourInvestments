@@ -3,6 +3,7 @@ import { ToastController, ViewController, AlertController, ModalController } fro
 import { Market } from '@ionic-native/market';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import CurrencyToSymbolMap from 'currency-symbol-map/map';
+import { UtilService } from '../../services/util.service';
 import { CurrencyModal } from '../currencyModal/currencyModal.component';
 import { EmailModal } from '../emailModal/emailModal.component';
 import { HelpModal } from '../helpModal/helpModal.component';
@@ -20,7 +21,8 @@ export class PopoverPage {
     public alertCtrl: AlertController,
     private iab: InAppBrowser,
     private market: Market,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public utilService: UtilService
   ) {
   	this.toastCS = this.toastCtrl.create({
       message: 'Coming in next edition.',
@@ -68,6 +70,11 @@ export class PopoverPage {
     this.dismiss();
     let modal = this.modalCtrl.create(EmailModal);
     modal.present();
+  }
+
+  switchTheme() {
+    this.dismiss();
+    this.utilService.switchTheme();
   }
 
   dismiss() {

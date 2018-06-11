@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar [color]="utilService.theme || 'primary'">
     <ion-title>
       Edit {{investment?.name}}
     </ion-title>

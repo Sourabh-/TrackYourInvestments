@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ViewController, AlertController, ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SQLStorageService } from '../../services/storage.service';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'help-modal',
@@ -15,7 +16,8 @@ export class HelpModal implements OnInit {
     private iab: InAppBrowser,
     private sQLStorageService: SQLStorageService,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    public utilService: UtilService
   ) {
 
   }
@@ -93,5 +95,9 @@ export class HelpModal implements OnInit {
       position: 'bottom'
     });	
     toast.present();	
+  }
+
+  getTheme() {
+    return this.utilService.theme || 'primary';
   }
 }

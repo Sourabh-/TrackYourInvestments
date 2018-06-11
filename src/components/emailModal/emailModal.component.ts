@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { EmailComposer } from '@ionic-native/email-composer';
+import { UtilService } from '../../services/util.service';
 
 @Component({
   selector: 'email-modal',
@@ -11,7 +12,8 @@ export class EmailModal {
 
   constructor(
     public viewCtrl: ViewController,
-    private emailComposer: EmailComposer
+    private emailComposer: EmailComposer,
+    public utilService: UtilService
   ) {
 
   }
@@ -59,4 +61,8 @@ export class EmailModal {
          console.dir(error);
       });
   }  
+
+  getTheme() {
+    return this.utilService.theme || 'primary';
+  }
 }
