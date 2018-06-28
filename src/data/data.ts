@@ -57,6 +57,13 @@ export const types = [{
 	type: "others"
 }];
 
+export const categories = {
+	'Debt': ['sav', 'ppf', 'lifI', 'nps', 'kvp', 'bonds', 'p2p', 'fd', 'rd'],
+	'Equity': ['fut', 'etf', 'opt', 'ss', 'mf'],
+	'Property': ['re'],
+	'Others': ['others', 'comm', 'gold', 'cc']
+};
+
 export const months = {
 	0: 'Jan',
 	1: 'Feb',

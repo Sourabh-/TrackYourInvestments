@@ -23,7 +23,7 @@ export class CurrencyModal implements OnInit {
     this.currSymbolsMap = this.currencyService.currSymbolsMap;
   }
 
-	dismiss() {
+  dismiss() {
     this.viewCtrl.dismiss();
   }
 

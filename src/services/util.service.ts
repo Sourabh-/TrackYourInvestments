@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from "@angular/core";
-import { months } from '../data/data';
+import { months, types } from '../data/data';
 
 @Injectable()
 export class UtilService {
@@ -7,8 +7,11 @@ export class UtilService {
 	public theme: string = localStorage.theme || 'primary';
 	public onThemeChange: EventEmitter<any> = new EventEmitter<any>();
 	public showHelpToast: Boolean = false;
+	public invTypes: any = {};
 	
-	constructor() {}
+	constructor() {
+		for(let i = 0; i < types.length; i++) { this.invTypes[types[i].type] = types[i].name }
+	}
 
 	getRandomColor() {
 		let letters = '0123456789ABCDEF';
@@ -28,6 +31,31 @@ export class UtilService {
 		return "#589a6c";
 	}
 
+	getProfitRandomColor() {
+		let center = 'A1';
+		let letters = '0123456789ABCDEF';
+		let color = '#';
+	    for (let i = 0; i < 5; i++ ) {
+	    	if(i == 2) {
+	    		color += center;
+	    	}
+	    	else
+	        	color += letters[Math.floor(Math.random() * 16)];
+	    }
+	    
+	    return color;	
+	}
+
+	getLossRandomColor() {
+		let letters = '0123456789ABCDEF';
+		let color = '#CF';
+	    for (let i = 0; i < 5; i++ ) {
+	        color += letters[Math.floor(Math.random() * 16)];
+	    }
+	    
+	    return color;	
+	}
+
 	getZeroColor() {
 		return "#488aff";
 	}
@@ -36,9 +64,9 @@ export class UtilService {
 		this.onChange.emit();
 	}
 
-	getDate(timestamp) {
+	getDate(timestamp, useSlash?) {
 		let _d = new Date(timestamp);
-		return ('0' + _d.getDate()).slice(-2) + "-" + months[_d.getMonth()] + "-" + _d.getFullYear();
+		return ('0' + _d.getDate()).slice(-2) + (useSlash ? "/" : "-") + months[_d.getMonth()] + (useSlash ? "/" : "-") + _d.getFullYear();
 	}
 
 	switchTheme() {

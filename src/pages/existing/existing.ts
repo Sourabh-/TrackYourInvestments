@@ -4,6 +4,7 @@ import { File } from '@ionic-native/file';
 import { PopoverController, AlertController, List, ToastController, ModalController } from 'ionic-angular';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { EditModal } from '../../components/editModal/editModal.component';
+import { HistoryModal } from '../../components/historyModal/historyModal.component';
 import { types } from '../../data/data';
 import { SQLStorageService } from '../../services/storage.service';
 import { UtilService } from '../../services/util.service';
@@ -129,6 +130,11 @@ export class ExistingPage implements OnInit {
               this.toastDel.present();
               //INVOKE EVENT EMITTER
               this.utilService.emitChangeEvent();
+
+              //REMOVE FROM HISTORY TABLE
+              this.sqlStorageService.delHistory(investment.name)
+              .then(() => { console.log("Deleted..."); })
+              .catch((err) => { console.log(err); })
             })
             .catch((err) => {
               this.showErrorToast();
@@ -242,5 +248,14 @@ export class ExistingPage implements OnInit {
         }).present();
       } 
     }
+  }
+
+  showHistory(investment) {
+    this.list.closeSlidingItems();
+    let historyModal = this.modalCtrl.create(HistoryModal, { 
+      investment: JSON.parse(JSON.stringify(investment))
+    });
+
+    historyModal.present();
   }
 }

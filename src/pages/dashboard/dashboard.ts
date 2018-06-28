@@ -6,6 +6,7 @@ import { PopoverPage } from '../../components/popover/popover.component';
 import { UtilService } from '../../services/util.service';
 import { SQLStorageService } from '../../services/storage.service';
 import { CurrencyService } from '../../services/currency.service';
+import { categories } from '../../data/data';
 
 @Component({
   selector: 'page-dashboard',
@@ -15,10 +16,16 @@ export class DashboardPage implements OnInit {
   @ViewChild('bar') bar: ElementRef;
   @ViewChild('pie') pie: ElementRef;
   @ViewChild('profitLoss') pl: ElementRef;
+  @ViewChild('profitonly') po: ElementRef;
+  @ViewChild('lossonly') lo: ElementRef;
+  @ViewChild('asset') as: ElementRef;
 
   public barChart: any;
   public pieChart: any;
   public plChart: any;
+  public poChart: any;
+  public loChart: any;
+  public asChart: any;
   public isLoading: boolean = true;
   public noData: boolean = false;
   public totalInvestedAmt = 0;
@@ -28,6 +35,8 @@ export class DashboardPage implements OnInit {
   public lossPercent:any = 0;
   private callCount = 0;
   public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' };
+  public showLossMsg: boolean = false;
+  public showProfitMsg: boolean = false;
 
   constructor(
     public navCtrl: NavController, 
@@ -53,6 +62,9 @@ export class DashboardPage implements OnInit {
         this.setBarChart();
         this.setPieChart();
         this.setProfitLossChart();
+        this.setProfitPieChart();
+        this.setLossPieChart();
+        this.setAssetPieChart();
         this.calcInvestment();
       } else {
         //SHOW NO DATA SCREEN
@@ -104,6 +116,9 @@ export class DashboardPage implements OnInit {
       this.setBarChart();
       this.setPieChart();
       this.setProfitLossChart();
+      this.setProfitPieChart();
+      this.setLossPieChart();
+      this.setAssetPieChart();
     } else {
       this.noData = true;
     }
@@ -268,6 +283,149 @@ export class DashboardPage implements OnInit {
                     return 'Loss: ' + this.selectedCurr.symbol + Math.abs(Number(data.datasets[0].data[tooltipItems.index]));
                   else
                     return 'Profit: ' + this.selectedCurr.symbol + data.datasets[0].data[tooltipItems.index];
+                }
+            }
+          }
+        }
+    });
+  }
+
+  setProfitPieChart() {
+    let poCtx = this.po.nativeElement.getContext('2d');
+    let lbls = [], data = [], bColors = [], ta = 0;
+    let totalProfit = 0;
+
+    this.sqlStorageService.allInvestments.map((inv) => {
+      if(inv.profit > inv.loss) {
+        totalProfit += (inv.profit - inv.loss);
+        lbls.push(inv.name);
+        data.push(inv.profit - inv.loss);
+        bColors.push(this.utilService.getProfitRandomColor());
+      }
+    });
+
+    for(let i=0; i < data.length; i++) {
+      data[i] = ((data[i] * 100) / totalProfit).toFixed(2);
+    }
+
+    try { this.poChart.destroy() } catch(e) { console.log(e); }
+
+    if(data.length) {
+      this.showProfitMsg = false;
+      this.poChart = new Chart(poCtx, {
+        type: 'pie',
+        data: {
+          labels: lbls,
+          datasets: [{
+              data,
+              borderWidth: 1,
+              backgroundColor: bColors
+          }]
+        },
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+                label: function(tooltipItems, data) { 
+                    return data.labels[tooltipItems.index] + ': ' + data.datasets[0].data[tooltipItems.index] + "%";
+                }
+            }
+          }
+        }
+    });
+    } else {
+      this.showProfitMsg = true;
+    }
+  }
+
+  setLossPieChart() {
+    let loCtx = this.lo.nativeElement.getContext('2d');
+    let lbls = [], data = [], bColors = [], ta = 0;
+    let totalLoss = 0;
+
+    this.sqlStorageService.allInvestments.map((inv) => {
+      if(inv.profit < inv.loss) {
+        totalLoss += (inv.loss - inv.profit);
+        lbls.push(inv.name);
+        data.push(inv.loss - inv.profit);
+        bColors.push(this.utilService.getLossRandomColor());
+      }
+    });
+
+    for(let i=0; i < data.length; i++) {
+      data[i] = ((data[i] * 100) / totalLoss).toFixed(2);
+    }
+
+    try { this.loChart.destroy() } catch(e) { console.log(e); }
+
+    if(data.length) {
+      this.showLossMsg = false;
+      this.loChart = new Chart(loCtx, {
+        type: 'pie',
+        data: {
+          labels: lbls,
+          datasets: [{
+              data,
+              borderWidth: 1,
+              backgroundColor: bColors
+          }]
+        },
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+                label: function(tooltipItems, data) { 
+                    return data.labels[tooltipItems.index] + ': ' + data.datasets[0].data[tooltipItems.index] + "%";
+                }
+            }
+          }
+        }
+    });
+    } else {
+      this.showLossMsg = true;
+    }
+  }
+
+  setAssetPieChart() {
+    let asCtx = this.as.nativeElement.getContext('2d');
+    let lbls = ['Debt', 'Equity', 'Property', 'Others'];
+    let debtTotal = 0, eqTotal = 0, propTotal = 0, othersTotal = 0, ta = 0;
+    let list = [categories['Debt'], categories['Equity'], categories['Property'], categories['Others']];
+    let bColors = ['#6C0BDE', '#DE870B', '#746D6A', '#DE540B'];
+    this.sqlStorageService.allInvestments.map((inv) => {
+      ta += inv.totalAmount;
+      if(list[0].indexOf(inv.type) > -1) {
+        debtTotal += inv.totalAmount;
+      } else if(list[1].indexOf(inv.type) > -1) {
+        eqTotal += inv.totalAmount;
+      } else if(list[2].indexOf(inv.type) > -1) {
+        propTotal += inv.totalAmount;
+      } else {
+        othersTotal += inv.totalAmount;
+      }
+    });
+
+    let data = [(debtTotal * 100/ta).toFixed(2), (eqTotal * 100/ta).toFixed(2), (propTotal * 100/ta).toFixed(2), (othersTotal * 100/ta).toFixed(2)];
+    try { this.asChart.destroy() } catch(e) { console.log(e); }
+    this.asChart = new Chart(asCtx, {
+        type: 'pie',
+        data: {
+          labels: lbls,
+          datasets: [{
+              data,
+              borderWidth: 1,
+              backgroundColor: bColors
+          }]
+        },
+        options: {
+          tooltips: {
+            enabled: true,
+            mode: 'single',
+            callbacks: {
+                label: function(tooltipItems, data) { 
+                    return data.labels[tooltipItems.index] + ': ' + data.datasets[0].data[tooltipItems.index] + "%";
                 }
             }
           }

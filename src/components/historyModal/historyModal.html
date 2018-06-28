@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar [color]="utilService.theme || 'primary'">
+    <ion-title>
+      History For {{investment?.name}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <b>Last Modified On</b> - {{getLastModifiedDate()}}
+    </ion-item>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>
+      Last 20 Changes
+    </ion-list-header>
+    <ion-item text-wrap *ngFor="let hist of history.history">{{hist}}</ion-item>
+    <ion-item *ngIf="!history.history || (history.history && !history.history.length)" text-center>No changes found</ion-item>
+  </ion-list>
+</ion-content>

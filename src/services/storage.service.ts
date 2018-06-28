@@ -16,23 +16,36 @@ export class SQLStorageService {
       })
       .then((db: SQLiteObject) => {
         this.dbObj = db;
-        //CREATE TABLE IF DOES NOT EXIST
+        //CREATE INVESTMENTS TABLE IF DOES NOT EXIST
         db.executeSql(`CREATE TABLE investments 
-      ( 
-        name varchar(30) NOT NULL PRIMARY KEY,
-        type varchar(50),
-        totalAmount number(30),
-        startDate number(20),
-        profit number(20),
-        loss number(20)
-      )`, {})
-          .then(() => {
-            console.log("Connection established.");
-          })
-          .catch(e => {
-            console.log(e);
-          });
+        ( 
+          name varchar(30) NOT NULL PRIMARY KEY,
+          type varchar(50),
+          totalAmount number(30),
+          startDate number(20),
+          profit number(20),
+          loss number(20)
+        )`, {})
+            .then(() => {
+              console.log("Connection established.");
+            })
+            .catch(e => {
+              console.log(e);
+            });
 
+        //CREATE HISTORY TABLE IF DOES NOT EXIST
+        db.executeSql(`CREATE TABLE history 
+        (
+          name varchar(30) NOT NULL PRIMARY KEY,
+          lastModifiedOn number(20),
+          history varchar(50000)
+        )`, {})
+        .then(() => {
+          console.log("History table created.");
+        })
+        .catch((e) => {
+          console.log(e);
+        })
       })
       .catch((e) => {
         console.log(e);
@@ -51,7 +64,7 @@ export class SQLStorageService {
 
   async getInvestment(name) {
   	if(this.dbObj) {
-  	 	let query = "SELECT * from investments" + (`WHERE name='${name}'`);
+  	 	let query = "SELECT * from investments " + (`WHERE name='${name}'`);
   	 	return await this.dbObj.executeSql(query, {});
   	} else {
   		throw new Error('DB NOT READY');
@@ -95,6 +108,57 @@ export class SQLStorageService {
     if(this.dbObj) {
       let query = `DELETE from investments WHERE name='${name}'`;
       return await this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  async getHistory(name) {
+    if(this.dbObj) {
+       let query = "SELECT * from history " + (`WHERE name='${name}'`);
+       return await this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  async delHistory(name) {
+    if(this.dbObj) {
+      let query = `DELETE from history WHERE name='${name}'`;
+      return await this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  addHistory(history) {
+    let query = `INSERT OR IGNORE INTO history (name, lastModifiedOn, history) VALUES ('${history.name}', '${history.lastModifiedOn}', '${history.history}')`;
+    return this.dbObj.executeSql(query, {})
+    .then((res) => {
+      return 'SUCCESS';
+    })
+    .catch((err) => {
+      throw new Error(err);
+    })
+  }
+
+  async updateHistory(history) {
+    if(this.dbObj) {
+       let query = `UPDATE history SET lastModifiedOn = '${history.lastModifiedOn}', history = '${history.history}' WHERE name='${history.name}'`;
+
+       return this.dbObj.executeSql(query, {})
+       .then((res) => {
+         if(!res.rowsAffected)
+           return this.addHistory(history);
+         else return "SUCCESS";
+       })
+       .catch((err) => { 
+         if(err.code == 5) {
+           return this.addHistory(history);
+         } else {
+           throw new Error('Error');
+         }
+       })
     } else {
       throw new Error('DB NOT READY');
     }

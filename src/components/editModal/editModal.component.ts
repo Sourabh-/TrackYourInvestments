@@ -12,6 +12,8 @@ let _;
 })
 export class EditModal {
   public investment: any;
+  public history: any = {};
+  public oldValue: any;
   public isError: boolean = false;
   public errorMsg: string = '';
   public maxDate: string;
@@ -26,15 +28,33 @@ export class EditModal {
     private utilService: UtilService
   ) {
   	this.investment = this.params.get('investment');
+    this.oldValue = JSON.parse(JSON.stringify(this.params.get('investment')));
     _ = this;
     this.reload = this.params.get('reload');
     let sDate = new Date(this.investment.startDate);
   	this.investment.startDate = sDate.getFullYear() + "-" + ("0" + (sDate.getMonth() + 1)).slice(-2) + "-" + ("0" + sDate.getDate()).slice(-2);
+    
     this.setMaxDate();
+    this.fetchHistory();
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  fetchHistory() {
+    this.sqlStorageService.getHistory(this.investment.name)
+      .then((response) => {
+        if(response.rows.length) {
+          this.history = response.rows.item(0);
+          this.history.history = JSON.parse(decodeURI(response.rows.item(0).history));
+        } else {
+          this.history = { history: [], name: this.investment.name, lastModifiedOn: new Date().getTime() };
+        }
+      })
+      .catch((err) => {
+        this.history = { history: [], name: this.investment.name, lastModifiedOn: new Date().getTime() };
+      })
   }
 
   handleFormSubmit() {
@@ -76,6 +96,10 @@ export class EditModal {
           }).present();
         })
 
+
+        //Add to history
+        _.addToHistory(_investment);
+
         _.viewCtrl.dismiss();
       })
       .catch((err) => {
@@ -86,6 +110,48 @@ export class EditModal {
           position: 'bottom'
         }).present();
       })
+    }
+  }
+
+  addToHistory(inv) {
+    let flag = 0;
+    if(inv.totalAmount != this.oldValue.totalAmount) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Total Amount was changed from ${this.oldValue.totalAmount} to ${inv.totalAmount}.`);
+      flag = 1;
+    }
+
+    if(inv.startDate != this.oldValue.startDate) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Start Date was changed from ${this.utilService.getDate(this.oldValue.startDate, true)} to ${this.utilService.getDate(inv.startDate, true)}.`);
+      flag = 1;
+    }
+
+    if(inv.type != this.oldValue.type) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Investment Type was changed from ${this.utilService.invTypes[this.oldValue.type]} to ${this.utilService.invTypes[inv.type]}.`);
+      flag = 1;
+    }
+
+    if(inv.profit != this.oldValue.profit) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Profit Amount was changed from ${this.oldValue.profit} to ${inv.profit}.`);
+      flag = 1;
+    }  
+
+    if(inv.loss != this.oldValue.loss) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Loss Amount was changed from ${this.oldValue.loss} to ${inv.loss}.`);
+      flag = 1;
+    }
+
+    if(this.history.history.length > 20) {
+      this.history.history = this.history.history.slice(0, 20);
+      flag = 1;
+    }
+
+    if(flag == 1) {
+      this.history.history = encodeURI(JSON.stringify(this.history.history));
+      this.history.lastModifiedOn = new Date().getTime();
+
+      this.sqlStorageService.updateHistory(this.history)
+      .then(() => { console.log("History added"); })
+      .catch((err) => { console.log(err); })
     }
   }
 

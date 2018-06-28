@@ -73,6 +73,30 @@
         <canvas #profitLoss width="220" height="160"></canvas>
       </ion-card-content>
     </ion-card>
+    <ion-card>
+      <ion-card-header>F4. Profit Distribution</ion-card-header>
+      <ion-card-content>
+        <canvas [ngClass]="{'app-hide' : showProfitMsg}" #profitonly width="100" height="120"></canvas>
+        <div [ngClass]="{'app-hide' : !showProfitMsg}" class="content-div">
+          <div>No Data</div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>F5. Loss Distribution</ion-card-header>
+      <ion-card-content>
+        <canvas [ngClass]="{'app-hide' : showLossMsg}" #lossonly width="100" height="120"></canvas>
+        <div [ngClass]="{'app-hide' : !showLossMsg}" class="content-div">
+          <div>No Data</div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>F6. Asset Allocation</ion-card-header>
+      <ion-card-content>
+        <canvas #asset width="100" height="120"></canvas>
+      </ion-card-content>
+    </ion-card>
   </div>
   <div [style.display]="!isLoading && noData ? 'block' : 'none'" class="no-data">
     You haven't added any investments yet. Click on 'Add New' to get started
