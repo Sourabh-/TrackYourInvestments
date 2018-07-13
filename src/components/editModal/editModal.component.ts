@@ -71,7 +71,7 @@ export class EditModal {
       .then((response) => {
         _.isDisabled = false;
         _.toastCtrl.create({
-          message: "Saved successfully",
+          message: "Your changes are saved",
           duration: 3000,
           position: 'bottom'
         }).present();

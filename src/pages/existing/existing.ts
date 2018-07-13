@@ -36,7 +36,7 @@ export class ExistingPage implements OnInit {
     public currencyService: CurrencyService
   ) {
     this.toastDel = this.toastCtrl.create({
-      message: 'Deleted successfully',
+      message: 'Deleted from your list',
       duration: 3000,
       position: 'bottom'
     });
