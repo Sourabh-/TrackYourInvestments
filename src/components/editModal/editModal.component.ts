@@ -60,7 +60,7 @@ export class EditModal {
   handleFormSubmit() {
     _.isError = false;
     if(Number(_.investment.loss) > Number(_.investment.totalAmount)) {
-      _.errorMsg = "Loss cannot be more than total investment amount *";
+      _.errorMsg = "Umm.. Loss cannot be more than total investment amount *";
       _.isError = true;
     } else {
       _.isDisabled = true;

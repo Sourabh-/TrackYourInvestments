@@ -66,14 +66,14 @@ export class HelpModal implements OnInit {
             	this.sQLStorageService.addNewLink(data);
             	this.getLinks();
             	let toast = this.toastCtrl.create({
-			      message: 'New link added',
+			      message: 'Good job! You just added a new link',
 			      duration: 3000,
 			      position: 'bottom'
 			    });	
 			    toast.present();
             } else {
             	let toast = this.toastCtrl.create({
-			      message: 'Incorrect data. Link not saved',
+			      message: "Oh.. That's not correct. Please try again",
 			      duration: 3000,
 			      position: 'bottom'
 			    });	
@@ -90,7 +90,7 @@ export class HelpModal implements OnInit {
   	this.sQLStorageService.deleteLink(link.id);
   	this.getLinks();
   	let toast = this.toastCtrl.create({
-      message: 'Link removed',
+      message: 'Link is removed',
       duration: 3000,
       position: 'bottom'
     });	

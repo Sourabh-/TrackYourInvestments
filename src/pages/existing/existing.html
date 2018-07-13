@@ -17,7 +17,7 @@
 <ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let investment of investments; let i = index">
-      <ion-item>
+      <ion-item (click)="quickView(investment)">
         {{investment.name}}
         <p class="item-details">{{typesObj[investment.type]}}</p>
         <p class="item-details">Started on {{utilService.getDate(investment.startDate)}}</p>
@@ -40,6 +40,7 @@
     </ion-item-sliding>
   </ion-list>
   <div [style.display]="!investments.length ? 'block' : 'none'" class="no-data">
+    <ion-icon name="ios-basket-outline"></ion-icon><br/>
     You haven't added any investments yet. Click on 'Add New' to get started
   </div>
   <ion-fab right bottom *ngIf="investments.length">

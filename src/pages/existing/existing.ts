@@ -8,6 +8,7 @@ import { HistoryModal } from '../../components/historyModal/historyModal.compone
 import { types } from '../../data/data';
 import { SQLStorageService } from '../../services/storage.service';
 import { UtilService } from '../../services/util.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'page-existing',
@@ -21,6 +22,7 @@ export class ExistingPage implements OnInit {
   public selInvestment: any = {};
   public toastDel: any;
   private callCount = 0;
+  public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' }
 
   constructor(
     public navCtrl: NavController, 
@@ -30,7 +32,8 @@ export class ExistingPage implements OnInit {
     public modalCtrl: ModalController,
     private file: File,
     public sqlStorageService: SQLStorageService,
-    public utilService: UtilService
+    public utilService: UtilService,
+    public currencyService: CurrencyService
   ) {
     this.toastDel = this.toastCtrl.create({
       message: 'Deleted successfully',
@@ -86,6 +89,9 @@ export class ExistingPage implements OnInit {
 
   ngOnInit() {
     this.initiate();
+    this.currencyService.changeCurrency.subscribe(() => {
+       this.selectedCurr = JSON.parse(localStorage.currency);
+    })
   }
   
   reload(notThisView?) {
@@ -242,7 +248,7 @@ export class ExistingPage implements OnInit {
       if(count < 3) {
         window.localStorage.infoCount = count + 1;
         this.toastCtrl.create({
-          message: "Swipe item to EDIT or DELETE",
+          message: "Click item for a QUICK VIEW or swipe to EDIT or DELETE",
           duration: 3000,
           position: 'bottom'
         }).present();
@@ -257,5 +263,21 @@ export class ExistingPage implements OnInit {
     });
 
     historyModal.present();
+  }
+
+  quickView(investment) {
+    let view = this.alertCtrl.create({
+      title: investment.name,
+      subTitle: `
+        <br/><b>Investment Type-</b> ${this.typesObj[investment.type]}<br/>
+        <b>Amount Invested-</b> ${this.selectedCurr.symbol}${investment.totalAmount}<br/>
+        <b>Started On-</b> ${this.utilService.getDate(investment.startDate, true)}<br/>
+        <b>Profit-</b> ${this.selectedCurr.symbol}${investment.profit}<br/>
+        <b>Loss-  </b> ${this.selectedCurr.symbol}${investment.loss}<br/>
+      `,
+      buttons: ['Ok']
+    });
+
+    view.present();
   }
 }

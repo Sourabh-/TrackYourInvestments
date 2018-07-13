@@ -56,7 +56,7 @@ export class AddNewPage {
   handleFormSubmit() {
     _.isError = false;
     if(Number(_.investment.loss) > Number(_.investment.totalAmount)) {
-      _.errorMsg = "Loss cannot be more than total investment amount *";
+      _.errorMsg = "Umm.. Loss cannot be more than total investment amount *";
       _.isError = true;
     } else {
       _.isDisabled = true;
@@ -68,7 +68,7 @@ export class AddNewPage {
         _.isDisabled = false;
         _.resetInvestment();
         _.toastCtrl.create({
-            message: "Added successfully",
+            message: "Good work! You just added an investment to your tracking list",
             duration: 3000,
             position: 'bottom'
         }).present();
@@ -94,10 +94,10 @@ export class AddNewPage {
       .catch((err) => {
         _.isDisabled = false;
         console.log(err);
-        if(err == 'EXISTS') {
+        if(typeof err == 'object' && err.message == 'sqlite3_step failure: UNIQUE constraint failed: investments.name') {
           //SHOW NAME EXISTS TOAST
           _.toastCtrl.create({
-            message: "Name already exists!",
+            message: "Oops! This name seems to exist in your list",
             duration: 3000,
             position: 'bottom'
           }).present();
