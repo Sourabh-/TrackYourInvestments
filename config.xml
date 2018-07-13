@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.uns.trackYourInvestments" version="0.0.7" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Investment Tracker, Money Tracker</name>
+<widget id="io.uns.trackYourInvestments" version="0.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Investments Tracker, Money Tracker</name>
     <description>Analyze your investments</description>
     <author email="shibadebnath@gmail.com" href="http://ionicframework.com/">Sourabh Debnath</author>
     <content src="index.html" />
