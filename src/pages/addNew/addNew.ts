@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { PopoverController, ToastController } from 'ionic-angular';
+import { NavController, PopoverController, ToastController, ModalController } from 'ionic-angular';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { FormComponent } from '../../components/investmentForm/investmentForm.component';
+import { CalcModal } from '../../components/calcModal/calcModal.component';
 import { SQLStorageService } from '../../services/storage.service';
 import { UtilService } from '../../services/util.service';
 let _;
@@ -21,6 +21,7 @@ export class AddNewPage {
   constructor(
     public navCtrl: NavController, 
     public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
     public sqlStorageService: SQLStorageService,
     public toastCtrl: ToastController,
     private utilService: UtilService
@@ -51,6 +52,11 @@ export class AddNewPage {
     popover.present({
     	ev
     });
+  }
+
+  openCalc() {
+    let calcMdl = this.modalCtrl.create(CalcModal);
+    calcMdl.present();
   }
 
   handleFormSubmit() {

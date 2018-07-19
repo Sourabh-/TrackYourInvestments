@@ -63,7 +63,7 @@ export class MyApp implements OnInit {
   showRatingPrompt() {
     const prompt = this.alertCtrl.create({
       title: 'Rate Us',
-      message: 'Would you like to rate our app?',
+      message: 'It seems our app is helping you manage your investments efficiently. Would you like to rate our app?',
       buttons: [
         {
           text: 'Dismiss',
@@ -72,7 +72,7 @@ export class MyApp implements OnInit {
           }
         },
         {
-          text: 'Sure',
+          text: 'Yes I would like to',
           handler: () => {
             this.market.open('io.uns.trackYourInvestments');
           }

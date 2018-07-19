@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,23 +12,52 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+@font-face {
+  font-family: Nunito;
+  src: url('../assets/fonts/Nunito.woff2') format('woff2');
+}
+
+*,
+body,
+html {
+  font-family: Nunito;
+}
 
 .flex-container-header {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .header-logo {
-	height: 24px;
-	width: 24px;
-	margin-left: -6px;
-	margin-top: 0px;
+  height: 24px;
+  width: 24px;
+  margin-left: -6px;
+  margin-top: 3px;
 }
 
 .header-title {
-    margin-left: 4px;
+  margin-top: 1px;
+  margin-left: 4px;
 }
 
 .app-hide {
-	display: none !important;
+  display: none !important;
+}
+
+.last-list-item {
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.profit-text {
+  color: #589a6c;
+}
+
+.loss-text {
+  color: #FF0000;
 }

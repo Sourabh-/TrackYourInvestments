@@ -4,6 +4,7 @@ import { File } from '@ionic-native/file';
 import { PopoverController, AlertController, List, ToastController, ModalController } from 'ionic-angular';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { EditModal } from '../../components/editModal/editModal.component';
+import { CalcModal } from '../../components/calcModal/calcModal.component';
 import { HistoryModal } from '../../components/historyModal/historyModal.component';
 import { types } from '../../data/data';
 import { SQLStorageService } from '../../services/storage.service';
@@ -109,6 +110,11 @@ export class ExistingPage implements OnInit {
     popover.present({
     	ev
     });
+  }
+
+  openCalc() {
+    let calcMdl = this.modalCtrl.create(CalcModal);
+    calcMdl.present();
   }
 
   confirmDelInvestment(investment, i) {

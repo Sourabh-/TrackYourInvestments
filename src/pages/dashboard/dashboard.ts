@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import Chart from 'chart.js';
 import { PopoverController, ToastController } from 'ionic-angular';
 import { PopoverPage } from '../../components/popover/popover.component';
+import { CalcModal } from '../../components/calcModal/calcModal.component';
 import { UtilService } from '../../services/util.service';
 import { SQLStorageService } from '../../services/storage.service';
 import { CurrencyService } from '../../services/currency.service';
@@ -41,6 +42,7 @@ export class DashboardPage implements OnInit {
   constructor(
     public navCtrl: NavController, 
     public popoverCtrl: PopoverController,
+    public modalCtrl: ModalController,
     private utilService: UtilService,
     public sqlStorageService: SQLStorageService,
     public toastCtrl: ToastController,
@@ -129,6 +131,11 @@ export class DashboardPage implements OnInit {
     popover.present({
       ev
     });
+  }
+
+  openCalc() {
+    let calcMdl = this.modalCtrl.create(CalcModal);
+    calcMdl.present();
   }
 
   setBarChart() {
