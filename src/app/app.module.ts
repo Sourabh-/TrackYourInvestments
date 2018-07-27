@@ -5,6 +5,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { Market } from '@ionic-native/market';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { File } from '@ionic-native/file';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 import { MyApp } from './app.component';
 
@@ -21,6 +22,7 @@ import { CurrencyModal } from '../components/currencyModal/currencyModal.compone
 import { HelpModal } from '../components/helpModal/helpModal.component';
 import { HistoryModal } from '../components/historyModal/historyModal.component';
 import { CalcModal } from '../components/calcModal/calcModal.component';
+import { CalcHelpModal } from '../components/calcHelpModal/calcHelpModal.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -44,7 +46,8 @@ import { CurrencyService } from '../services/currency.service';
     EmailModal,
     HelpModal,
     HistoryModal,
-    CalcModal
+    CalcModal,
+    CalcHelpModal
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { CurrencyService } from '../services/currency.service';
     EmailModal,
     HelpModal,
     HistoryModal,
-    CalcModal
+    CalcModal,
+    CalcHelpModal
   ],
   providers: [
     StatusBar,
@@ -74,6 +78,7 @@ import { CurrencyService } from '../services/currency.service';
     Market,
     EmailComposer,
     File,
+    SocialSharing,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     SQLStorageService,

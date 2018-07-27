@@ -13,25 +13,29 @@
 </ion-header>
 <ion-content>
   <p class="desc">
-    Simple SIP Calculator, Profit/Loss Calculator & Lumpsum Calculator. For more info
+    Simple SIP Calculator, Profit/Loss Calculator, Lumpsum Calculator & Other Calculators. For more info
     <a (click)="showInfo()">CLICK HERE</a>.
   </p>
   <ion-list>
     <ion-item>
       <ion-label floating>Select Calculator</ion-label>
-      <ion-select [(ngModel)]="calculator" (ngModelChange)="changeCalc($event)">
+      <ion-select [(ngModel)]="calculator" (ngModelChange)="changeCalc($event); calcForm.reset()">
         <ion-option value="sip">SIP Calculator</ion-option>
         <ion-option value="lumpsum">Lumpsum Calculator</ion-option>
+        <ion-option value="rd">RD Calculator</ion-option>
+        <ion-option value="fd">FD Calculator</ion-option>
         <ion-option value="pl">Profit/Loss Calculator</ion-option>
+        <ion-option value="plemi">Personal Loan EMI Calculator</ion-option>
+        <ion-option value="hemi">Home Loan EMI Calculator</ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
   <ion-card>
     <ion-card-content>
       <form #calcForm="ngForm" (ngSubmit)="calculate()" novalidate>
-        <ion-list *ngIf="calculator == 'sip' || calculator == 'lumpsum'">
+        <ion-list *ngIf="calculator == 'sip' || calculator == 'rd' || calculator == 'fd' || calculator == 'lumpsum'">
           <ion-item>
-            <ion-label floating>{{calculator == 'sip' ? "Monthly" : "Total"}} Investment Amount</ion-label>
+            <ion-label floating>{{calculator == 'sip' || calculator == 'rd' ? "Monthly" : "Total"}} Investment Amount</ion-label>
             <ion-input type="number" [(ngModel)]="calcObj.amount" name="amount" required></ion-input>
           </ion-item>
           <ion-item>
@@ -55,6 +59,21 @@
           </ion-item>
           <ion-item class="last-list-item"></ion-item>
         </ion-list>
+        <ion-list *ngIf="calculator == 'plemi' || calculator == 'hemi'">
+          <ion-item>
+            <ion-label floating>Loan Amount</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.amount" name="amount" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Tenure (In Years)</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.period" name="period" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Interest Rate (%)</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.interest" name="interest" required></ion-input>
+          </ion-item>
+          <ion-item class="last-list-item"></ion-item>
+        </ion-list>
         <button [color]="getTheme()" class="calc-btn" ion-button block [disabled]="!calcForm.form.valid">
           Calculate
         </button>
@@ -65,7 +84,7 @@
     <ion-card-header>
       Results
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content *ngIf="calculator != 'plemi' && calculator != 'hemi'">
       <ion-grid>
         <ion-row>
           <ion-col col-6>Maturity Amount</ion-col>
@@ -94,6 +113,26 @@
         <ion-row *ngIf="calculator == 'pl'">
           <ion-col col-6>Absolute Return</ion-col>
           <ion-col col-6 [ngClass]="{ 'text-bold': true, 'profit-text': (result.absoluteReturn >= 0), 'loss-text': (result.absoluteReturn < 0) }">{{result.absoluteReturn}}%</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    <ion-card-content *ngIf="calculator == 'plemi' || calculator == 'hemi'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>EMI</ion-col>
+          <ion-col col-6 class="text-bold">{{selectedCurr.symbol}}{{result.emi}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Total Amount</ion-col>
+          <ion-col col-6 class="text-bold">{{selectedCurr.symbol}}{{result.expectedAmt}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Principal Amount</ion-col>
+          <ion-col col-6 class="text-bold">{{selectedCurr.symbol}}{{result.amtInvested}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Interest Payable</ion-col>
+          <ion-col col-6 class="text-bold profit-text">{{selectedCurr.symbol}}{{result.interestPayable}}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>

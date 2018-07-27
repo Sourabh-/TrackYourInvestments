@@ -26,13 +26,13 @@ html {
 .flex-container-header {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .header-logo {
   height: 24px;
   width: 24px;
   margin-left: -6px;
-  margin-top: 3px;
 }
 
 .header-title {

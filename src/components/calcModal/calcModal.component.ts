@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ViewController, AlertController, ToastController } from 'ionic-angular';
+import { ViewController, AlertController, ToastController, ModalController } from 'ionic-angular';
 import { UtilService } from '../../services/util.service';
 import { CurrencyService } from '../../services/currency.service';
+import { CalcHelpModal } from '../calcHelpModal/calcHelpModal.component';
 
 @Component({
   selector: 'calc-modal',
@@ -20,7 +21,8 @@ export class CalcModal implements OnInit {
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     public utilService: UtilService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    public modalCtrl: ModalController
   ) {
 
   }
@@ -40,14 +42,8 @@ export class CalcModal implements OnInit {
   }
 
   showInfo() {
-    let alert = this.alertCtrl.create({
-      title: 'Calculator Help',
-      subTitle: `<p><b>SIP Calculator-</b> Easily calculate returns on your SIP for a specific period with an expected rate of return</p>
-                 <p><b>Lumpsum Calculator-</b> Find the future value of an investment assuming growth at a constant rate</p>
-                 <p><b>Profit/Loss Calculator-</b> Calculate profit or loss on your investment</p>`,
-      buttons: ['OK']
-    });
-    alert.present();
+    let modal = this.modalCtrl.create(CalcHelpModal);
+    modal.present();
   }
 
   changeCalc(ev) {
@@ -78,6 +74,11 @@ export class CalcModal implements OnInit {
        this.result['amtInvested'] = Math.round(this.calcObj.amount * this.calcObj.period * 12);
        this.result['profit'] = Math.round(this.result['expectedAmt'] - this.result['amtInvested']); 
        this.result['absoluteReturn'] = ((this.result['profit'] / this.result['amtInvested']) * 100).toFixed(2);
+     } else if(this.calculator == 'rd') {
+       this.result['expectedAmt'] = Math.round(this.calcObj.amount * (Math.pow((1 + this.calcObj.interest/400), this.calcObj.period * 4) - 1)/(1 - Math.pow((1 + this.calcObj.interest/400), (-1/3))));
+       this.result['amtInvested'] = Math.round(this.calcObj.amount * this.calcObj.period * 12);
+       this.result['profit'] = Math.round(this.result['expectedAmt'] - this.result['amtInvested']); 
+       this.result['absoluteReturn'] = ((this.result['profit'] / this.result['amtInvested']) * 100).toFixed(2);
      } else if(this.calculator == 'pl') {
        this.result['expectedAmt'] = Math.round(this.calcObj.sellingPrice);
        this.result['amtInvested'] = Math.round(this.calcObj.costPrice);
@@ -96,6 +97,17 @@ export class CalcModal implements OnInit {
          this.result['absoluteReturn'] = 0;
          this.result['isProfit'] = true;
        }
+     } else if(this.calculator == 'plemi' || this.calculator == 'hemi') {
+       let emi = this.calcObj.amount * (this.calcObj.interest/12/100) * Math.pow((1 + (this.calcObj.interest/12/100)), (this.calcObj.period * 12)) / (Math.pow((1 + (this.calcObj.interest/12/100)), (this.calcObj.period * 12)) - 1);
+       this.result['emi'] = Math.round(emi);
+       this.result['amtInvested'] = Math.round(this.calcObj.amount);
+       this.result['expectedAmt'] = Math.round(emi * this.calcObj.period * 12);
+       this.result['interestPayable'] = this.result['expectedAmt'] - this.result['amtInvested'];
+     } else if(this.calculator == 'fd') {
+       this.result['expectedAmt'] = Math.round(this.calcObj.amount * Math.pow((1 + this.calcObj.interest/400), this.calcObj.period * 4));
+       this.result['amtInvested'] = Math.round(this.calcObj.amount);
+       this.result['profit'] = Math.round(this.result['expectedAmt'] - this.result['amtInvested']); 
+       this.result['absoluteReturn'] = ((this.result['profit'] / this.result['amtInvested']) * 100).toFixed(2);
      } else {
        this.result['expectedAmt'] = Math.round(this.calcObj.amount * Math.pow((1 + this.calcObj.interest/100), this.calcObj.period));
        this.result['amtInvested'] = Math.round(this.calcObj.amount);

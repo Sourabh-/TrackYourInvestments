@@ -20,7 +20,7 @@
 <ion-content>
   <ion-list>
     <ion-item-sliding *ngFor="let investment of investments; let i = index">
-      <ion-item (click)="quickView(investment)">
+      <ion-item (click)="quickView(investment, i)">
         {{investment.name}}
         <p class="item-details">{{typesObj[investment.type]}}</p>
         <p class="item-details">Started on {{utilService.getDate(investment.startDate)}}</p>

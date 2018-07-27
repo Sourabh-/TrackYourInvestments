@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar [color]="getTheme()">
+    <ion-title>
+      Calculator Help
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <p><b>SIP Calculator-</b> Easily calculate returns on your SIP for a specific period with an expected rate of return</p>
+  <p><b>Lumpsum Calculator-</b> Find the future value of an investment assuming growth at a constant rate</p>
+  <p><b>RD Calculator-</b> Easily calculate returns on your RD for a specific period with an expected rate of return</p>
+  <p><b>FD Calculator-</b> Calculate returns on your FD for a specific period with an expected rate of return</p>
+  <p><b>Profit/Loss Calculator-</b> Calculate profit or loss on your investment</p>
+  <p><b>Personal Loan EMI Calculator-</b> Calculate personal loan monthly EMI</p>
+  <p><b>Home Loan EMI Calculator-</b> Calculate home loan monthly EMI</p>
+</ion-content>
