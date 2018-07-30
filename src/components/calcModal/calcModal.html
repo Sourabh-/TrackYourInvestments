@@ -19,7 +19,7 @@
   <ion-list>
     <ion-item>
       <ion-label floating>Select Calculator</ion-label>
-      <ion-select [(ngModel)]="calculator" (ngModelChange)="changeCalc($event); calcForm.reset()">
+      <ion-select [(ngModel)]="calculator" (ngModelChange)="calcForm.reset(); changeCalc($event)">
         <ion-option value="sip">SIP Calculator</ion-option>
         <ion-option value="lumpsum">Lumpsum Calculator</ion-option>
         <ion-option value="rd">RD Calculator</ion-option>
@@ -27,6 +27,8 @@
         <ion-option value="pl">Profit/Loss Calculator</ion-option>
         <ion-option value="plemi">Personal Loan EMI Calculator</ion-option>
         <ion-option value="hemi">Home Loan EMI Calculator</ion-option>
+        <ion-option value="ppf">PPF Calculator</ion-option>
+        <ion-option value="ret">Retirement Planning Calculator</ion-option>
       </ion-select>
     </ion-item>
   </ion-list>
@@ -74,6 +76,53 @@
           </ion-item>
           <ion-item class="last-list-item"></ion-item>
         </ion-list>
+        <ion-list *ngIf="calculator == 'ppf'">
+          <ion-item>
+            <ion-label floating>Yearly Deposit Amount (Min. 500)</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.amount" name="amount" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Tenure (In Years)</ion-label>
+            <ion-select [(ngModel)]="calcObj.period" name="type" required>
+              <ion-option value="15">15</ion-option>
+              <ion-option value="20">20</ion-option>
+              <ion-option value="25">25</ion-option>
+              <ion-option value="30">30</ion-option>
+              <ion-option value="35">35</ion-option>
+              <ion-option value="40">40</ion-option>
+              <ion-option value="45">45</ion-option>
+              <ion-option value="50">50</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Interest Rate (%)</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.interest" name="interest" required></ion-input>
+          </ion-item>
+          <ion-item class="last-list-item"></ion-item>
+        </ion-list>
+        <ion-list *ngIf="calculator == 'ret'">
+          <ion-item>
+            <ion-label floating>Current Age</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.age" name="age" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Retirement Planned at Age</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.rage" name="rage" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Life Expectancy</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.expectancy" name="expectancy" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Current Monthly Household Expense</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.mexpense" name="mexpense" required></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Inflation (Per Year)</ion-label>
+            <ion-input type="number" [(ngModel)]="calcObj.inflation" name="inflation" required></ion-input>
+          </ion-item>
+           <ion-item class="last-list-item"></ion-item>
+        </ion-list>
         <button [color]="getTheme()" class="calc-btn" ion-button block [disabled]="!calcForm.form.valid">
           Calculate
         </button>
@@ -84,7 +133,7 @@
     <ion-card-header>
       Results
     </ion-card-header>
-    <ion-card-content *ngIf="calculator != 'plemi' && calculator != 'hemi'">
+    <ion-card-content *ngIf="calculator != 'plemi' && calculator != 'hemi' && calculator != 'ret'">
       <ion-grid>
         <ion-row>
           <ion-col col-6>Maturity Amount</ion-col>
@@ -133,6 +182,30 @@
         <ion-row>
           <ion-col col-6>Interest Payable</ion-col>
           <ion-col col-6 class="text-bold profit-text">{{selectedCurr.symbol}}{{result.interestPayable}}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    <ion-card-content *ngIf="calculator == 'ret'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>Total Corpus Required</ion-col>
+          <ion-col col-6 class="text-bold">{{selectedCurr.symbol}}{{result.expectedAmt}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Time To Retirement</ion-col>
+          <ion-col col-6 class="text-bold">{{result.timeToRet}} Years</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Retirement Years</ion-col>
+          <ion-col col-6 class="text-bold">{{result.retYears}} Years</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Monthly Expense After Retirement</ion-col>
+          <ion-col col-6 class="text-bold">{{selectedCurr.symbol}}{{result.monthlyExp}}</ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6>Annual Expense After Retirement</ion-col>
+          <ion-col col-6 class="text-bold">{{selectedCurr.symbol}}{{result.annualExp}}</ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>

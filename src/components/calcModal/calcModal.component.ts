@@ -49,6 +49,10 @@ export class CalcModal implements OnInit {
   changeCalc(ev) {
     this.calcObj = {};
     this.isShow = false;
+    if(ev == 'ppf') {
+      this.calcObj.period = 15;
+      this.calcObj.interest = 7.6;
+    }
   }
 
   checkIfZero() {
@@ -108,6 +112,24 @@ export class CalcModal implements OnInit {
        this.result['amtInvested'] = Math.round(this.calcObj.amount);
        this.result['profit'] = Math.round(this.result['expectedAmt'] - this.result['amtInvested']); 
        this.result['absoluteReturn'] = ((this.result['profit'] / this.result['amtInvested']) * 100).toFixed(2);
+     } else if(this.calculator == 'ppf') {
+       this.result['expectedAmt'] = Math.round(this.calcObj.amount * (Math.pow(1 + (this.calcObj.interest/100), (this.calcObj.period)) - 1) * (1 + (this.calcObj.interest/100)) / (this.calcObj.interest/100));
+       this.result['amtInvested'] = Math.round(this.calcObj.amount * this.calcObj.period);
+       this.result['profit'] = Math.round(this.result['expectedAmt'] - this.result['amtInvested']); 
+       this.result['absoluteReturn'] = ((this.result['profit'] / this.result['amtInvested']) * 100).toFixed(2);
+     } else if(this.calculator == 'ret') {
+       this.result["timeToRet"] = this.calcObj.rage - this.calcObj.age;
+       this.result['retYears'] = this.calcObj.expectancy - this.calcObj.rage;
+       var curr_val = (this.calcObj.mexpense * 12);
+       var monthlyRate = (this.calcObj.inflation / 100);
+       var power = Math.pow((1 + monthlyRate), this.result["timeToRet"]);
+       this.result['annualExp'] = (curr_val * power).toFixed(0);
+       var inflation_during_retire_years = 7;
+       var inv_ret_corpus = 9;
+       var net_returns = ((1+(inv_ret_corpus/100))/(1+(inflation_during_retire_years/100))-1);
+       var pv = this.calcPv(net_returns, (20), 0, this.result['annualExp'], 1);
+       this.result['expectedAmt'] = pv.toFixed(0);
+       this.result['monthlyExp'] = Math.round(this.result['annualExp']/12);
      } else {
        this.result['expectedAmt'] = Math.round(this.calcObj.amount * Math.pow((1 + this.calcObj.interest/100), this.calcObj.period));
        this.result['amtInvested'] = Math.round(this.calcObj.amount);
@@ -116,5 +138,12 @@ export class CalcModal implements OnInit {
      }
 
      this.isShow = true;
+  }
+
+  calcPv(rate, periods, payment, future, type) {
+    var pow = Math.pow(1 + rate, (periods + 1)) - (1 + rate);
+    var pow1 = (rate * Math.pow(1 + rate, periods));
+    var pv = (future * (pow/pow1));
+    return pv;
   }
 }
