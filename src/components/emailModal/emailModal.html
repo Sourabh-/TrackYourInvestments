@@ -14,6 +14,7 @@
 
 <ion-content>
   <form #eForm="ngForm" (ngSubmit)="handleEmailSend()" novalidate>
+    <div class="help-text">Your suggestions & feedback are important for us. We take time to read your emails in detail. Please write to us if you want us to add a new feature in the app or want to report a bug or simply want to ask a question or give feedback. Please take some time and also review our app in Play Store.</div>
     <ion-textarea rows="10" class="textarea" [(ngModel)]="email" name="email" minlength="30" required placeholder="Min. 30 characters"></ion-textarea>
     <button [color]="utilService.theme || 'primary'" class="add-btn" ion-button block [disabled]="!eForm.form.valid">Send</button>
   </form>

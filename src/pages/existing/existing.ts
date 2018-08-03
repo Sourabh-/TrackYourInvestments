@@ -6,6 +6,7 @@ import { PopoverPage } from '../../components/popover/popover.component';
 import { EditModal } from '../../components/editModal/editModal.component';
 import { CalcModal } from '../../components/calcModal/calcModal.component';
 import { HistoryModal } from '../../components/historyModal/historyModal.component';
+import { ViewModal } from '../../components/viewModal/viewModal.component';
 import { types } from '../../data/data';
 import { SQLStorageService } from '../../services/storage.service';
 import { UtilService } from '../../services/util.service';
@@ -134,28 +135,33 @@ export class ExistingPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            //DELETE FROM SQLITE & REPOPULATE LIST
-            this.sqlStorageService.delInvestment(investment.name)
-            .then(() => {
-              this.investments.splice(i, 1);
-              this.sqlStorageService.allInvestments = JSON.parse(JSON.stringify(this.investments));
-              this.toastDel.present();
-              //INVOKE EVENT EMITTER
-              this.utilService.emitChangeEvent();
-
-              //REMOVE FROM HISTORY TABLE
-              this.sqlStorageService.delHistory(investment.name)
-              .then(() => { console.log("Deleted..."); })
-              .catch((err) => { console.log(err); })
-            })
-            .catch((err) => {
-              this.showErrorToast();
-            });
+            this.deleteInv(investment, i);
           }
         }
       ]
     });
     confirm.present();
+  }
+
+  deleteInv = (investment, i) => {
+    //DELETE FROM SQLITE & REPOPULATE LIST
+    this.sqlStorageService.delInvestment(investment.name)
+    .then(() => {
+      this.investments.splice(i, 1);
+      this.sqlStorageService.allInvestments = JSON.parse(JSON.stringify(this.investments));
+      this.toastDel.present();
+      //INVOKE EVENT EMITTER
+      this.utilService.emitChangeEvent();
+      this.utilService.clearNotification(investment.name);
+
+      //REMOVE FROM HISTORY TABLE
+      this.sqlStorageService.delHistory(investment.name)
+      .then(() => { console.log("Deleted..."); })
+      .catch((err) => { console.log(err); })
+    })
+    .catch((err) => {
+      this.showErrorToast();
+    });
   }
 
   editInvestment(investment, i) {
@@ -272,33 +278,12 @@ export class ExistingPage implements OnInit {
   }
 
   quickView(investment, i) {
-    let view = this.alertCtrl.create({
-      title: investment.name,
-      subTitle: `
-        <br/><b>Investment Type-</b> ${this.typesObj[investment.type]}<br/>
-        <b>Amount Invested-</b> ${this.selectedCurr.symbol}${investment.totalAmount}<br/>
-        <b>Started On-</b> ${this.utilService.getDate(investment.startDate, true)}<br/>
-        <b>Profit-</b> ${this.selectedCurr.symbol}${investment.profit}<br/>
-        <b>Loss-</b> ${this.selectedCurr.symbol}${investment.loss}<br/><br/>
-        <b>Note-</b> You can also EDIT/DELETE/VIEW HISTORY by simply swiping the investment from right to left in the list
-      `,
-      buttons: [
-        {
-          text: 'EDIT',
-          handler: () => {
-            this.editInvestment(investment, i);
-          }
-        },
-        {
-          text: 'DELETE',
-          handler: () => {
-            this.confirmDelInvestment(investment, i);
-          }
-        },
-        'DISMISS'
-      ]
+    let viewModal = this.modalCtrl.create(ViewModal, {
+      investment: JSON.parse(JSON.stringify(investment)),
+      index: i,
+      deleteInv: this.deleteInv
     });
 
-    view.present();
+    viewModal.present();
   }
 }

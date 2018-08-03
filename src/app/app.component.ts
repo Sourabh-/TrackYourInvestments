@@ -7,6 +7,8 @@ import { Market } from '@ionic-native/market';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SliderPage } from '../pages/slides/slides';
 import { UtilService } from '../services/util.service';
+import { SQLStorageService } from '../services/storage.service';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 @Component({
   templateUrl: 'app.html'
@@ -20,7 +22,9 @@ export class MyApp implements OnInit {
     splashScreen: SplashScreen,
     public utilService: UtilService,
     public alertCtrl: AlertController,
-    private market: Market
+    private market: Market,
+    private localNotif: LocalNotifications,
+    public sqlStorageService: SQLStorageService
   ) {
 
     platform.ready().then(() => {
@@ -37,6 +41,7 @@ export class MyApp implements OnInit {
   }
 
   ngOnInit() {
+
     this.utilService.onThemeChange.subscribe(() => {
       this.onThemeChange();
     })
@@ -44,6 +49,40 @@ export class MyApp implements OnInit {
     if(localStorage.isSkip) {
       this.checkOnRatings();
     }
+
+    this.utilService.onNotif.subscribe((inv) => {
+      const reminder = this.alertCtrl.create({
+        title: 'Maturity Reminder',
+        subTitle: `Hi! Just a sweet reminder. <b>${inv.data.name}</b> is maturing today.`,
+        buttons: ["OK"]
+      });
+
+      reminder.present();
+
+      //Update investment - change remindMe = 'false'
+      this.sqlStorageService.getInvestment(inv.data.name)
+      .then((response) => {
+        if(response.rows.length) {
+          let _inv = response.rows.item(0);
+          _inv.remindMe = 'false';
+
+          this.sqlStorageService.updateInvestment(_inv.name, _inv)
+          .then((res) => {
+            for(let i=0; i < this.sqlStorageService.allInvestments.length; i++) { 
+              if(this.sqlStorageService.allInvestments[i].name == _inv.name) {
+                this.sqlStorageService.allInvestments[i].remindMe = 'false';
+                break;
+              } 
+            }
+
+            this.utilService.emitChangeEvent();
+            this.utilService.emitViewChange();
+          })
+          .catch((err) => { console.log(err); });
+        }
+      })
+      .catch((err) => { console.log(err); })
+    });
   }
 
   checkOnRatings() {
@@ -67,7 +106,7 @@ export class MyApp implements OnInit {
       message: 'It seems our app is helping you manage your investments efficiently. Would you like to rate our app?',
       buttons: [
         {
-          text: 'Dismiss',
+          text: 'No, Thank You',
           handler: () => {
             console.log('Dismiss clicked');
           }

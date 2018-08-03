@@ -6,6 +6,7 @@ import { Market } from '@ionic-native/market';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { File } from '@ionic-native/file';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 import { MyApp } from './app.component';
 
@@ -23,6 +24,7 @@ import { HelpModal } from '../components/helpModal/helpModal.component';
 import { HistoryModal } from '../components/historyModal/historyModal.component';
 import { CalcModal } from '../components/calcModal/calcModal.component';
 import { CalcHelpModal } from '../components/calcHelpModal/calcHelpModal.component';
+import { ViewModal } from '../components/viewModal/viewModal.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -47,7 +49,8 @@ import { CurrencyService } from '../services/currency.service';
     HelpModal,
     HistoryModal,
     CalcModal,
-    CalcHelpModal
+    CalcHelpModal,
+    ViewModal
   ],
   imports: [
     BrowserModule,
@@ -69,7 +72,8 @@ import { CurrencyService } from '../services/currency.service';
     HelpModal,
     HistoryModal,
     CalcModal,
-    CalcHelpModal
+    CalcHelpModal,
+    ViewModal
   ],
   providers: [
     StatusBar,
@@ -79,6 +83,7 @@ import { CurrencyService } from '../services/currency.service';
     EmailComposer,
     File,
     SocialSharing,
+    LocalNotifications,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SQLite,
     SQLStorageService,

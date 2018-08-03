@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar [color]="getTheme()">
+    <ion-title>
+      {{investment.name}}
+    </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">
+        <span ion-text showWhen="ios">Cancel</span>
+        <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Investment Name</ion-col>
+      <ion-col col-6>{{investment.name}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Investment Type</ion-col>
+      <ion-col col-6>{{typesObj[investment.type]}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Invested Amount</ion-col>
+      <ion-col col-6>{{investment.totalAmount}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Started On</ion-col>
+      <ion-col col-6>{{getDate(investment.startDate)}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Maturity Date</ion-col>
+      <ion-col col-6>{{getDate(investment.maturityDate)}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Remind Me</ion-col>
+      <ion-col col-6>{{investment.remindMe == 'true' ? 'Yes' : 'No'}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Profit Till Date</ion-col>
+      <ion-col col-6>{{investment.profit}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6 class="text-bold">Loss Till Date</ion-col>
+      <ion-col col-6>{{investment.loss}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12 class="text-bold">Notes</ion-col>
+      <ion-col col-12>{{investment.notes}}</ion-col>
+    </ion-row>
+  </ion-grid>
+  <hr/>
+  <div class="pl-note">
+    <b>Please Note-</b> You can also EDIT/DELETE/VIEW HISTORY by simply swiping the investment from right to left in the list
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button [color]="getTheme()" (click)="edit()" block [disabled]="isDisabled">EDIT</button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button color="danger" (click)="delete()" block [disabled]="isDisabled">DELETE</button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button [color]="getTheme()" (click)="history()" block [disabled]="isDisabled">HISTORY</button>
+      </ion-col>
+      <ion-col col-6>
+        <button 
+          ion-button 
+          [color]="getTheme()" 
+           (click)="remindMe()"
+           block
+           [disabled]="!investment.maturityDate || isDisabled || isMaturityDatePassed()">
+          {{investment.remindMe == 'true' ? 'REMOVE' : 'SET'}} REMINDER
+        </button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+        <button ion-button [color]="getTheme()" (click)="dismiss()" block [disabled]="isDisabled">DISMISS</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

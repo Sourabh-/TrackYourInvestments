@@ -9,4 +9,28 @@ investment-form {
 		width: 90%;
     	left: 5%;
 	}
+
+	textarea {
+		resize: none;
+	}
+
+	.item-checkbox .item-inner {
+		border: none !important;
+	}
+
+	.checkbox {
+		margin-left: 0 !important;
+		margin-right: 10px;
+	}
+
+	.custom-checkbox {
+		display: flex;
+		align-items: center;
+		padding-left: 16px;
+	}
+
+	.info-icon {
+		font-size: 16px;
+		margin-left: 3px;
+	}
 }

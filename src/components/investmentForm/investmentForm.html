@@ -2,7 +2,7 @@
     <ion-list>
       <ion-item>
         <ion-label floating>Name (Give a name to your investment)</ion-label>
-        <ion-input type="text" [(ngModel)]="investment.name" name="name" required [disabled]="isEdit"></ion-input>
+        <ion-input type="text" (ionChange)="validate($event)" [(ngModel)]="investment.name" name="name" required [disabled]="isEdit"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Type</ion-label>
@@ -19,12 +19,36 @@
         <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="investment.startDate" name="startDate" [max]="maxDate" required></ion-datetime>
       </ion-item>
       <ion-item>
+        <ion-label floating>Maturity Date (Optional)</ion-label>
+        <ion-datetime 
+          displayFormat="DD MMM YYYY" 
+          [(ngModel)]="investment.maturityDate" 
+          name="maturityDate" 
+          [min]="minDate"
+          max="2099"
+          [pickerOptions]="customOptions"
+          ></ion-datetime>
+      </ion-item>
+      <div class="custom-checkbox">
+        <ion-checkbox 
+          color="getTheme()" 
+          [(ngModel)]="investment.remindMe" 
+          name="remindMe" 
+          [disabled]="(investment.maturityDate ? false : true) || isMaturityDatePassed()"
+        ></ion-checkbox>
+        <ion-label>Remind Me <ion-icon class="info-icon" name="information-circle" (click)="showRemindMeHelp()"></ion-icon></ion-label>
+      </div>
+      <ion-item>
         <ion-label floating>Profit Till Date</ion-label>
         <ion-input type="number" [(ngModel)]="investment.profit" name="profit" required></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Loss Till Date</ion-label>
         <ion-input type="number" [(ngModel)]="investment.loss" name="loss" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Notes (Optional)</ion-label>
+        <ion-textarea rows="5" [(ngModel)]="investment.notes" name="notes" maxlength="1000"></ion-textarea>
       </ion-item>
       <ion-item class="last-list-item"></ion-item>
       <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>

@@ -33,7 +33,18 @@ export class EditModal {
     this.reload = this.params.get('reload');
     let sDate = new Date(this.investment.startDate);
   	this.investment.startDate = sDate.getFullYear() + "-" + ("0" + (sDate.getMonth() + 1)).slice(-2) + "-" + ("0" + sDate.getDate()).slice(-2);
-    
+    //Check on maturity date
+    if(this.investment.maturityDate) {
+      let mDate = new Date(this.investment.maturityDate);
+      this.investment.maturityDate = mDate.getFullYear() + "-" + ("0" + (mDate.getMonth() + 1)).slice(-2) + "-" + ("0" + mDate.getDate()).slice(-2);
+    }
+
+    if(this.investment.remindMe == 'true') {
+      this.investment.remindMe = true;
+    } else {
+      this.investment.remindMe = false;
+    }
+
     this.setMaxDate();
     this.fetchHistory();
   }
@@ -67,6 +78,21 @@ export class EditModal {
       let _investment = JSON.parse(JSON.stringify(_.investment));
       let sDate = _investment.startDate.split('-');
       _investment.startDate = new Date(sDate[0], Number(sDate[1])-1, sDate[2]).getTime();
+
+      //Check on maturity date
+      if(_investment.maturityDate) {
+        let mDate = _investment.maturityDate.split('-');
+        _investment.maturityDate = new Date(mDate[0], Number(mDate[1])-1, mDate[2]).getTime();
+        //Check if nofification is needed
+        if(_investment.remindMe) _investment.remindMe = 'true';
+        else _investment.remindMe = 'false';
+      } else {
+        _investment.maturityDate = null;
+        _investment.remindMe = 'false';
+      }
+
+      if(!_investment.notes) _investment.notes = '';
+
       _.sqlStorageService.updateInvestment(_investment.name, _investment)
       .then((response) => {
         _.isDisabled = false;
@@ -75,6 +101,10 @@ export class EditModal {
           duration: 3000,
           position: 'bottom'
         }).present();
+
+        //Set or remove notification if needed
+        _.setOrRemoveNotifIfNeeded(_investment);
+
         _.sqlStorageService.getInvestments(true)
         .then((response) => { 
           let _invs = [];
@@ -125,6 +155,16 @@ export class EditModal {
       flag = 1;
     }
 
+    if(inv.maturityDate != this.oldValue.maturityDate) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Maturity Date was changed from ${this.utilService.getDate(this.oldValue.maturityDate, true)} to ${this.utilService.getDate(inv.maturityDate, true)}.`);
+      flag = 1;
+    }
+
+    if(inv.notes != this.oldValue.notes) {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Notes were updated.`);
+      flag = 1;
+    }
+
     if(inv.type != this.oldValue.type) {
       this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Investment Type was changed from ${this.utilService.invTypes[this.oldValue.type]} to ${this.utilService.invTypes[inv.type]}.`);
       flag = 1;
@@ -158,5 +198,13 @@ export class EditModal {
   setMaxDate() {
     let today = new Date();
     this.maxDate = today.getFullYear() + "-" + ('0' + today.getMonth()).slice(-2) + "-" + ('0' + today.getDate()).slice(-2);
+  }
+
+  setOrRemoveNotifIfNeeded(investment) {
+    if(investment.remindMe == 'false') {
+      this.utilService.clearNotification(investment.name);
+    } else {
+      this.utilService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
+    }
   }
 }

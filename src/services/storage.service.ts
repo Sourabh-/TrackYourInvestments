@@ -28,9 +28,15 @@ export class SQLStorageService {
         )`, {})
             .then(() => {
               console.log("Connection established.");
+              this.addColumn(db, 'maturityDate', 'number(20)');
+              this.addColumn(db, 'notes', 'varchar(1000)');
+              this.addColumn(db, 'remindMe', 'varchar(5)');
             })
             .catch(e => {
               console.log(e);
+              this.addColumn(db, 'maturityDate', 'number(20)');
+              this.addColumn(db, 'notes', 'varchar(1000)');
+              this.addColumn(db, 'remindMe', 'varchar(5)');
             });
 
         //CREATE HISTORY TABLE IF DOES NOT EXIST
@@ -53,6 +59,18 @@ export class SQLStorageService {
     });
   }
 
+  addColumn(db, name, type) {
+    console.log(name);
+    db.executeSql(`ALTER TABLE investments
+      ADD ${name} ${type}`, {})
+    .then(() => {
+      console.log("New Column added");
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+  }
+
   async getInvestments(force?) {
     if(this.dbObj) {
       let query = "SELECT * from investments";
@@ -73,14 +91,17 @@ export class SQLStorageService {
 
   async setInvestment(investment) {
   	if(this.dbObj) {
-  	 	let query = `INSERT INTO investments (name, type, totalAmount, startDate, profit, loss) 
+  	 	let query = `INSERT INTO investments (name, type, totalAmount, startDate, profit, loss, maturityDate, notes, remindMe) 
                    VALUES (
                      '${investment.name}', 
                      '${investment.type}', 
                      '${investment.totalAmount}', 
                      '${investment.startDate}', 
                      '${investment.profit}', 
-                     '${investment.loss}'
+                     '${investment.loss}',
+                     '${investment.maturityDate}',
+                     '${investment.notes}',
+                     '${investment.remindMe}'
                    )`;
   	 	return await this.dbObj.executeSql(query, {});
   	} else {
