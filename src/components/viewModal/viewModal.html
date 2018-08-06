@@ -31,7 +31,7 @@
     </ion-row>
     <ion-row>
       <ion-col col-6 class="text-bold">Maturity Date</ion-col>
-      <ion-col col-6>{{getDate(investment.maturityDate)}}</ion-col>
+      <ion-col col-6>{{investment.maturityDate && investment.maturityDate !== 'null' ? getDate(investment.maturityDate) : "-"}}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-6 class="text-bold">Remind Me</ion-col>
