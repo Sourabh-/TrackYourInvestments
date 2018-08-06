@@ -5,7 +5,6 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
 @Injectable()
 export class UtilService {
 	public onChange: EventEmitter<any> = new EventEmitter<any>();
-	public onNotif: EventEmitter<any> = new EventEmitter<any>();
 	public onInvChange: EventEmitter<any> = new EventEmitter<any>();
 	public theme: string = localStorage.theme || 'primary';
 	public onThemeChange: EventEmitter<any> = new EventEmitter<any>();
@@ -16,13 +15,6 @@ export class UtilService {
 		private localNotif: LocalNotifications
 	) {
 		for(let i = 0; i < types.length; i++) { this.invTypes[types[i].type] = types[i].name }
-
-		//Click handler for notification
-		this.localNotif.on('click').subscribe((inv) => {
-			this.onNotif.emit(inv);
-		}, (err) => { 
-			console.log(err); 
-		})
 	}
 
 	getRandomColor() {

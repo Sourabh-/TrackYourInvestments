@@ -37,20 +37,12 @@ export class MyApp implements OnInit {
       // set status bar to white
       statusBar.backgroundColorByHexString(this.utilService.theme == 'primary' ? '#1976D2' : '#000000');
       splashScreen.hide();
+      this.localNotifListener();
     });
   }
 
-  ngOnInit() {
-
-    this.utilService.onThemeChange.subscribe(() => {
-      this.onThemeChange();
-    })
-
-    if(localStorage.isSkip) {
-      this.checkOnRatings();
-    }
-
-    this.utilService.onNotif.subscribe((inv) => {
+  localNotifListener() {
+    this.localNotif.on('click').subscribe((inv) => { 
       const reminder = this.alertCtrl.create({
         title: 'Maturity Reminder',
         subTitle: `Hi! Just a sweet reminder. <b>${inv.data.name}</b> is maturing today.`,
@@ -82,7 +74,20 @@ export class MyApp implements OnInit {
         }
       })
       .catch((err) => { console.log(err); })
-    });
+    }, (err) => {
+      console.log(err);
+    })
+  }
+
+  ngOnInit() {
+
+    this.utilService.onThemeChange.subscribe(() => {
+      this.onThemeChange();
+    })
+
+    if(localStorage.isSkip) {
+      this.checkOnRatings();
+    }
   }
 
   checkOnRatings() {
