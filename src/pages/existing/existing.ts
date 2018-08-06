@@ -22,7 +22,6 @@ export class ExistingPage implements OnInit {
   public investments: any = [];
 
   public selInvestment: any = {};
-  public toastDel: any;
   private callCount = 0;
   public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' }
 
@@ -37,12 +36,6 @@ export class ExistingPage implements OnInit {
     public utilService: UtilService,
     public currencyService: CurrencyService
   ) {
-    this.toastDel = this.toastCtrl.create({
-      message: 'Deleted from your list',
-      duration: 3000,
-      position: 'bottom'
-    });
-
     //MAKE KEY:VALUE FROM TYPES
     for(let i=0; i<types.length; i++) {
       this.typesObj[types[i].type] = types[i].name;
@@ -149,7 +142,12 @@ export class ExistingPage implements OnInit {
     .then(() => {
       this.investments.splice(i, 1);
       this.sqlStorageService.allInvestments = JSON.parse(JSON.stringify(this.investments));
-      this.toastDel.present();
+      let toastDel = this.toastCtrl.create({
+        message: 'Deleted from your list',
+        duration: 3000,
+        position: 'bottom'
+      });
+      toastDel.present();
       //INVOKE EVENT EMITTER
       this.utilService.emitChangeEvent();
       this.utilService.clearNotification(investment.name);
