@@ -8,6 +8,7 @@ import { UtilService } from '../../services/util.service';
 import { CurrencyModal } from '../currencyModal/currencyModal.component';
 import { EmailModal } from '../emailModal/emailModal.component';
 import { HelpModal } from '../helpModal/helpModal.component';
+import { SettingsModal } from '../settingsModal/settingsModal.component';
 
 @Component({
   selector: 'page-popover',
@@ -91,5 +92,11 @@ export class PopoverPage {
 
   dismiss() {
     this.viewCtrl.dismiss();
+  }
+
+  openSettings() {
+    this.dismiss();
+    let modal = this.modalCtrl.create(SettingsModal);
+    modal.present();
   }
 }

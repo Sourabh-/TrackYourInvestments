@@ -34,7 +34,7 @@ export class EditModal {
     let sDate = new Date(this.investment.startDate);
   	this.investment.startDate = sDate.getFullYear() + "-" + ("0" + (sDate.getMonth() + 1)).slice(-2) + "-" + ("0" + sDate.getDate()).slice(-2);
     //Check on maturity date
-    if(this.investment.maturityDate) {
+    if(this.investment.maturityDate && this.investment.maturityDate !== 'null') {
       let mDate = new Date(this.investment.maturityDate);
       this.investment.maturityDate = mDate.getFullYear() + "-" + ("0" + (mDate.getMonth() + 1)).slice(-2) + "-" + ("0" + mDate.getDate()).slice(-2);
     }
@@ -80,7 +80,7 @@ export class EditModal {
       _investment.startDate = new Date(sDate[0], Number(sDate[1])-1, sDate[2]).getTime();
 
       //Check on maturity date
-      if(_investment.maturityDate) {
+      if(_investment.maturityDate && _investment.maturityDate !== 'null') {
         let mDate = _investment.maturityDate.split('-');
         _investment.maturityDate = new Date(mDate[0], Number(mDate[1])-1, mDate[2]).getTime();
         //Check if nofification is needed
@@ -155,8 +155,8 @@ export class EditModal {
       flag = 1;
     }
 
-    if(inv.maturityDate != this.oldValue.maturityDate) {
-      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Maturity Date was changed from ${this.utilService.getDate(this.oldValue.maturityDate, true)} to ${this.utilService.getDate(inv.maturityDate, true)}.`);
+    if(inv.maturityDate != this.oldValue.maturityDate && inv.maturityDate && inv.maturityDate != 'null') {
+      this.history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, Maturity Date was changed from ${this.oldValue.maturityDate && this.oldValue.maturityDate !== 'null' ? this.utilService.getDate(this.oldValue.maturityDate, true) : '-'} to ${this.utilService.getDate(inv.maturityDate, true)}.`);
       flag = 1;
     }
 

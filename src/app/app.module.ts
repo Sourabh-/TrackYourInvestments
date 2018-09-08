@@ -25,6 +25,7 @@ import { HistoryModal } from '../components/historyModal/historyModal.component'
 import { CalcModal } from '../components/calcModal/calcModal.component';
 import { CalcHelpModal } from '../components/calcHelpModal/calcHelpModal.component';
 import { ViewModal } from '../components/viewModal/viewModal.component';
+import { SettingsModal } from '../components/settingsModal/settingsModal.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -50,7 +51,8 @@ import { CurrencyService } from '../services/currency.service';
     HistoryModal,
     CalcModal,
     CalcHelpModal,
-    ViewModal
+    ViewModal,
+    SettingsModal
   ],
   imports: [
     BrowserModule,
@@ -73,7 +75,8 @@ import { CurrencyService } from '../services/currency.service';
     HistoryModal,
     CalcModal,
     CalcHelpModal,
-    ViewModal
+    ViewModal,
+    SettingsModal
   ],
   providers: [
     StatusBar,

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, PopoverController, ToastController, ModalController } from 'ionic-angular';
+import { NavController, PopoverController, ToastController, ModalController, Nav, Tabs } from 'ionic-angular';
+import { DashboardPage } from '../dashboard/dashboard';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { FormComponent } from '../../components/investmentForm/investmentForm.component';
 import { CalcModal } from '../../components/calcModal/calcModal.component';
@@ -17,6 +18,7 @@ export class AddNewPage {
   public errorMsg: string = '';
   public maxDate: string = '';
   public isDisabled: boolean = false;
+  private tabs: Tabs;
   
   constructor(
     public navCtrl: NavController, 
@@ -24,11 +26,13 @@ export class AddNewPage {
     public modalCtrl: ModalController,
     public sqlStorageService: SQLStorageService,
     public toastCtrl: ToastController,
-    private utilService: UtilService
+    private utilService: UtilService,
+    private nav: Nav
   ) {
     _ = this;
     this.resetInvestment();
     this.setMaxDate();
+    this.tabs = this.navCtrl.parent;
   }
 
   setMaxDate() {
@@ -93,7 +97,7 @@ export class AddNewPage {
         _.isDisabled = false;
         _.resetInvestment();
         _.toastCtrl.create({
-            message: "Good work! You just added an investment to your tracking list",
+            message: "Good work! You just added an investment to your tracking list.",
             duration: 3000,
             position: 'bottom'
         }).present();
@@ -109,6 +113,10 @@ export class AddNewPage {
           }
           _.sqlStorageService.allInvestments = _invs;
           _.utilService.emitChangeEvent();
+          setTimeout(() => {
+            //Navigate to dashboard
+            _.tabs.select(0);
+          }, 2500);
         })
         .catch((err) => {
           console.log(err);

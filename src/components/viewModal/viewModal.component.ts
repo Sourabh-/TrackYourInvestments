@@ -17,6 +17,12 @@ export class ViewModal implements OnInit {
   public typesObj: any = {};
   public deleteInv: Function;
   public isDisabled: boolean = false; //Disable all buttons while performing any operation
+  public plDisplay: any = {
+    text: "",
+    class: "",
+    percent: 0,
+    isShow: true
+  };
 
   constructor(
     public viewCtrl: ViewController,
@@ -30,6 +36,7 @@ export class ViewModal implements OnInit {
     this.investment = this.params.get('investment');
     this.index = this.params.get('index');
     this.deleteInv = this.params.get('deleteInv');
+    this.calcLossOrProfit(this.investment);
 
     //MAKE KEY:VALUE FROM TYPES
     for(let i=0; i<types.length; i++) {
@@ -150,6 +157,20 @@ export class ViewModal implements OnInit {
       return (this.investment.maturityDate < tomorrow);
     } else {
       return false;
+    }
+  }
+
+  calcLossOrProfit(inv) {
+    if(inv.profit > inv.loss) {
+      this.plDisplay.text = "Profit Percent";
+      this.plDisplay.class = "profit-text";
+      this.plDisplay.percent = (((inv.profit - inv.loss) * 100) / inv.totalAmount).toFixed(2);
+    } else if(inv.profit < inv.loss) {
+      this.plDisplay.text = "Loss Percent";
+      this.plDisplay.class = "loss-text";
+      this.plDisplay.percent = (((inv.loss - inv.profit) * 100) / inv.totalAmount).toFixed(2);
+    } else {
+      this.plDisplay.isShow = false;
     }
   }
 }

@@ -14,7 +14,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications';
   templateUrl: 'app.html'
 })
 export class MyApp implements OnInit {
-  rootPage:any = localStorage.isSkip ? TabsPage : SliderPage;
+  rootPage:any = localStorage["isSkip"] ? TabsPage : SliderPage;
 
   constructor(
     platform: Platform, 
@@ -43,6 +43,19 @@ export class MyApp implements OnInit {
 
   localNotifListener() {
     this.localNotif.on('click').subscribe((inv) => { 
+
+      if(inv.data && inv.data.isQuote) {
+        //Show alert with the quote
+        const quoteAlert = this.alertCtrl.create({
+          title: 'Quote Of The Day',
+          subTitle: inv.text,
+          buttons: ["OK"]
+        });
+
+        quoteAlert.present();
+        return;
+      } 
+
       const reminder = this.alertCtrl.create({
         title: 'Maturity Reminder',
         subTitle: `Hi! Just a sweet reminder. <b>${inv.data.name}</b> is maturing today.`,
@@ -85,19 +98,21 @@ export class MyApp implements OnInit {
       this.onThemeChange();
     })
 
-    if(localStorage.isSkip) {
+    if(localStorage['isSkip']) {
       this.checkOnRatings();
     }
+
+    this.checkNSwitchOnNotif();
   }
 
   checkOnRatings() {
-    if(!localStorage.showRatingPrompt) 
-      localStorage.showRatingPrompt = 1;
-    else if(localStorage.showRatingPrompt == 7) {
+    if(!localStorage['showRatingPrompt']) 
+      localStorage['showRatingPrompt'] = 1;
+    else if(localStorage['showRatingPrompt'] == 7) {
       setTimeout(() => { this.showRatingPrompt(); }, 3000);
-      localStorage.showRatingPrompt = Number(localStorage.showRatingPrompt) + 1;
-    } else if(localStorage.showRatingPrompt < 7) {
-      localStorage.showRatingPrompt = Number(localStorage.showRatingPrompt) + 1;
+      localStorage['showRatingPrompt'] = Number(localStorage['showRatingPrompt']) + 1;
+    } else if(localStorage['showRatingPrompt'] < 7) {
+      localStorage['showRatingPrompt'] = Number(localStorage['showRatingPrompt']) + 1;
     }
   }
 
@@ -125,5 +140,26 @@ export class MyApp implements OnInit {
       ]
     });
     prompt.present();
+  }
+
+  //Check if need to set quotes notifications on. Called from ngOnInit() first
+  checkNSwitchOnNotif() {
+    let settings: any;
+    if(localStorage['settings']) {
+      settings = JSON.parse(localStorage['settings']);
+    } else {
+      settings = this.utilService.getInitialSettings();
+      localStorage['settings'] = JSON.stringify(settings);
+    }
+
+    //isQuoteSet determines if the below 'if' statement has run before, that is, quotes notifications are already initialized
+    if(settings.quotes.isQuoteSet == false && settings.quotes.isQuoteShow == true) {
+      //Schedule quotes notification for each day
+      this.utilService.resetQuotesNotification(true);
+
+      settings.quotes.isQuoteSet = true;
+      localStorage['settings'] = JSON.stringify(settings);
+      this.utilService.settingsUpdated();
+    }
   }
 }

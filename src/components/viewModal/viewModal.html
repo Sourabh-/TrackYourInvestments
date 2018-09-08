@@ -23,7 +23,7 @@
     </ion-row>
     <ion-row>
       <ion-col col-6 class="text-bold">Invested Amount</ion-col>
-      <ion-col col-6>{{investment.totalAmount}}</ion-col>
+      <ion-col col-6 class="inv-text">{{investment.totalAmount}}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-6 class="text-bold">Started On</ion-col>
@@ -39,11 +39,15 @@
     </ion-row>
     <ion-row>
       <ion-col col-6 class="text-bold">Profit Till Date</ion-col>
-      <ion-col col-6>{{investment.profit}}</ion-col>
+      <ion-col col-6 class="profit-text">{{investment.profit}}</ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-6 class="text-bold">Loss Till Date</ion-col>
-      <ion-col col-6>{{investment.loss}}</ion-col>
+      <ion-col col-6 class="loss-text">{{investment.loss}}</ion-col>
+    </ion-row>
+    <ion-row *ngIf="plDisplay.isShow">
+      <ion-col col-6 class="text-bold">{{plDisplay.text}}</ion-col>
+      <ion-col col-6 [class]="plDisplay.class">{{plDisplay.percent}}%</ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-12 class="text-bold">Notes</ion-col>

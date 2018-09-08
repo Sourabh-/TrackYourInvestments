@@ -35,7 +35,7 @@ export class DashboardPage implements OnInit {
   public loss = 0;
   public lossPercent:any = 0;
   private callCount = 0;
-  public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' };
+  public selectedCurr = localStorage['currency'] ? JSON.parse(localStorage['currency']) : { name: 'USD', symbol: '$' };
   public showLossMsg: boolean = false;
   public showProfitMsg: boolean = false;
 
@@ -100,7 +100,11 @@ export class DashboardPage implements OnInit {
   ngOnInit() {
      this.initiate(); 
      this.currencyService.changeCurrency.subscribe(() => {
-       this.selectedCurr = JSON.parse(localStorage.currency);
+       this.selectedCurr = JSON.parse(localStorage['currency']);
+       this.reload();
+     });
+
+     this.utilService.onThemeChange.subscribe(() => {
        this.reload();
      })
   }
@@ -142,10 +146,10 @@ export class DashboardPage implements OnInit {
     let barCtx = this.bar.nativeElement.getContext('2d');
     let lbls = [], data = [], bColors = [];
 
-    this.sqlStorageService.allInvestments.map((inv) => {
+    this.sqlStorageService.allInvestments.map((inv, i) => {
       lbls.push(inv.name);
       data.push(inv.totalAmount);
-      bColors.push(this.utilService.getRandomColor());
+      bColors.push(this.utilService.getThemeBasedColor(i));
     });
 
     try { this.barChart.destroy() } catch(e) { console.log(e); }
@@ -196,10 +200,10 @@ export class DashboardPage implements OnInit {
     let pieCtx = this.pie.nativeElement.getContext('2d');
     let lbls = [], tempData = [], data = [], bColors = [], ta = 0;
 
-    this.sqlStorageService.allInvestments.map((inv) => {
+    this.sqlStorageService.allInvestments.map((inv, i) => {
       lbls.push(inv.name);
       tempData.push(inv.totalAmount);
-      bColors.push(this.utilService.getRandomColor());
+      bColors.push(this.utilService.getThemeBasedColor(i));
       ta += inv.totalAmount;
     });
 
@@ -301,13 +305,14 @@ export class DashboardPage implements OnInit {
     let poCtx = this.po.nativeElement.getContext('2d');
     let lbls = [], data = [], bColors = [], ta = 0;
     let totalProfit = 0;
-
+    let cnt = 0;
     this.sqlStorageService.allInvestments.map((inv) => {
       if(inv.profit > inv.loss) {
         totalProfit += (inv.profit - inv.loss);
         lbls.push(inv.name);
         data.push(inv.profit - inv.loss);
-        bColors.push(this.utilService.getProfitRandomColor());
+        bColors.push(this.utilService.getThemeBasedColor(cnt));
+        cnt++;
       }
     });
 
@@ -350,13 +355,15 @@ export class DashboardPage implements OnInit {
     let loCtx = this.lo.nativeElement.getContext('2d');
     let lbls = [], data = [], bColors = [], ta = 0;
     let totalLoss = 0;
+    let cnt = 0;
 
     this.sqlStorageService.allInvestments.map((inv) => {
       if(inv.profit < inv.loss) {
         totalLoss += (inv.loss - inv.profit);
         lbls.push(inv.name);
         data.push(inv.loss - inv.profit);
-        bColors.push(this.utilService.getLossRandomColor());
+        bColors.push(this.utilService.getThemeBasedColor(cnt));
+        cnt++;
       }
     });
 
@@ -400,7 +407,7 @@ export class DashboardPage implements OnInit {
     let lbls = ['Debt', 'Equity', 'Property', 'Others'];
     let debtTotal = 0, eqTotal = 0, propTotal = 0, othersTotal = 0, ta = 0;
     let list = [categories['Debt'], categories['Equity'], categories['Property'], categories['Others']];
-    let bColors = ['#6C0BDE', '#DE870B', '#746D6A', '#DE540B'];
+    let bColors = this.utilService.theme == 'primary' ? ['#081B42', '#092152', '#0B2C6D', '#0D3789'] : ['#F0F0F0', '#DCDCDC', '#D0D0D0', '#BEBEBE'];
     this.sqlStorageService.allInvestments.map((inv) => {
       ta += inv.totalAmount;
       if(list[0].indexOf(inv.type) > -1) {

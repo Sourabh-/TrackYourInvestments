@@ -23,7 +23,7 @@ export class ExistingPage implements OnInit {
 
   public selInvestment: any = {};
   private callCount = 0;
-  public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' }
+  public selectedCurr = localStorage['currency'] ? JSON.parse(localStorage['currency']) : { name: 'USD', symbol: '$' }
 
   constructor(
     public navCtrl: NavController, 
@@ -85,7 +85,7 @@ export class ExistingPage implements OnInit {
   ngOnInit() {
     this.initiate();
     this.currencyService.changeCurrency.subscribe(() => {
-       this.selectedCurr = JSON.parse(localStorage.currency);
+       this.selectedCurr = JSON.parse(localStorage['currency']);
     })
   }
   
@@ -186,19 +186,22 @@ export class ExistingPage implements OnInit {
   }
 
   exportCSV() {
-    let headers = ["Type", "Total Investment Amount", "Profit", "Loss", "Start Date"];
+    let headers = ["Name" ,"Type", "Total Investment Amount", "Profit", "Loss", "Start Date", "Maturity Date", "Notes"];
     let csv = '';
     csv += headers.join(",") + '\r\n';
 
     for (var i = 0; i < this.investments.length; i++) {
         var row = "";
+        row += '"' + this.investments[i]['name'] + '",';
         row += '"' + this.typesObj[this.investments[i]['type']] + '",';
         row += '"' + this.investments[i]['totalAmount'] + '",';
         row += '"' + this.investments[i]['profit'] + '",';
         row += '"' + this.investments[i]['loss'] + '",';
         let date = new Date(Number(this.investments[i]['startDate']));
         row += '"' + (('0' + date.getDate()).slice(-2)) + "-" + ('0' + (date.getMonth() + 1)).slice(-2) + "-" + date.getFullYear() + '",';
-
+        let mDate:any = this.investments[i]['maturityDate'] && this.investments[i]['maturityDate'] != 'null' ? new Date(Number(this.investments[i]['maturityDate'])) : ''; 
+        row += mDate == '' ? '"",' : '"' + (('0' + mDate.getDate()).slice(-2)) + "-" + ('0' + (mDate.getMonth() + 1)).slice(-2) + "-" + mDate.getFullYear() + '",';
+        row += '"' + this.investments[i]['notes'] + '"';
         row.slice(0, row.length - 1);
         csv += row + '\r\n';
     }
@@ -259,7 +262,7 @@ export class ExistingPage implements OnInit {
         window.localStorage.infoCount = count + 1;
         this.toastCtrl.create({
           message: "Click item for a QUICK VIEW or swipe to EDIT or DELETE",
-          duration: 3000,
+          duration: 4000,
           position: 'bottom'
         }).present();
       } 
