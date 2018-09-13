@@ -271,5 +271,3 @@ export const quotes = [
 	{ id: 98985079089149, quote: "October: This is one of the peculiarly dangerous months to speculate in stocks. The others are July, January, September, April, November, May, March, June, December, August and February. ― Mark Twain" },
 	{ id: 98985079089150, quote: "Money is always eager and ready to work for anyone who is ready to employ it. ― Idowu Koyenikan" }
 ];
-
-console.log(quotes);
