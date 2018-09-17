@@ -169,6 +169,18 @@ export class UtilService {
 	}
 
 	resetQuotesNotification(isQuoteShow) {
+		//A FIX IS DONE IN "\platforms\android\app\src\main\java\de\appplant\cordova\plugin\notification\receiver"
+		//AS NOTIFICATIONS WERE CRASHING THE APP IN ANDROID OREO (8.0/8.1)
+		//THIS IS THE FIX - 
+		//import android.os.UserManager;
+		//...
+		//String action = intent.getAction(); - AFTER THIS ADD ->
+		//...
+        //if (SDK_INT >= 24) {
+        //  UserManager um = (UserManager) context.getSystemService(UserManager.class);
+        //  if (um == null || um.isUserUnlocked() == false) return;
+        //}
+
 		if(isQuoteShow) {
 			let _quotes = this.shuffleArray(quotes);
 	        let time = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()).getTime() + (1000 * 60 * 60 * 10);
