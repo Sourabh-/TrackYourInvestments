@@ -8,7 +8,9 @@ import { UtilService } from '../../services/util.service';
 })
 export class SettingsModal implements OnInit {
   
-  public settings: any = localStorage['settings'] ? JSON.parse(localStorage['settings']) : this.utilService.getInitialSettings(); 
+  public settings: any = this.utilService.getSettings(); 
+  public isReloadReq: boolean = false;
+
   constructor(
     public viewCtrl: ViewController,
     public utilService: UtilService
@@ -16,24 +18,30 @@ export class SettingsModal implements OnInit {
 
   ngOnInit() {
     this.utilService.onSettingsChange.subscribe(() => {
-      this.settings = JSON.parse(localStorage['settings']);
+      this.settings = this.utilService.getSettings();
     });
   }
 
   dismiss() {
     this.viewCtrl.dismiss();
+    if(this.isReloadReq) this.utilService.emitChangeEvent();
   }  
 
   getTheme() {
     return this.utilService.theme || 'primary';
   }
 
-  set(ev, type) {
+  set(ev, type, name?) {
     switch (type) {
       case "isQuoteShow":
         this.settings.quotes.isQuoteShow = ev.checked;
         localStorage['settings'] = JSON.stringify(this.settings);
         this.utilService.resetQuotesNotification(ev.checked);
+        break;
+      case "showHide":
+            this.settings.showHide[name] = ev.checked;
+            localStorage['settings'] = JSON.stringify(this.settings);
+            this.isReloadReq = true;
         break;
     }
   }

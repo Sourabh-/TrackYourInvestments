@@ -1,57 +1,60 @@
 export const types = [{
-	name: "Savings",
-	type: "sav"
-}, {
-	name: "Public Provident Fund",
-	type: "ppf"
-}, {
-	name: "Life Insurance",
-	type: "lifI"
-}, {
-	name: "National Pension Scheme",
-	type: "nps"
-}, {
-	name: "Kisan Vikas Patra",
-	type: "kvp"
-}, {
-	name: "Mutual Funds",
-	type: "mf"
-}, {
-	name: "Stocks & Shares",
-	type: "ss"
-}, {
 	name: "Bonds",
 	type: "bonds"
-}, {
-	name: "ETFs",
-	type: "etf"
-}, {
-	name: "Options",
-	type: "opt"
-}, {
-	name: "Futures",
-	type: "fut"
-}, {
-	name: "Peer to Peer Lending",
-	type: "p2p"
-}, {
-	name: "Cryptocurrencies",
-	type: "cc"
-}, {
-	name: "Real Estate",
-	type: "re"
-}, {
-	name: "Gold",
-	type: "gold"
 }, {
 	name: "Commodities",
 	type: "comm"
 }, {
+	name: "Cryptocurrencies",
+	type: "cc"
+}, {
+	name: "ETFs",
+	type: "etf"
+}, {
 	name: "Fixed Deposit",
 	type: "fd"
 }, {
+	name: "Futures",
+	type: "fut"
+}, {
+	name: "Gold",
+	type: "gold"
+}, {
+	name: "Kisan Vikas Patra",
+	type: "kvp"
+}, {
+	name: "Life Insurance",
+	type: "lifI"
+}, {
+	name: "Mutual Funds",
+	type: "mf"
+}, {
+	name: "National Pension Scheme",
+	type: "nps"
+}, {
+	name: "Options",
+	type: "opt"
+}, {
+	name: "Peer to Peer Lending",
+	type: "p2p"
+}, {
+	name: "Public Provident Fund",
+	type: "ppf"
+}, {
+	name: "Real Estate",
+	type: "re"
+}, {
 	name: "Recurring Deposit",
 	type: "rd"
+}, {
+	name: "Retirement Funds",
+	type: "ref"
+}, {
+	name: "Savings",
+	type: "sav"
+}, {
+	name: "Stocks & Shares",
+	type: "ss"
 }, {
 	name: "Others",
 	type: "others"

@@ -144,13 +144,7 @@ export class MyApp implements OnInit {
 
   //Check if need to set quotes notifications on. Called from ngOnInit() first
   checkNSwitchOnNotif() {
-    let settings: any;
-    if(localStorage['settings']) {
-      settings = JSON.parse(localStorage['settings']);
-    } else {
-      settings = this.utilService.getInitialSettings();
-      localStorage['settings'] = JSON.stringify(settings);
-    }
+    let settings: any = this.utilService.getSettings();
 
     //isQuoteSet determines if the below 'if' statement has run before, that is, quotes notifications are already initialized
     if(settings.quotes.isQuoteSet == false && settings.quotes.isQuoteShow == true) {

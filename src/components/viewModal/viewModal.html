@@ -77,7 +77,7 @@
           [color]="getTheme()" 
            (click)="remindMe()"
            block
-           [disabled]="!investment.maturityDate || isDisabled || isMaturityDatePassed()">
+           [disabled]="!investment.maturityDate || investment.maturityDate == 'null' || isDisabled || isMaturityDatePassed()">
           {{investment.remindMe == 'true' ? 'REMOVE' : 'SET'}} REMINDER
         </button>
       </ion-col>

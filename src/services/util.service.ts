@@ -36,7 +36,40 @@ export class UtilService {
 	}
 	
 	getInitialSettings() {
-		return { quotes: { isQuoteShow: true, isQuoteSet: false }};
+		let settings = { 
+			quotes: { 
+				isQuoteShow: true, 
+				isQuoteSet: false 
+			}, showHide: this.getInitialShowHideSettings()
+		};
+
+		localStorage['settings'] = JSON.stringify(settings);
+		return settings;
+	}
+
+	getInitialShowHideSettings() {
+		return {
+			isMyPortfolio: true,
+			isPortDisByName: true,
+			isPortDisByType: true,
+			isNetWorthByName: true,
+			isNetWorthByType: true,
+			isInvVsNWByType: true,
+			isInvGrowthByType: true,
+			isprofitLossStatByType: true,
+			isProfitDis: true,
+			isProfitDisByType: true,
+			isLossDis: true,
+			isLossDisByType: true,
+			isAssetAlloc: true
+		};
+	}
+
+	getSettings() {
+		let settings = localStorage['settings'] ? JSON.parse(localStorage['settings']) : this.getInitialSettings();
+		//SET SHOWHIDE IF NOT THERE
+    	if(!settings.showHide) settings.showHide = this.getInitialShowHideSettings();
+    	return settings;
 	}
 
 	getRandomColor() {
@@ -169,7 +202,7 @@ export class UtilService {
 	}
 
 	resetQuotesNotification(isQuoteShow) {
-		//A FIX IS DONE IN "\platforms\android\app\src\main\java\de\appplant\cordova\plugin\notification\receiver"
+		//A FIX IS DONE IN "\platforms\android\app\src\main\java\de\appplant\cordova\plugin\notification\receiver\AbstractRestoreReceiver"
 		//AS NOTIFICATIONS WERE CRASHING THE APP IN ANDROID OREO (8.0/8.1)
 		//THIS IS THE FIX - 
 		//import android.os.UserManager;

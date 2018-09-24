@@ -22,10 +22,18 @@
       <ion-card-content class="text-large">
         <ion-row>
           <ion-col>
-            <ion-label class="no-margin">Total Investment Amount</ion-label>
+            <ion-label class="no-margin">Total Invested <br> Amount</ion-label>
           </ion-col>
           <ion-col>
             <ion-label class="no-margin inv-text text-bold">{{selectedCurr.symbol}}{{totalInvestedAmt}}</ion-label>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label class="no-margin">Net Worth</ion-label>
+          </ion-col>
+          <ion-col>
+            <ion-label class="no-margin text-bold">{{selectedCurr.symbol}}{{netWorth}}</ion-label>
           </ion-col>
         </ion-row>
         <ion-row>
@@ -58,26 +66,58 @@
         </ion-row>
       </ion-card-content>
     </ion-card>
-    <ion-card>
+    <ion-card  [hidden]="!settings.showHide.isMyPortfolio">
       <ion-card-header>F1. My Portfolio</ion-card-header>
       <ion-card-content>
         <canvas #bar width="100" height="120"></canvas>
       </ion-card-content>
     </ion-card>
-    <ion-card>
-      <ion-card-header>F2. Portfolio Distribution</ion-card-header>
+    <ion-card [hidden]="!settings.showHide.isPortDisByName">
+      <ion-card-header>F2. Portfolio Distribution - By Name</ion-card-header>
       <ion-card-content>
         <canvas #pie width="100" height="120"></canvas>
       </ion-card-content>
     </ion-card>
-    <ion-card>
-      <ion-card-header>F3. Profit & Loss Statement</ion-card-header>
+    <ion-card [hidden]="!settings.showHide.isPortDisByType">
+      <ion-card-header>F3. Portfolio Distribution - By Type</ion-card-header>
       <ion-card-content>
-        <canvas #profitLoss width="220" height="160"></canvas>
+        <canvas #port width="100" height="120"></canvas>
       </ion-card-content>
     </ion-card>
-    <ion-card>
-      <ion-card-header>F4. Profit Distribution</ion-card-header>
+    <ion-card [hidden]="!settings.showHide.isNetWorthByName">
+      <ion-card-header>F4. Net Worth - By Name</ion-card-header>
+      <ion-card-content>
+        <canvas #net width="100" height="120"></canvas>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isNetWorthByType">
+      <ion-card-header>F5. Net Worth - By Type</ion-card-header>
+      <ion-card-content>
+        <canvas #nett width="100" height="120"></canvas>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isInvVsNWByType">
+      <ion-card-header>F6. Invested Amount Vs. Net Worth <br/> - By Type</ion-card-header>
+      <ion-card-content>
+        <canvas #netwvs width="100" height="120"></canvas>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isInvGrowthByType">
+      <ion-card-header>F7. Investment Growth - By Type</ion-card-header>
+      <ion-card-content>
+        <canvas #invgrw width="100" height="120"></canvas>
+        <button ion-button [color]="utilService.theme || 'primary'" outline block (click)="openDrillDownModal('growth')">Looking For Growth By Name ?</button>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isprofitLossStatByType">
+      <ion-card-header>F8. Profit & Loss Statement <br/> - By Type</ion-card-header>
+      <ion-card-content>
+        <canvas #profitLossType width="220" height="160"></canvas>
+        <button ion-button [color]="utilService.theme || 'primary'" outline block (click)="openDrillDownModal('plstat')">Looking For P/L By Name ?</button>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isProfitDis">
+      <ion-card-header>F9. Profit Distribution - By Name</ion-card-header>
       <ion-card-content>
         <canvas [ngClass]="{'app-hide' : showProfitMsg}" #profitonly width="100" height="120"></canvas>
         <div [ngClass]="{'app-hide' : !showProfitMsg}" class="content-div">
@@ -85,8 +125,17 @@
         </div>
       </ion-card-content>
     </ion-card>
-    <ion-card>
-      <ion-card-header>F5. Loss Distribution</ion-card-header>
+    <ion-card [hidden]="!settings.showHide.isProfitDisByType">
+      <ion-card-header>F10. Profit Distribution - By Type</ion-card-header>
+      <ion-card-content>
+        <canvas [ngClass]="{'app-hide' : showProfitMsgByType}" #profitonlybytype width="100" height="120"></canvas>
+        <div [ngClass]="{'app-hide' : !showProfitMsgByType}" class="content-div">
+          <div>No Data</div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isLossDis">
+      <ion-card-header>F11. Loss Distribution - By Name</ion-card-header>
       <ion-card-content>
         <canvas [ngClass]="{'app-hide' : showLossMsg}" #lossonly width="100" height="120"></canvas>
         <div [ngClass]="{'app-hide' : !showLossMsg}" class="content-div">
@@ -94,8 +143,17 @@
         </div>
       </ion-card-content>
     </ion-card>
-    <ion-card>
-      <ion-card-header>F6. Asset Allocation</ion-card-header>
+    <ion-card [hidden]="!settings.showHide.isLossDisByType">
+      <ion-card-header>F12. Loss Distribution - By Type</ion-card-header>
+      <ion-card-content>
+        <canvas [ngClass]="{'app-hide' : showLossMsgByType}" #lossonlybytype width="100" height="120"></canvas>
+        <div [ngClass]="{'app-hide' : !showLossMsgByType}" class="content-div">
+          <div>No Data</div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+    <ion-card [hidden]="!settings.showHide.isAssetAlloc">
+      <ion-card-header>F13. Asset Allocation</ion-card-header>
       <ion-card-content>
         <canvas #asset width="100" height="120"></canvas>
       </ion-card-content>
