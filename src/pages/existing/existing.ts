@@ -223,7 +223,7 @@ export class ExistingPage implements OnInit {
     let fileName = 'Investments.csv';
     let path = this.file.externalRootDirectory + "/Investment Tracker";
     let bool: any = true;
-    this.file.writeFile(path, fileName, csv, bool)
+    this.file.writeFile(path, fileName, csv, { replace: bool })
     .then(() => {
       this.fileDownloadSuccess();
     })
