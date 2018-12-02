@@ -53,5 +53,67 @@
       <ion-item class="last-list-item"></ion-item>
       <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>
     </ion-list>
+    <ion-card>
+      <ion-card-header  class="custom-card-header" (click)="toggle = !toggle; reset && reset('add')">
+        Add to investment <br> periodically (Optional)
+        <ion-icon class="arrow-icon" [name]="toggle ? 'ios-arrow-down' : 'ios-arrow-forward'"></ion-icon>
+      </ion-card-header>
+      <ion-card-content [ngClass]="toggle ? 'card-show': 'card-hide'">
+        <b>Note:</b> Auto add invested amount to this investment periodically. You can change this from existing tab anytime.
+        <ion-item>
+          <ion-label floating>Amount to be added</ion-label>
+          <ion-input type="number" [(ngModel)]="addition.amount" name="amount"></ion-input>
+        </ion-item>
+        <div class="notes"><ion-note>Make amount 0 to remove periodic investment.</ion-note></div>
+        <ion-item>
+          <ion-label floating>Every (In Months)</ion-label>
+          <ion-input type="number" [(ngModel)]="addition.period" name="period"></ion-input>
+        </ion-item>
+        <div class="notes"><ion-note>After every how many months should we add this amount.</ion-note></div>
+        <ion-item>
+          <ion-label floating>Till When</ion-label>
+          <ion-datetime 
+            displayFormat="MMM YYYY" 
+            [(ngModel)]="addition.tillDate" 
+            name="tillDate" 
+            [min]="minDate"
+            max="2099"
+            [pickerOptions]="customOptionsForTillDate"
+          ></ion-datetime>
+        </ion-item>
+        <ion-item class="last-list-item"></ion-item>
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header class="custom-card-header" (click)="toggle2 = !toggle2; reset && reset('pro')">
+        Increment profit <br> periodically (Optional) 
+        <ion-icon class="arrow-icon" [name]="toggle2 ? 'ios-arrow-down' : 'ios-arrow-forward'"></ion-icon>
+      </ion-card-header>
+      <ion-card-content [ngClass]="toggle2 ? 'card-show': 'card-hide'">
+        <b>Note:</b> Auto add profit amount to this investment periodically. You can change this from existing tab anytime.
+        <ion-item>
+          <ion-label floating>Profit to be added</ion-label>
+          <ion-input type="number" [(ngModel)]="profitAddition.profit" name="pamount"></ion-input>
+        </ion-item>
+        <div class="notes"><ion-note>Make amount 0 to remove periodic profit increment.</ion-note></div>
+        <ion-item>
+          <ion-label floating>Every (In Months)</ion-label>
+          <ion-input type="number" [(ngModel)]="profitAddition.period" name="pperiod"></ion-input>
+        </ion-item>
+        <div class="notes"><ion-note>After every how many months should we add this profit</ion-note></div>
+        <ion-item>
+          <ion-label floating>Till When</ion-label>
+          <ion-datetime 
+            displayFormat="MMM YYYY" 
+            [(ngModel)]="profitAddition.tillDate" 
+            name="ptillDate" 
+            [min]="minDate"
+            max="2099"
+            [pickerOptions]="customOptionsForProfitTillDate"
+          ></ion-datetime>
+        </ion-item>
+        <ion-item class="last-list-item"></ion-item>
+      </ion-card-content>
+    </ion-card>
     <button [color]="getTheme()" class="add-btn" ion-button block [disabled]="!iForm.form.valid || isDisabled">{{submitButtonText}}</button>
   </form>

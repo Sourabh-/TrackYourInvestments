@@ -91,6 +91,10 @@ export class ExistingPage implements OnInit {
   
   reload(notThisView?) {
     this.investments = this.sqlStorageService.allInvestments;
+    this.sqlStorageService.mergeAddAndProfitAdd()
+    .then((res) => { this.investments = this.sqlStorageService.allInvestments; })
+    .catch((err) => { console.log(err); })
+    //Load additions and profit additions
     if(notThisView) {
       this.utilService.showHelpToast = true;
       return;

@@ -50,8 +50,8 @@ export class ViewModal implements OnInit {
     });
   }
 
-  getDate(date) {
-    return this.utilService.getDate(date, true);
+  getDate(date, onlyMY?) {
+    return this.utilService.getDate(date, true, onlyMY);
   }
 
   dismiss() {

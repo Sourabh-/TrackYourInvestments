@@ -11,15 +11,20 @@ export class FormComponent {
 
 	@Input() handleFormSubmit: Function;
 	@Input() investment: any;
+	@Input() addition: any;
+	@Input() profitAddition: any;
 	@Input() isError: boolean;
 	@Input() errorMsg: string;
 	@Input() maxDate: string;
 	@Input() isEdit: boolean;
 	@Input() isDisabled: boolean;
 	@Input() submitButtonText: string;
+	@Input() reset: Function;
 	public types = types;
 	public minDate: string = '';
 	public customOptions: any = {};
+	public customOptionsForTillDate: any = {};
+	public customOptionsForProfitTillDate: any = {};
 
 	constructor(
 		public utilService: UtilService,
@@ -34,7 +39,25 @@ export class FormComponent {
 					this.investment.remindMe = false;
 				}
 			}]
-		}
+		};
+
+		this.customOptionsForTillDate = {
+			buttons: [{
+				text: 'Clear',
+				handler: () => { 
+					this.addition.tillDate = '';
+				}
+			}]
+		};
+
+		this.customOptionsForProfitTillDate = {
+			buttons: [{
+				text: 'Clear',
+				handler: () => {
+					this.profitAddition.tillDate = '';
+				}
+			}]
+		};
 	}
 
 	setMinDate() {

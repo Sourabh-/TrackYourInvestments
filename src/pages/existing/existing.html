@@ -24,6 +24,7 @@
         {{investment.name}}
         <p class="item-details">{{typesObj[investment.type]}}</p>
         <p class="item-details">Started on {{utilService.getDate(investment.startDate)}}</p>
+        <p class="item-details" *ngIf="investment.addition"><span class="inv-text">+{{investment.addition?.amount}}</span> Per {{investment.addition?.period}} {{investment.addition?.period == 1 ? 'Month' : 'Months'}}</p>
         <div *ngIf="isProfit(investment) === 'FALSE'" class="item-loss" item-end>{{getLossPer(investment)}}</div>
         <div *ngIf="isProfit(investment) === 'TRUE'" class="item-profit" item-end>{{getProfitPer(investment)}}</div>
         <div *ngIf="isProfit(investment) === 'NONE'" class="item-even" item-end>{{getProfitPer(investment)}}</div>

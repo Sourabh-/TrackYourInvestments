@@ -52,6 +52,38 @@ export class SQLStorageService {
         .catch((e) => {
           console.log(e);
         })
+
+        //CREATE ADDITION TABLE IF DOES NOT EXIST
+        db.executeSql(`CREATE TABLE addition
+        (
+          name varchar(30) NOT NULL PRIMARY KEY,
+          amount number(30),
+          period number(20),
+          tillDate number(20),
+          done bool
+        )`, {})
+        .then(() => {
+          console.log("Addition table created.");
+        })
+        .catch((e) => {
+          console.log(e);
+        })
+
+        //CREATE PROFIT-ADDITION TABLE IF DOES NOT EXIST
+        db.executeSql(`CREATE TABLE profitAddition
+        (
+          name varchar(30) NOT NULL PRIMARY KEY,
+          profit number(20),
+          period number(20),
+          tillDate number(20),
+          done bool
+        )`, {})
+        .then(() => {
+          console.log("Profit-Addition table created.");
+        })
+        .catch((e) => {
+          console.log(e);
+        })
       })
       .catch((e) => {
         console.log(e);
@@ -146,6 +178,7 @@ export class SQLStorageService {
   async delHistory(name) {
     if(this.dbObj) {
       let query = `DELETE from history WHERE name='${name}'`;
+      console.log(query);
       return await this.dbObj.executeSql(query, {});
     } else {
       throw new Error('DB NOT READY');
@@ -185,6 +218,66 @@ export class SQLStorageService {
     }
   }
 
+  getAddOrProfitAdd(dbName, name?) {
+    if(this.dbObj) {
+       console.log(name);
+       let query = `SELECT * from ${dbName} ` + (name ? `WHERE name='${name}'` : "");
+       console.log(query);
+       return this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  setAddOrProfitAdd(obj, dbName) {
+    if(this.dbObj) {
+       console.log("ADDING...");
+       console.log(dbName);
+       console.log(obj);
+       let ids = Object.keys(obj).join(",");
+       let values = "";
+       for(let key in obj) {
+         values += "'" + obj[key] + "',";
+       }
+
+       values = values.substr(0, values.length-1);
+       let query = `INSERT INTO ${dbName} (${ids}) 
+                   VALUES (
+                     ${values}  
+                   )`;
+        console.log(query);
+       return this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  updateAddOrProfitAdd(obj, dbName, name) {
+    if(this.dbObj) {
+       let _update = '';
+       let c = Object.keys(obj).length;
+       for(let key in obj) {
+         c--;
+         _update += `${key} = '${obj[key] + (c == 0 ? "'" : "', ")}`;
+       }
+
+       let query = `UPDATE ${dbName} SET ${_update} WHERE name='${name}'`;
+       return this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  delAddOrProfitAdd(dbName, name) {
+    if(this.dbObj) {
+      let query = `DELETE from ${dbName} WHERE name='${name}'`;
+      console.log(query);
+      return this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
   addNewLink(link) {
     let links = [];
     try {
@@ -218,5 +311,31 @@ export class SQLStorageService {
     }
 
     return links;
+  }
+
+  async mergeAddAndProfitAdd() {
+    try {
+      let adds = await this.getAddOrProfitAdd('addition');
+      let profitAdds = await this.getAddOrProfitAdd('profitAddition');
+
+      for(let i=0; i < this.allInvestments.length; i++) {
+        for(let j=0; j < adds.rows.length; j++) {
+          if(adds.rows.item(j).name == this.allInvestments[i].name) {
+            this.allInvestments[i].addition = adds.rows.item(j);
+            break;
+          }
+        }
+        for(let j=0; j < profitAdds.rows.length; j++) {
+          if(profitAdds.rows.item(j).name == this.allInvestments[i].name) {
+            this.allInvestments[i].profitAddition = profitAdds.rows.item(j);
+            break;
+          }
+        }
+      }
+      return "SUCCESS";
+    } catch(err) {
+      console.log(err);
+      return new Error(err);
+    }
   }
 }

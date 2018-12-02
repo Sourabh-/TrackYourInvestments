@@ -54,6 +54,36 @@
       <ion-col col-12>{{investment.notes}}</ion-col>
     </ion-row>
   </ion-grid>
+  <ion-card *ngIf="investment.addition && investment.addition.amount">
+    <ion-card-header>Periodic Contribution</ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col col-6 class="text-bold">Investment Amount</ion-col>
+        <ion-col col-6>{{investment.addition.amount}}</ion-col>
+
+        <ion-col col-6 class="text-bold">Every(In Months)</ion-col>
+        <ion-col col-6>{{investment.addition.period}}</ion-col>
+
+        <ion-col col-6 class="text-bold">Till When</ion-col>
+        <ion-col col-6>{{investment.addition.tillDate && investment.addition.tillDate !== 'null' ? getDate(investment.addition.tillDate, true) : "-"}}</ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  <ion-card *ngIf="investment.profitAddition && investment.profitAddition.profit">
+    <ion-card-header>Profit Addition</ion-card-header>
+    <ion-card-content>
+      <ion-row>
+        <ion-col col-6 class="text-bold">Amount</ion-col>
+        <ion-col col-6>{{investment.profitAddition.profit}}</ion-col>
+
+        <ion-col col-6 class="text-bold">Every(In Months)</ion-col>
+        <ion-col col-6>{{investment.profitAddition.period}}</ion-col>
+
+        <ion-col col-6 class="text-bold">Till When</ion-col>
+        <ion-col col-6>{{investment.profitAddition.tillDate && investment.profitAddition.tillDate !== 'null' ? getDate(investment.profitAddition.tillDate, true) : "-"}}</ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
   <hr/>
   <div class="pl-note">
     <b>Please Note-</b> You can also EDIT/DELETE/VIEW HISTORY by simply swiping the investment from right to left in the list

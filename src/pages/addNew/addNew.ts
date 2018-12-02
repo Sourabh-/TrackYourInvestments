@@ -14,6 +14,8 @@ let _;
 })
 export class AddNewPage {
   public investment: any = {};
+  public addition: any = {}; //Monthly addition
+  public profitAddition: any = {};
   public isError: boolean = false;
   public errorMsg: string = '';
   public maxDate: string = '';
@@ -31,6 +33,8 @@ export class AddNewPage {
   ) {
     _ = this;
     this.resetInvestment();
+    this.resetAddition();
+    this.resetProfitAddition();
     this.setMaxDate();
     this.tabs = this.navCtrl.parent;
   }
@@ -38,6 +42,20 @@ export class AddNewPage {
   setMaxDate() {
     let today = new Date();
     this.maxDate = today.getFullYear() + "-" + ('0' + (today.getMonth() + 1)).slice(-2) + "-" + ('0' + today.getDate()).slice(-2);
+  }
+
+  reset = (type) => {
+    switch (type) {
+      case "inv":
+        this.resetInvestment();
+        break;
+      case "add":
+        this.resetAddition();
+        break;
+      case "pro":
+        this.resetProfitAddition();
+        break;
+    }
   }
 
   resetInvestment() {
@@ -51,6 +69,26 @@ export class AddNewPage {
       notes: null,
       remindMe: false,
       maturityDate: null
+    };
+  }
+
+  resetAddition() {
+    this.addition = {
+      name: '',
+      amount: 0,
+      period: 1,
+      tillDate: null,
+      done: false
+    };
+  }
+
+  resetProfitAddition() {
+    this.profitAddition = {
+      name: '',
+      profit: 0,
+      period: 1,
+      tillDate: null,
+      done: false
     };
   }
 
@@ -71,9 +109,19 @@ export class AddNewPage {
     if(Number(_.investment.loss) > Number(_.investment.totalAmount)) {
       _.errorMsg = "Umm.. Loss cannot be more than total investment amount *";
       _.isError = true;
+    } else if(_.addition.amount && (!_.addition.period || Number(_.addition.period) <= 0)) {
+      _.errorMsg = "Period for auto addition of invested amount cannot be 0 *";;
+      _.isError = true;
+    } else if(_.profitAddition.profit && (!_.profitAddition.period || Number(_.profitAddition.period) <= 0)) {
+      _.errorMsg = "Period for auto addition of profit amount cannot be 0 *";
+      _.isError = true;
     } else {
       _.isDisabled = true;
       let _investment = JSON.parse(JSON.stringify(_.investment));
+
+      let _add = JSON.parse(JSON.stringify(_.addition));
+      let _profitAdd = JSON.parse(JSON.stringify(_.profitAddition));
+
       let sDate = _investment.startDate.split('-');
       _investment.startDate = new Date(sDate[0], Number(sDate[1])-1, sDate[2]).getTime();
       
@@ -105,6 +153,34 @@ export class AddNewPage {
         //Set notification if required
         _.setNotifIfNeeded(_investment);
 
+        setTimeout(() => {
+          //================SET ADDITION=================//
+          if(_.addition.amount && Number(_.addition.amount) > 0) {
+            _add.name = _investment.name;
+            if(_add.tillDate) {
+              let aDate = _add.tillDate.split('-');
+              _add.tillDate = new Date(aDate[0], Number(aDate[1])-1).getTime();
+            }
+
+            _.sqlStorageService.setAddOrProfitAdd(_add, 'addition')
+            .then(() => { console.log("ADDED"); _.resetAddition();  }).catch((err) => { console.log("FAILED"); console.log(err); })
+          }
+          //=============================================//
+
+          //============SET PROFIT-ADDITION==============//
+          if(_.profitAddition.profit && Number(_.profitAddition.profit) > 0) {
+            _profitAdd.name = _investment.name;
+            if(_profitAdd.tillDate) {
+              let aDate = _profitAdd.tillDate.split('-');
+              _profitAdd.tillDate = new Date(aDate[0], Number(aDate[1])-1).getTime();
+            }
+
+            _.sqlStorageService.setAddOrProfitAdd(_profitAdd, 'profitAddition')
+            .then(() => { _.resetProfitAddition(); }).catch((err) => { console.log(err); })
+          }
+          //=============================================//
+        }, 1000);
+        
         _.sqlStorageService.getInvestments(true)
         .then((response) => { 
           let _invs = [];

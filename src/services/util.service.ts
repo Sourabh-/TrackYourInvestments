@@ -147,9 +147,9 @@ export class UtilService {
 		this.onInvChange.emit();
 	}
 
-	getDate(timestamp, useSlash?) {
+	getDate(timestamp, useSlash?, onlyMY?) {
 		let _d = new Date(timestamp);
-		return ('0' + _d.getDate()).slice(-2) + (useSlash ? "/" : "-") + months[_d.getMonth()] + (useSlash ? "/" : "-") + _d.getFullYear();
+		return onlyMY ? (months[_d.getMonth()] + (useSlash ? "/" : "-") + _d.getFullYear()) : (('0' + _d.getDate()).slice(-2) + (useSlash ? "/" : "-") + months[_d.getMonth()] + (useSlash ? "/" : "-") + _d.getFullYear());
 	}
 
 	switchTheme() {
