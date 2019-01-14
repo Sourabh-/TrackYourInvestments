@@ -60,7 +60,8 @@ export class SQLStorageService {
           amount number(30),
           period number(20),
           tillDate number(20),
-          done bool
+          createdDate number(20),
+          modifiedDate number(20)
         )`, {})
         .then(() => {
           console.log("Addition table created.");
@@ -76,7 +77,8 @@ export class SQLStorageService {
           profit number(20),
           period number(20),
           tillDate number(20),
-          done bool
+          createdDate number(20),
+          modifiedDate number(20)
         )`, {})
         .then(() => {
           console.log("Profit-Addition table created.");
@@ -92,7 +94,6 @@ export class SQLStorageService {
   }
 
   addColumn(db, name, type) {
-    console.log(name);
     db.executeSql(`ALTER TABLE investments
       ADD ${name} ${type}`, {})
     .then(() => {
@@ -178,7 +179,6 @@ export class SQLStorageService {
   async delHistory(name) {
     if(this.dbObj) {
       let query = `DELETE from history WHERE name='${name}'`;
-      console.log(query);
       return await this.dbObj.executeSql(query, {});
     } else {
       throw new Error('DB NOT READY');
@@ -220,9 +220,7 @@ export class SQLStorageService {
 
   getAddOrProfitAdd(dbName, name?) {
     if(this.dbObj) {
-       console.log(name);
        let query = `SELECT * from ${dbName} ` + (name ? `WHERE name='${name}'` : "");
-       console.log(query);
        return this.dbObj.executeSql(query, {});
     } else {
       throw new Error('DB NOT READY');
@@ -231,9 +229,9 @@ export class SQLStorageService {
 
   setAddOrProfitAdd(obj, dbName) {
     if(this.dbObj) {
-       console.log("ADDING...");
-       console.log(dbName);
-       console.log(obj);
+       obj['createdDate'] = new Date().getTime();
+       obj['modifiedDate'] = new Date().getTime();
+       
        let ids = Object.keys(obj).join(",");
        let values = "";
        for(let key in obj) {
@@ -245,7 +243,6 @@ export class SQLStorageService {
                    VALUES (
                      ${values}  
                    )`;
-        console.log(query);
        return this.dbObj.executeSql(query, {});
     } else {
       throw new Error('DB NOT READY');
@@ -254,6 +251,8 @@ export class SQLStorageService {
 
   updateAddOrProfitAdd(obj, dbName, name) {
     if(this.dbObj) {
+       obj['modifiedDate'] = new Date().getTime();
+
        let _update = '';
        let c = Object.keys(obj).length;
        for(let key in obj) {
@@ -271,7 +270,6 @@ export class SQLStorageService {
   delAddOrProfitAdd(dbName, name) {
     if(this.dbObj) {
       let query = `DELETE from ${dbName} WHERE name='${name}'`;
-      console.log(query);
       return this.dbObj.executeSql(query, {});
     } else {
       throw new Error('DB NOT READY');

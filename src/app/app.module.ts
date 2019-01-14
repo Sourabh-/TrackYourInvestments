@@ -19,13 +19,11 @@ import { PopoverPage } from '../components/popover/popover.component';
 import { FormComponent } from '../components/investmentForm/investmentForm.component';
 import { EditModal } from '../components/editModal/editModal.component';
 import { EmailModal } from '../components/emailModal/emailModal.component';
-import { CurrencyModal } from '../components/currencyModal/currencyModal.component';
 import { HelpModal } from '../components/helpModal/helpModal.component';
 import { HistoryModal } from '../components/historyModal/historyModal.component';
 import { CalcModal } from '../components/calcModal/calcModal.component';
 import { CalcHelpModal } from '../components/calcHelpModal/calcHelpModal.component';
 import { ViewModal } from '../components/viewModal/viewModal.component';
-import { SettingsModal } from '../components/settingsModal/settingsModal.component';
 import { DrillDownModal } from '../components/drillDownModal/drillDownModal.component';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -33,7 +31,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { SQLite } from '@ionic-native/sqlite';
 import { SQLStorageService } from '../services/storage.service';
 import { UtilService } from '../services/util.service';
+import { BasicService } from '../services/basic.service';
 import { CurrencyService } from '../services/currency.service';
+import { HistoryService } from '../services/history.service';
+import { SettingsModalModule } from '../components/settingsModal/settingsModal.module';
+import { ReminderModal } from '../components/reminderModal/reminder.component';
 
 @NgModule({
   declarations: [
@@ -46,19 +48,19 @@ import { CurrencyService } from '../services/currency.service';
     PopoverPage,
     FormComponent,
     EditModal,
-    CurrencyModal,
     EmailModal,
     HelpModal,
     HistoryModal,
     CalcModal,
     CalcHelpModal,
     ViewModal,
-    SettingsModal,
-    DrillDownModal
+    DrillDownModal,
+    ReminderModal
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    SettingsModalModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -71,15 +73,14 @@ import { CurrencyService } from '../services/currency.service';
     PopoverPage,
     FormComponent,
     EditModal,
-    CurrencyModal,
     EmailModal,
     HelpModal,
     HistoryModal,
     CalcModal,
     CalcHelpModal,
     ViewModal,
-    SettingsModal,
-    DrillDownModal
+    DrillDownModal,
+    ReminderModal
   ],
   providers: [
     StatusBar,
@@ -94,7 +95,9 @@ import { CurrencyService } from '../services/currency.service';
     SQLite,
     SQLStorageService,
     UtilService,
-    CurrencyService
+    BasicService,
+    CurrencyService,
+    HistoryService
   ]
 })
 export class AppModule {}

@@ -9,6 +9,7 @@ import { UtilService } from '../../services/util.service';
 import { SQLStorageService } from '../../services/storage.service';
 import { CurrencyService } from '../../services/currency.service';
 import { categories, types } from '../../data/data';
+import { SettingsService } from '../../components/settingsModal/services/settings.service';
 
 @Component({
   selector: 'page-dashboard',
@@ -57,7 +58,7 @@ export class DashboardPage implements OnInit {
   public showLossMsgByType: boolean = false;
   public showProfitMsgByType: boolean = false;
   public typesObj = {};
-  public settings: any = this.utilService.getSettings();
+  public settings: any = this.settingsService.getSettings();
 
   constructor(
     public navCtrl: NavController, 
@@ -66,7 +67,8 @@ export class DashboardPage implements OnInit {
     private utilService: UtilService,
     public sqlStorageService: SQLStorageService,
     public toastCtrl: ToastController,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private settingsService: SettingsService
   ) {
     //MAKE KEY:VALUE FROM TYPES
     for(let i=0; i<types.length; i++) {
@@ -75,7 +77,7 @@ export class DashboardPage implements OnInit {
   }
 
   setCharts() {
-    this.settings = this.utilService.getSettings();
+    this.settings = this.settingsService.getSettings();
     this.calcInvestment();
 
     if(this.settings.showHide['isMyPortfolio']) this.setBarChart();
@@ -103,6 +105,7 @@ export class DashboardPage implements OnInit {
           _invs.push(response.rows.item(i));
         }
         this.sqlStorageService.allInvestments = _invs;  
+        this.combineAutoFields();
         this.setCharts();
       } else {
         //SHOW NO DATA SCREEN
@@ -143,6 +146,12 @@ export class DashboardPage implements OnInit {
      this.utilService.onThemeChange.subscribe(() => {
        this.reload();
      })
+  }
+
+  combineAutoFields() {
+    this.sqlStorageService.mergeAddAndProfitAdd()
+    .then(() => {})
+    .catch((err) => { console.log(err); })
   }
 
   reload() {

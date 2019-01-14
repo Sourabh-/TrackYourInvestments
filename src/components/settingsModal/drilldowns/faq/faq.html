@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar [color]="getTheme()">
+        <ion-title>
+            FAQ
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text color="primary" showWhen="ios">Cancel</span>
+                <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-list>
+        <ion-item *ngFor="let item of _faqs">
+            <h3 class="question" (click)="item.toggle = !item.toggle">
+                {{item.question}}
+                <ion-icon class="arrow-icon" [name]="item.toggle ? 'ios-arrow-down' : 'ios-arrow-forward'"></ion-icon>
+            </h3>
+            <p class="answer" [ngClass]="item.toggle ? 'card-show': 'card-hide'">
+                {{item.answer}}
+            </p>
+        </ion-item>
+    </ion-list>
+</ion-content>

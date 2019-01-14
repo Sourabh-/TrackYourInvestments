@@ -50,32 +50,25 @@ investment-form {
 	  border-bottom: 1px solid #dedede;
 	}
 
-	.arrow-icon {
-		position: absolute;
-	    margin-top: 2px;
-	    margin-left: 5px;
-	    right: 25px;
-	}
-
 	ion-card-header {
 		cursor: pointer;
+	}
+
+	.custom-card-header {
+		display: flex;
+		align-items: center;
 	}
 
 	.card-show {
 		max-height: 1500px;
 		transition: padding-top 250ms linear, padding-bottom 250ms linear, max-height 230ms linear;
 	}
-
+	  
 	.card-hide {
 		max-height: 0;
 		overflow: hidden;
 		transition: padding-top 250ms linear, padding-bottom 250ms linear, max-height 230ms linear;
 		padding-top: 0;
 		padding-bottom: 0;
-	}
-
-	.custom-card-header {
-		display: flex;
-		align-items: center;
 	}
 }

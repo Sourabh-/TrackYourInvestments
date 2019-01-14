@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { CurrencyService } from '../../services/currency.service';
-import { UtilService } from '../../services/util.service';
+import { CurrencyService } from '../../../../services/currency.service';
+import { UtilService } from '../../../../services/util.service';
 
 @Component({
-  selector: 'currency-modal',
-  templateUrl: 'currencyModal.html'
+  selector: 'currency-settings-modal',
+  templateUrl: 'currency.html'
 })
 export class CurrencyModal implements OnInit {
 	public selectedCurr = localStorage.currency ? JSON.parse(localStorage.currency) : { name: 'USD', symbol: '$' };

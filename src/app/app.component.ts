@@ -9,6 +9,7 @@ import { SliderPage } from '../pages/slides/slides';
 import { UtilService } from '../services/util.service';
 import { SQLStorageService } from '../services/storage.service';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { SettingsService } from '../components/settingsModal/services/settings.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +25,8 @@ export class MyApp implements OnInit {
     public alertCtrl: AlertController,
     private market: Market,
     private localNotif: LocalNotifications,
-    public sqlStorageService: SQLStorageService
+    public sqlStorageService: SQLStorageService,
+    private settingsService: SettingsService
   ) {
 
     platform.ready().then(() => {
@@ -144,7 +146,7 @@ export class MyApp implements OnInit {
 
   //Check if need to set quotes notifications on. Called from ngOnInit() first
   checkNSwitchOnNotif() {
-    let settings: any = this.utilService.getSettings();
+    let settings: any = this.settingsService.settings;
 
     //isQuoteSet determines if the below 'if' statement has run before, that is, quotes notifications are already initialized
     if(settings.quotes.isQuoteSet == false && settings.quotes.isQuoteShow == true) {
@@ -153,7 +155,7 @@ export class MyApp implements OnInit {
 
       settings.quotes.isQuoteSet = true;
       localStorage['settings'] = JSON.stringify(settings);
-      this.utilService.settingsUpdated();
+      this.settingsService.settingsUpdated();
     }
   }
 }

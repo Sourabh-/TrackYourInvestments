@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar [color]="getTheme()">
     <ion-title>
-      Settings
+      Settings & More
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="dismiss()">
@@ -14,69 +14,8 @@
 
 <ion-content>
   <ion-list>
-    <ion-list-header>
-      Investment Quotes
-    </ion-list-header>
-    <ion-item>
-      <ion-label>Investment Quotes Notification</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.quotes.isQuoteShow" (ionChange)="set($event, 'isQuoteShow')"></ion-toggle>
-    </ion-item>
-  </ion-list>
-  <ion-list>
-    <ion-list-header>
-      Chart
-    </ion-list-header>
-    <ion-item>
-      <ion-label>Show My Portfolio</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isMyPortfolio" (ionChange)="set($event, 'showHide', 'isMyPortfolio')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Portfolio Distribution<br> By Name</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isPortDisByName" (ionChange)="set($event, 'showHide', 'isPortDisByName')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Portfolio Distribution<br> By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isPortDisByType" (ionChange)="set($event, 'showHide', 'isPortDisByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Net Worth By Name</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isNetWorthByName" (ionChange)="set($event, 'showHide', 'isNetWorthByName')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Net Worth By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isNetWorthByType" (ionChange)="set($event, 'showHide', 'isNetWorthByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Invested Amount Vs.<br> Net Worth By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isInvVsNWByType" (ionChange)="set($event, 'showHide', 'isInvVsNWByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Investment Growth<br> By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isInvGrowthByType" (ionChange)="set($event, 'showHide', 'isInvGrowthByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Profit & Loss<br> Statement By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isprofitLossStatByType" (ionChange)="set($event, 'showHide', 'isprofitLossStatByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Profit Distribution <br> By Name</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isProfitDis" (ionChange)="set($event, 'showHide', 'isProfitDis')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Profit Distribution <br> By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isProfitDisByType" (ionChange)="set($event, 'showHide', 'isProfitDisByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Loss Distribution <br> By Name</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isLossDis" (ionChange)="set($event, 'showHide', 'isLossDis')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Loss Distribution <br> By Type</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isLossDisByType" (ionChange)="set($event, 'showHide', 'isLossDisByType')"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Show Asset Allocation</ion-label>
-      <ion-toggle [color]="getTheme()" [checked]="settings.showHide.isAssetAlloc" (ionChange)="set($event, 'showHide', 'isAssetAlloc')"></ion-toggle>
-    </ion-item>
+    <button ion-item *ngFor="let item of items" (click)="openModal(item.id)">
+      {{ item.name }}
+    </button>
   </ion-list>
 </ion-content>

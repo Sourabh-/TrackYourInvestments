@@ -49,51 +49,25 @@ export class ExistingPage implements OnInit {
     }
   }
 
-  initiate() {
-    //GET ALL INVESTMENTS
-    this.sqlStorageService.getInvestments()
-    .then((response) => {
-      if(response.rows.length) {
-        let _invs = [];
-        for(let i=0; i<response.rows.length; i++) {
-          _invs.push(response.rows.item(i));
-        }
-
-        this.sqlStorageService.allInvestments = _invs;
-      }
-
-      this.reload();
-    })
-    .catch((err) => {
-      console.log(err);
-      if(err.message === 'DB NOT READY' && this.callCount != 10) {
-        this.callCount++;
-        setTimeout(() => { this.ngOnInit(); }, 200);
-      } else 
-        this.showErrorToast();
-    })
-
-
-    //SUBSCRIBE TO RELOAD
-    this.utilService.onChange.subscribe({
-      next: () => {
-        this.reload(true);
-      }
-    })
-  }
-
   ngOnInit() {
-    this.initiate();
+    this.reload();
     this.currencyService.changeCurrency.subscribe(() => {
        this.selectedCurr = JSON.parse(localStorage['currency']);
     })
   }
+
+  reload() {
+    this.onReload();
+    //SUBSCRIBE TO RELOAD
+    this.utilService.onChange.subscribe({
+      next: () => {
+        this.onReload(true);
+      }
+    })
+  }
   
-  reload(notThisView?) {
+  onReload(notThisView?) {
     this.investments = this.sqlStorageService.allInvestments;
-    this.sqlStorageService.mergeAddAndProfitAdd()
-    .then((res) => { this.investments = this.sqlStorageService.allInvestments; })
-    .catch((err) => { console.log(err); })
     //Load additions and profit additions
     if(notThisView) {
       this.utilService.showHelpToast = true;

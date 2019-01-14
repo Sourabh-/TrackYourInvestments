@@ -1,0 +1,26 @@
+faq-settings-modal {
+    .question {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    .answer {
+        border-radius: 2px;
+        background-color: #f4f4f4;
+        padding: 5px 10px;
+    }
+
+    .card-show {
+        max-height: 1500px;
+        transition: padding-top 150ms linear, padding-bottom 150ms linear, max-height 130ms linear;
+    }
+      
+    .card-hide {
+        max-height: 0;
+        overflow: hidden;
+        transition: padding-top 150ms linear, padding-bottom 150ms linear, max-height 130ms linear;
+        padding-top: 0;
+        padding-bottom: 0;
+        border: 0;
+    }
+}

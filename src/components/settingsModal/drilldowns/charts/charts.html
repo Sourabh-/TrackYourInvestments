@@ -1,0 +1,70 @@
+<ion-header>
+    <ion-toolbar [color]="getTheme()">
+      <ion-title>
+        Charts Settings
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <span ion-text showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-label>Show My Portfolio</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isMyPortfolio" (ionChange)="settingsService.set($event, 'showHide', 'isMyPortfolio')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Portfolio Distribution<br> By Name</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isPortDisByName" (ionChange)="settingsService.set($event, 'showHide', 'isPortDisByName')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Portfolio Distribution<br> By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isPortDisByType" (ionChange)="settingsService.set($event, 'showHide', 'isPortDisByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Net Worth By Name</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isNetWorthByName" (ionChange)="settingsService.set($event, 'showHide', 'isNetWorthByName')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Net Worth By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isNetWorthByType" (ionChange)="settingsService.set($event, 'showHide', 'isNetWorthByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Invested Amount Vs.<br> Net Worth By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isInvVsNWByType" (ionChange)="settingsService.set($event, 'showHide', 'isInvVsNWByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Investment Growth<br> By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isInvGrowthByType" (ionChange)="settingsService.set($event, 'showHide', 'isInvGrowthByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Profit & Loss<br> Statement By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isprofitLossStatByType" (ionChange)="settingsService.set($event, 'showHide', 'isprofitLossStatByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Profit Distribution <br> By Name</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isProfitDis" (ionChange)="settingsService.set($event, 'showHide', 'isProfitDis')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Profit Distribution <br> By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isProfitDisByType" (ionChange)="settingsService.set($event, 'showHide', 'isProfitDisByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Loss Distribution <br> By Name</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isLossDis" (ionChange)="settingsService.set($event, 'showHide', 'isLossDis')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Loss Distribution <br> By Type</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isLossDisByType" (ionChange)="settingsService.set($event, 'showHide', 'isLossDisByType')"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Show Asset Allocation</ion-label>
+        <ion-toggle [color]="getTheme()" [checked]="settingsService.settings.showHide.isAssetAlloc" (ionChange)="settingsService.set($event, 'showHide', 'isAssetAlloc')"></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </ion-content>

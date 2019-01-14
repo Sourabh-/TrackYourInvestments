@@ -153,56 +153,48 @@ export class AddNewPage {
         //Set notification if required
         _.setNotifIfNeeded(_investment);
 
-        setTimeout(() => {
-          //================SET ADDITION=================//
-          if(_.addition.amount && Number(_.addition.amount) > 0) {
-            _add.name = _investment.name;
-            if(_add.tillDate) {
-              let aDate = _add.tillDate.split('-');
-              _add.tillDate = new Date(aDate[0], Number(aDate[1])-1).getTime();
-            }
-
-            _.sqlStorageService.setAddOrProfitAdd(_add, 'addition')
-            .then(() => { console.log("ADDED"); _.resetAddition();  }).catch((err) => { console.log("FAILED"); console.log(err); })
+        //================SET ADDITION=================//
+        if(_.addition.amount && Number(_.addition.amount) > 0) {
+          _add.name = _investment.name;
+          if(_add.tillDate) {
+            let aDate = _add.tillDate.split('-');
+            _add.tillDate = new Date(aDate[0], Number(aDate[1])-1).getTime();
           }
-          //=============================================//
 
-          //============SET PROFIT-ADDITION==============//
-          if(_.profitAddition.profit && Number(_.profitAddition.profit) > 0) {
-            _profitAdd.name = _investment.name;
-            if(_profitAdd.tillDate) {
-              let aDate = _profitAdd.tillDate.split('-');
-              _profitAdd.tillDate = new Date(aDate[0], Number(aDate[1])-1).getTime();
-            }
-
-            _.sqlStorageService.setAddOrProfitAdd(_profitAdd, 'profitAddition')
-            .then(() => { _.resetProfitAddition(); }).catch((err) => { console.log(err); })
-          }
-          //=============================================//
-        }, 1000);
-        
-        _.sqlStorageService.getInvestments(true)
-        .then((response) => { 
-          let _invs = [];
-          for(let i=0; i<response.rows.length; i++) {
-            _invs.push(response.rows.item(i));
-          }
-          _.sqlStorageService.allInvestments = _invs;
-          _.utilService.emitChangeEvent();
+          _investment.addition = { ..._add };
+          //This is not required immediately so we can delay a little
           setTimeout(() => {
-            //Navigate to dashboard
-            _.tabs.select(0);
-          }, 2500);
-        })
-        .catch((err) => {
-          console.log(err);
-          //SHOW TOAST
-          _.toastCtrl.create({
-            message: "Oops! Looks like something isn't right, try closing the app and reopen",
-            duration: 3000,
-            position: 'bottom'
-          }).present();
-        })
+            _.sqlStorageService.setAddOrProfitAdd(_add, 'addition')
+            .then(() => { console.log("ADDED"); _.resetAddition();  })
+            .catch((err) => { console.log("FAILED"); console.log(err); })
+          }, 1000);
+        }
+        //=============================================//
+
+        //============SET PROFIT-ADDITION==============//
+        if(_.profitAddition.profit && Number(_.profitAddition.profit) > 0) {
+          _profitAdd.name = _investment.name;
+          if(_profitAdd.tillDate) {
+            let aDate = _profitAdd.tillDate.split('-');
+            _profitAdd.tillDate = new Date(aDate[0], Number(aDate[1])-1).getTime();
+          }
+
+          _investment.profitAddition = { ..._profitAdd };
+          //This is not required immediately so we can delay a little
+          setTimeout(() => {
+            _.sqlStorageService.setAddOrProfitAdd(_profitAdd, 'profitAddition')
+            .then(() => { _.resetProfitAddition(); })
+            .catch((err) => { console.log(err); })
+          }, 1000);
+        }
+        //=============================================//
+        
+        _.utilService.addToInvestmentsInMemory(_.sqlStorageService.allInvestments, _investment);
+        _.utilService.emitChangeEvent();
+        setTimeout(() => {
+          //Navigate to dashboard
+          _.tabs.select(0);
+        }, 2500);
       })
       .catch((err) => {
         _.isDisabled = false;

@@ -3,12 +3,11 @@ import { ToastController, ViewController, AlertController, ModalController } fro
 import { Market } from '@ionic-native/market';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import CurrencyToSymbolMap from 'currency-symbol-map/map';
 import { UtilService } from '../../services/util.service';
-import { CurrencyModal } from '../currencyModal/currencyModal.component';
 import { EmailModal } from '../emailModal/emailModal.component';
 import { HelpModal } from '../helpModal/helpModal.component';
 import { SettingsModal } from '../settingsModal/settingsModal.component';
+import { ReminderModal } from '../reminderModal/reminder.component';
 
 @Component({
   selector: 'page-popover',
@@ -34,19 +33,6 @@ export class PopoverPage {
     });	
   }
 
-  openAboutUs() {
-    this.dismiss();
-    let alert = this.alertCtrl.create({
-      title: 'About Us',
-      subTitle: `We are a bunch of enthusiastic people who loves the idea of having a passive income. 
-                 However, the only problem we faced was to have a simple tracker of our profit & loss 
-                 statement. Hence, we built one! We hope this will help you as well. 
-                 Your suggestions on how we can improve this tracker are welcome.`,
-      buttons: ['OK']
-    });
-    alert.present();
-  }
-
   openRateUs() {
     this.dismiss();
     this.market.open('io.uns.trackYourInvestments');
@@ -63,21 +49,10 @@ export class PopoverPage {
     modal.present();
   }
 
-  chooseCurr(curr) {
-    this.dismiss();
-    let modal = this.modalCtrl.create(CurrencyModal);
-    modal.present();
-  }
-
   openEmailUs() {
     this.dismiss();
     let modal = this.modalCtrl.create(EmailModal);
     modal.present();
-  }
-
-  switchTheme() {
-    this.dismiss();
-    this.utilService.switchTheme();
   }
 
   shareApp() {
@@ -97,6 +72,12 @@ export class PopoverPage {
   openSettings() {
     this.dismiss();
     let modal = this.modalCtrl.create(SettingsModal);
+    modal.present();
+  }
+
+  openReminder() {
+    this.dismiss();
+    let modal = this.modalCtrl.create(ReminderModal);
     modal.present();
   }
 }

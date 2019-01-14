@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar [color]="getTheme()">
+      <ion-title>
+        Choose Currency
+      </ion-title>
+      <ion-buttons start>
+        <button ion-button (click)="dismiss()">
+          <span ion-text color="primary" showWhen="ios">Cancel</span>
+          <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+        </button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list radio-group class="dark-list">
+      <ion-item *ngFor="let curr of currSymbolsMap" class="dark-item">
+        <ion-label>{{curr.symbol}} - {{curr.name}}</ion-label>
+        <ion-radio [checked]="selectedCurr.name === curr.name" [value]="curr" (click)="selectCurrency(curr)">
+        </ion-radio>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+  
