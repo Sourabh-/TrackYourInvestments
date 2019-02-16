@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { AlertController } from 'ionic-angular';
-import { types } from '../../data/data';
-import { UtilService } from '../../services/util.service';
+import { types } from '../../shared/data/data';
+import { UtilService } from '../../shared/services/util.service';
 
 @Component({
   selector: 'investment-form',

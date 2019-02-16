@@ -25,17 +25,12 @@ import { CalcModal } from '../components/calcModal/calcModal.component';
 import { CalcHelpModal } from '../components/calcHelpModal/calcHelpModal.component';
 import { ViewModal } from '../components/viewModal/viewModal.component';
 import { DrillDownModal } from '../components/drillDownModal/drillDownModal.component';
-
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { SQLite } from '@ionic-native/sqlite';
-import { SQLStorageService } from '../services/storage.service';
-import { UtilService } from '../services/util.service';
-import { BasicService } from '../services/basic.service';
-import { CurrencyService } from '../services/currency.service';
-import { HistoryService } from '../services/history.service';
+
 import { SettingsModalModule } from '../components/settingsModal/settingsModal.module';
-import { ReminderModal } from '../components/reminderModal/reminder.component';
+import { ReminderModalModule } from '../components/reminderModal/reminderModal.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -54,13 +49,14 @@ import { ReminderModal } from '../components/reminderModal/reminder.component';
     CalcModal,
     CalcHelpModal,
     ViewModal,
-    DrillDownModal,
-    ReminderModal
+    DrillDownModal
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    SettingsModalModule
+    SettingsModalModule,
+    SharedModule,
+    ReminderModalModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -79,8 +75,7 @@ import { ReminderModal } from '../components/reminderModal/reminder.component';
     CalcModal,
     CalcHelpModal,
     ViewModal,
-    DrillDownModal,
-    ReminderModal
+    DrillDownModal
   ],
   providers: [
     StatusBar,
@@ -91,13 +86,7 @@ import { ReminderModal } from '../components/reminderModal/reminder.component';
     File,
     SocialSharing,
     LocalNotifications,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SQLite,
-    SQLStorageService,
-    UtilService,
-    BasicService,
-    CurrencyService,
-    HistoryService
+    {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
 export class AppModule {}

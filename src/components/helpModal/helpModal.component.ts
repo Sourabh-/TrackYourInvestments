@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewController, AlertController, ToastController } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
-import { SQLStorageService } from '../../services/storage.service';
-import { UtilService } from '../../services/util.service';
+import { SQLStorageService } from '../../shared/services/storage.service';
+import { UtilService } from '../../shared/services/util.service';
 
 @Component({
   selector: 'help-modal',

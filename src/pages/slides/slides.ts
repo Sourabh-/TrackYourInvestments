@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { Slides, NavController } from 'ionic-angular';
-import { UtilService } from '../../services/util.service';
+import { UtilService } from '../../shared/services/util.service';
 import { TabsPage } from '../tabs/tabs';
 
 @Component({

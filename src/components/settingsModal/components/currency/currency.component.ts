@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { CurrencyService } from '../../../../services/currency.service';
-import { UtilService } from '../../../../services/util.service';
+import { CurrencyService } from '../../../../shared/services/currency.service';
+import { UtilService } from '../../../../shared/services/util.service';
 
 @Component({
   selector: 'currency-settings-modal',

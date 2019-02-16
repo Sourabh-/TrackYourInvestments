@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ViewController, NavParams, ModalController, AlertController, ToastController } from 'ionic-angular';
 import { HistoryModal } from '../historyModal/historyModal.component';
 import { EditModal } from '../editModal/editModal.component';
-import { UtilService } from '../../services/util.service';
-import { SQLStorageService } from '../../services/storage.service';
-import { types } from '../../data/data';
+import { UtilService } from '../../shared/services/util.service';
+import { SQLStorageService } from '../../shared/services/storage.service';
+import { types } from '../../shared/data/data';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'view-modal',
@@ -31,7 +32,8 @@ export class ViewModal implements OnInit {
     public modalCtrl: ModalController,
     public alertCtrl: AlertController,
     public sqlStorageService: SQLStorageService,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private notificationService: NotificationService
   ) {
     this.investment = this.params.get('investment');
     this.index = this.params.get('index');
@@ -134,9 +136,9 @@ export class ViewModal implements OnInit {
 
   setOrRemoveNotifIfNeeded(investment) {
     if(investment.remindMe == 'false') {
-      this.utilService.clearNotification(investment.name);
+      this.notificationService.clearNotification(investment.name);
     } else {
-      this.utilService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
+      this.notificationService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
     }
   }
 

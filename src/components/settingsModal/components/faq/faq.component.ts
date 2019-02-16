@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { UtilService } from '../../../../services/util.service';
-import { faqs } from '../../../../data';
+import { UtilService } from '../../../../shared/services/util.service';
+import { faqs } from '../../../../shared/data';
 
 @Component({
   selector: 'faq-settings-modal',

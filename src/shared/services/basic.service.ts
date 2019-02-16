@@ -19,4 +19,21 @@ export class BasicService {
 	    }
 	    return array;
 	}
+
+	sortObjectArr(arr, key = 'id', isDesc = false) {
+		if(!arr || (arr && !arr.length)) 
+			return arr;
+		let sortedArr = JSON.parse(JSON.stringify(arr));
+		if(isDesc) {
+			sortedArr.sort((ob1, ob2) => {
+				return (ob1[key] < ob2[key]) ? 1 : (ob1[key] > ob2[key]) ? -1 : 0;
+			});
+		} else {
+			sortedArr.sort((ob1, ob2) => {
+				return (ob1[key] < ob2[key]) ? -1 : (ob1[key] > ob2[key]) ? 1 : 0;
+			});
+		}
+		
+		return sortedArr;
+	}
 }

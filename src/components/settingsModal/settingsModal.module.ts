@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { SettingsModal } from './settingsModal.component';
 import { SettingsService } from './services/settings.service';
-import { ChartsModal } from './drilldowns/charts/charts.component';
-import { NotificationsModal } from './drilldowns/notifications/notifications.component';
-import { CurrencyModal } from './drilldowns/currency/currency.component';
-import { ThemesModal } from './drilldowns/themes/themes.component';
-import { FaqModal } from './drilldowns/faq/faq.component';
+import { ChartsModal } from './components/charts/charts.component';
+import { NotificationsModal } from './components/notifications/notifications.component';
+import { CurrencyModal } from './components/currency/currency.component';
+import { ThemesModal } from './components/themes/themes.component';
+import { FaqModal } from './components/faq/faq.component';
 
 @NgModule({
     declarations: [ 

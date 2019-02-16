@@ -6,10 +6,11 @@ import { Market } from '@ionic-native/market';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { SliderPage } from '../pages/slides/slides';
-import { UtilService } from '../services/util.service';
-import { SQLStorageService } from '../services/storage.service';
+import { UtilService } from '../shared/services/util.service';
+import { SQLStorageService } from '../shared/services/storage.service';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { SettingsService } from '../components/settingsModal/services/settings.service';
+import { NotificationService } from '../shared/services/notification.service';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,7 +27,8 @@ export class MyApp implements OnInit {
     private market: Market,
     private localNotif: LocalNotifications,
     public sqlStorageService: SQLStorageService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private notificationService: NotificationService
   ) {
 
     platform.ready().then(() => {
@@ -151,7 +153,7 @@ export class MyApp implements OnInit {
     //isQuoteSet determines if the below 'if' statement has run before, that is, quotes notifications are already initialized
     if(settings.quotes.isQuoteSet == false && settings.quotes.isQuoteShow == true) {
       //Schedule quotes notification for each day
-      this.utilService.resetQuotesNotification(true);
+      this.notificationService.resetQuotesNotification(true);
 
       settings.quotes.isQuoteSet = true;
       localStorage['settings'] = JSON.stringify(settings);

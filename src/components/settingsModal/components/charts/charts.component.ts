@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { UtilService } from '../../../../services/util.service';
+import { UtilService } from '../../../../shared/services/util.service';
 import { SettingsService } from '../../services/settings.service';
 
 @Component({
-  selector: 'notifications-settings-modal',
-  templateUrl: 'notifications.html'
+  selector: 'charts-settings-modal',
+  templateUrl: 'charts.html'
 })
-export class NotificationsModal {
+export class ChartsModal {
 
   constructor(
     public viewCtrl: ViewController,

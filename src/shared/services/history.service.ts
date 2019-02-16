@@ -67,7 +67,7 @@ export class HistoryService {
 
     fetchHistory(name, cb, history = null) {
         if (history) {
-            cb(history);
+            return cb(history);
         }
 
         this.sqlStorageService.getHistory(name)
@@ -89,7 +89,7 @@ export class HistoryService {
         setTimeout(() => {
             this.fetchHistory(name, (history) => {
                 let flag = 0;
-                if (currentValue.amount == 0 || currentValue.profit == 0) {
+                if (!Object.keys(currentValue).length ||currentValue.amount == 0 || currentValue.profit == 0) {
                     history.history.unshift(`On ${this.utilService.getDate(new Date().getTime(), true)}, periodic ${type == 'addition' ? 'investment' : 'profit increment'} was removed.`);
                     flag = 1;
                 } else {
@@ -112,15 +112,16 @@ export class HistoryService {
                         history.history = history.history.slice(0, 40);
                         flag = 1;
                     }
+                }
 
-                    if (flag == 1) {
-                        history.history = encodeURI(JSON.stringify(history.history));
-                        history.lastModifiedOn = new Date().getTime();
+                if (flag == 1) {
+                    console.log("===HISTORY ADDED===");
+                    history.history = encodeURI(JSON.stringify(history.history));
+                    history.lastModifiedOn = new Date().getTime();
 
-                        this.sqlStorageService.updateHistory(history)
-                            .then(() => { console.log("History added"); })
-                            .catch((err) => { console.log(err); })
-                    }
+                    this.sqlStorageService.updateHistory(history)
+                        .then(() => { console.log("History added"); })
+                        .catch((err) => { console.log(err); })
                 }
             })
         }, 1000);

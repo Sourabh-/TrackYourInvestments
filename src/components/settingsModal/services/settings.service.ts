@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from "@angular/core";
-import { UtilService } from "../../../services/util.service";
+import { UtilService } from "../../../shared/services/util.service";
+import { NotificationService } from "../../../shared/services/notification.service";
 
 @Injectable()
 export class SettingsService {
@@ -7,7 +8,8 @@ export class SettingsService {
     public settings: any = {};
     
 	constructor(
-        private utilService: UtilService
+		private utilService: UtilService,
+		private notificationService: NotificationService
     ) {
         this.settings = this.getSettings();
     }
@@ -58,7 +60,7 @@ export class SettingsService {
           case "isQuoteShow":
             this.settings.quotes.isQuoteShow = ev.checked;
             localStorage['settings'] = JSON.stringify(this.settings);
-            this.utilService.resetQuotesNotification(ev.checked);
+            this.notificationService.resetQuotesNotification(ev.checked);
             break;
           case "showHide":
                 this.settings.showHide[name] = ev.checked;

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
-import { UtilService } from '../../../../services/util.service';
+import { UtilService } from '../../../../shared/services/util.service';
 
 @Component({
   selector: 'theme-settings-modal',

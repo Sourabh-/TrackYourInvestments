@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams, ToastController } from 'ionic-angular';
-import { UtilService } from '../../services/util.service';
-import { SQLStorageService } from '../../services/storage.service';
+import { UtilService } from '../../shared/services/util.service';
+import { SQLStorageService } from '../../shared/services/storage.service';
 
 @Component({
   selector: 'history-modal',

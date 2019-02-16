@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewController, AlertController, ToastController, ModalController } from 'ionic-angular';
-import { UtilService } from '../../services/util.service';
-import { CurrencyService } from '../../services/currency.service';
+import { UtilService } from '../../shared/services/util.service';
+import { CurrencyService } from '../../shared/services/currency.service';
 import { CalcHelpModal } from '../calcHelpModal/calcHelpModal.component';
 
 @Component({

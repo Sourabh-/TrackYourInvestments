@@ -5,10 +5,10 @@ import { PopoverController, ToastController } from 'ionic-angular';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { CalcModal } from '../../components/calcModal/calcModal.component';
 import { DrillDownModal } from '../../components/drillDownModal/drillDownModal.component';
-import { UtilService } from '../../services/util.service';
-import { SQLStorageService } from '../../services/storage.service';
-import { CurrencyService } from '../../services/currency.service';
-import { categories, types } from '../../data/data';
+import { UtilService } from '../../shared/services/util.service';
+import { SQLStorageService } from '../../shared/services/storage.service';
+import { CurrencyService } from '../../shared/services/currency.service';
+import { categories, types } from '../../shared/data/data';
 import { SettingsService } from '../../components/settingsModal/services/settings.service';
 
 @Component({
@@ -248,7 +248,6 @@ export class DashboardPage implements OnInit {
   setPieChart() {
     let pieCtx = this.pie.nativeElement.getContext('2d');
     let lbls = [], tempData = [], data = [], bColors = [], ta = 0;
-
     this.sqlStorageService.allInvestments.map((inv, i) => {
       lbls.push(inv.name);
       tempData.push(inv.totalAmount);

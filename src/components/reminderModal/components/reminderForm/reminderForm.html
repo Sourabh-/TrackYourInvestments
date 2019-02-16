@@ -1,0 +1,81 @@
+<ion-header>
+    <ion-toolbar [color]="utilService.theme || 'primary'">
+        <ion-title>
+            {{ isEditable ? (isEdit ? "Edit Reminder" : "View Reminder") : "Add Reminder" }}
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text showWhen="ios">Cancel</span>
+                <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form #rForm="ngForm" novalidate *ngIf="isEdit">
+        <ion-list>
+            <ion-item>
+                <ion-label floating>Investment Name (Optional)</ion-label>
+                <ion-select [(ngModel)]="reminder.investmentName" name="investmentName" (ionChange)="checkEmpty($event)">
+                    <ion-option value="">None</ion-option>
+                    <ion-option [value]="investments.name" *ngFor="let investment of investments">{{investment.name}}</ion-option>
+                </ion-select>
+                <b>Note:</b> This will be shown in the notification, if provided.
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Notes</ion-label>
+                <ion-textarea rows="5" [(ngModel)]="reminder.notes" name="notes" maxlength="500"></ion-textarea>
+            </ion-item>
+        </ion-list>
+        <ion-list>
+            <ion-list-header>
+                When should we remind you ?
+            </ion-list-header>
+            <ion-item>
+                <ion-label floating>Date</ion-label>
+                <ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="reminder.whenDateDatePart" name="whenDateDate"
+                    [min]="minDate" max="2099" required>
+                </ion-datetime>
+            </ion-item>
+            <ion-item>
+                <ion-label floating>Time</ion-label>
+                <ion-datetime displayFormat="hh:mm A" [(ngModel)]="reminder.whenDateTimePart" name="whenDateTime"
+                    required>
+                </ion-datetime>
+            </ion-item>
+        </ion-list>
+        <ion-grid>
+            <ion-row>
+                <ion-col [hidden]="isEditable">
+                    <button ion-button color="getTheme()" (click)="save()" block [disabled]="!rForm.form.valid">SAVE</button>
+                </ion-col>
+                <ion-col [hidden]="!isEditable">
+                    <button ion-button color="getTheme()" (click)="update()" block [disabled]="!rForm.form.valid || isWhenDatePassed(reminder.whenDateDatePart, reminder.whenDateTimePart)">SAVE</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+    <ion-grid *ngIf="!isEdit">
+        <ion-row>
+            <ion-col col-6 class="text-bold">Investment Name</ion-col>
+            <ion-col col-6>{{reminder.investmentName || '-'}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12 class="text-bold">Notes</ion-col>
+            <ion-col col-12>{{reminder.notes}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-6 class="text-bold">Scheduled For</ion-col>
+            <ion-col col-6>{{utilService.getDateTime(reminder.whenDate)}}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <button ion-button [color]="getTheme()" (click)="showEdit()" block>EDIT</button>
+            </ion-col>
+            <ion-col>
+                <button ion-button color="danger" (click)="deleteReminder()" block>DELETE</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

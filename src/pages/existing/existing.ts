@@ -7,10 +7,11 @@ import { EditModal } from '../../components/editModal/editModal.component';
 import { CalcModal } from '../../components/calcModal/calcModal.component';
 import { HistoryModal } from '../../components/historyModal/historyModal.component';
 import { ViewModal } from '../../components/viewModal/viewModal.component';
-import { types } from '../../data/data';
-import { SQLStorageService } from '../../services/storage.service';
-import { UtilService } from '../../services/util.service';
-import { CurrencyService } from '../../services/currency.service';
+import { types } from '../../shared/data/data';
+import { SQLStorageService } from '../../shared/services/storage.service';
+import { UtilService } from '../../shared/services/util.service';
+import { CurrencyService } from '../../shared/services/currency.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'page-existing',
@@ -34,7 +35,8 @@ export class ExistingPage implements OnInit {
     private file: File,
     public sqlStorageService: SQLStorageService,
     public utilService: UtilService,
-    public currencyService: CurrencyService
+    public currencyService: CurrencyService,
+    private notificationService: NotificationService
   ) {
     //MAKE KEY:VALUE FROM TYPES
     for(let i=0; i<types.length; i++) {
@@ -128,7 +130,7 @@ export class ExistingPage implements OnInit {
       toastDel.present();
       //INVOKE EVENT EMITTER
       this.utilService.emitChangeEvent();
-      this.utilService.clearNotification(investment.name);
+      this.notificationService.clearNotification(investment.name);
 
       //REMOVE FROM HISTORY TABLE
       this.sqlStorageService.delHistory(investment.name)

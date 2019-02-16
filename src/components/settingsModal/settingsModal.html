@@ -15,6 +15,7 @@
 <ion-content>
   <ion-list>
     <button ion-item *ngFor="let item of items" (click)="openModal(item.id)">
+      <ion-icon [name]="item.icon" item-start></ion-icon>
       {{ item.name }}
     </button>
   </ion-list>

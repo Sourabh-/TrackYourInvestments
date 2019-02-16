@@ -86,6 +86,22 @@ export class SQLStorageService {
         .catch((e) => {
           console.log(e);
         })
+
+        //CREATE REMINDERS TABLE IF DOES NOT EXISTS
+        db.executeSql(`CREATE TABLE reminders
+        (
+          id varchar(64) NOT NULL PRIMARY KEY,
+          investmentName varchar(30),
+          notes varchar(1000) NOT NULL,
+          createdDate number(20),
+          whenDate number(20)
+        )`, {})
+        .then(() => {
+          console.log("Reminders table created.");
+        })
+        .catch((e) => {
+          console.log(e);
+        })
       })
       .catch((e) => {
         console.log(e);
@@ -334,6 +350,56 @@ export class SQLStorageService {
     } catch(err) {
       console.log(err);
       return new Error(err);
+    }
+  }
+
+  async getReminders() {
+    if(this.dbObj) {
+      let query = "SELECT * from reminders";
+      return this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
+    }
+  }
+
+  async setReminder(reminder) {
+    if(this.dbObj) {
+      let query = `INSERT INTO reminders (id, notes, investmentName, createdDate, whenDate) 
+                  VALUES (
+                    '${reminder.id}', 
+                    '${reminder.notes}', 
+                    '${reminder.investmentName || ''}', 
+                    '${reminder.createdDate}', 
+                    '${reminder.whenDate}'
+                  )`;
+      return this.dbObj.executeSql(query, {});
+   } else {
+     throw new Error('DB NOT READY');
+   }
+  }
+
+  async updateReminder(reminder, id) {
+    if(this.dbObj) {
+      let _update = '';
+      let c = Object.keys(reminder).length;
+      for(let key in reminder) {
+        c--;
+        _update += `${key} = '${(reminder[key] || '') + (c == 0 ? "'" : "', ")}`;
+      }
+
+      let query = `UPDATE reminders SET ${_update} WHERE id='${id}'`;
+      return this.dbObj.executeSql(query, {});
+   } else {
+     throw new Error('DB NOT READY');
+   }
+  }
+
+  async deleteReminder(id) {
+    if(this.dbObj) {
+      let query = `DELETE from reminders WHERE id='${id}'`;
+      this.dbObj.executeSql(query, {});
+    } else {
+      throw new Error('DB NOT READY');
     }
   }
 }

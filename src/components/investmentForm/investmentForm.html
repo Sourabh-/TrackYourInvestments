@@ -51,7 +51,6 @@
         <ion-textarea rows="5" [(ngModel)]="investment.notes" name="notes" maxlength="1000"></ion-textarea>
       </ion-item>
       <ion-item class="last-list-item"></ion-item>
-      <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>
     </ion-list>
     <ion-card>
       <ion-card-header  class="custom-card-header" (click)="toggle = !toggle; reset && reset('add')">
@@ -115,5 +114,6 @@
         <ion-item class="last-list-item"></ion-item>
       </ion-card-content>
     </ion-card>
+    <div class="error-block" text-uppercase *ngIf="isError">{{errorMsg}}</div>
     <button [color]="getTheme()" class="add-btn" ion-button block [disabled]="!iForm.form.valid || isDisabled">{{submitButtonText}}</button>
   </form>

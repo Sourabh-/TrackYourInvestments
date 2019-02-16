@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController, ToastController } from 'ionic-angular';
 import { FormComponent } from '../investmentForm/investmentForm.component';
-import { SQLStorageService } from '../../services/storage.service';
-import { UtilService } from '../../services/util.service';
-import { BasicService } from '../../services/basic.service';
-import { HistoryService } from '../../services/history.service';
+import { SQLStorageService } from '../../shared/services/storage.service';
+import { UtilService } from '../../shared/services/util.service';
+import { BasicService } from '../../shared/services/basic.service';
+import { HistoryService } from '../../shared/services/history.service';
+import { NotificationService } from '../../shared/services/notification.service';
 
 let _;
 
@@ -18,8 +19,18 @@ export class EditModal {
   public profitAddition: any = {};
   public history: any = {};
   public oldValue: any;
-  public oldAdd: any = {};
-  public oldProfitAdd: any = {};
+  public oldAdd: any = {
+    name: '',
+    amount: 0,
+    period: 1,
+    tillDate: null
+  };
+  public oldProfitAdd: any = {
+    name: '',
+    profit: 0,
+    period: 1,
+    tillDate: null
+  };
   public isError: boolean = false;
   public errorMsg: string = '';
   public maxDate: string;
@@ -33,11 +44,11 @@ export class EditModal {
     public toastCtrl: ToastController,
     private utilService: UtilService,
     public basic: BasicService,
-    public histroyService: HistoryService
+    public historyService: HistoryService,
+    public notificationService: NotificationService
   ) {
     this.investment = this.params.get('investment');
     this.oldValue = JSON.parse(JSON.stringify(this.params.get('investment')));
-    console.log(this.investment);
     this.checkForAdditions();
     _ = this;
     this.reload = this.params.get('reload');
@@ -56,7 +67,7 @@ export class EditModal {
     }
 
     this.setMaxDate();
-    this.histroyService.fetchHistory(this.investment.name, (history) => {
+    this.historyService.fetchHistory(this.investment.name, (history) => {
       this.history = history;
     });
   }
@@ -96,8 +107,7 @@ export class EditModal {
       name: '',
       amount: 0,
       period: 1,
-      tillDate: null,
-      done: false
+      tillDate: null
     };
   }
 
@@ -106,8 +116,7 @@ export class EditModal {
       name: '',
       profit: 0,
       period: 1,
-      tillDate: null,
-      done: false
+      tillDate: null
     };
   }
 
@@ -175,9 +184,9 @@ export class EditModal {
                 _.sqlStorageService.updateAddOrProfitAdd(_add, 'addition', _add.name)
                   .then(() => { 
                     console.log("UPDATED"); 
-                    _.resetAddition(); 
                     //Update history
-                    this.histroyService.addToAutoUpdatesInHistory(_investment.name, 'addition', _.addition, _.oldAdd);
+                    _.historyService.addToAutoUpdatesInHistory(_investment.name, 'addition', _.addition, _.oldAdd);
+                    _.resetAddition(); 
                   })
                   .catch((err) => { console.log("FAILED"); console.log(err); })
               }, 1000);
@@ -189,7 +198,7 @@ export class EditModal {
                   .then(() => { 
                     console.log("ADDITION DELETED"); 
                     //Update history
-                    this.histroyService.addToAutoUpdatesInHistory(_investment.name, 'addition', {}, _.oldAdd);
+                    _.historyService.addToAutoUpdatesInHistory(_investment.name, 'addition', {}, _.oldAdd);
                   })
                   .catch((err) => { console.log("ADDITION DELETION FAILED"); console.log(err); })
               }, 1000);
@@ -199,7 +208,7 @@ export class EditModal {
 
           //============SET PROFIT-ADDITION==============//
           if (!_.basic.isEqual(_.profitAddition, _.oldProfitAdd)) {
-            if (_.profitAddition.profit && Number(_.addition.profit) > 0) {
+            if (_.profitAddition.profit && Number(_.profitAddition.profit) > 0) {
               _profitAdd.name = _investment.name;
               if (_profitAdd.tillDate) {
                 let aDate = _profitAdd.tillDate.split('-');
@@ -210,10 +219,10 @@ export class EditModal {
               // A timeout as this update is not needed urgently and should
               // not affect UI changes
               _.sqlStorageService.updateAddOrProfitAdd(_profitAdd, 'profitAddition', _profitAdd.name)
-                .then(() => { 
-                  _.resetProfitAddition(); 
+                .then(() => {  
                   //Update history
-                  this.histroyService.addToAutoUpdatesInHistory(_investment.name, 'profitAddition', _.profitAddition, _.oldProfitAdd);
+                  _.historyService.addToAutoUpdatesInHistory(_investment.name, 'profitAddition', _.profitAddition, _.oldProfitAdd);
+                  _.resetProfitAddition();
                 })
                 .catch((err) => { console.log(err); })
             } else {
@@ -223,7 +232,7 @@ export class EditModal {
                 .then(() => { 
                   console.log("PROFIT ADDITION DELETED"); 
                   //Update history
-                  this.histroyService.addToAutoUpdatesInHistory(_investment.name, 'profitAddition', {}, _.oldProfitAdd);
+                  _.historyService.addToAutoUpdatesInHistory(_investment.name, 'profitAddition', {}, _.oldProfitAdd);
                 })
                 .catch((err) => { console.log("PROFIT ADDITION DELETION FAILED"); console.log(err); })
             }
@@ -231,11 +240,11 @@ export class EditModal {
           //=============================================//
 
           //Update new investment in allInvestments
-          this.utilService.updateInvestmentInMemory(_.sqlStorageService.allInvestments, _investment);
+          _.utilService.updateInvestmentInMemory(_.sqlStorageService.allInvestments, _investment);
           _.utilService.emitChangeEvent();
 
           //Add to history
-          _.histroyService.addToHistory(_investment, this.oldValue, this.history);
+          _.historyService.addToHistory(_investment, _.oldValue, _.history);
 
           _.viewCtrl.dismiss();
         })
@@ -257,9 +266,9 @@ export class EditModal {
 
   setOrRemoveNotifIfNeeded(investment) {
     if (investment.remindMe == 'false') {
-      this.utilService.clearNotification(investment.name);
+      this.notificationService.clearNotification(investment.name);
     } else {
-      this.utilService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
+      this.notificationService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
     }
   }
 }

@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { ViewController, ModalController, AlertController } from 'ionic-angular';
-import { UtilService } from '../../services/util.service';
+import { UtilService } from '../../shared/services/util.service';
 import { SettingsService } from './services/settings.service';
-import { NotificationsModal } from './drilldowns/notifications/notifications.component';
-import { ChartsModal } from './drilldowns/charts/charts.component';
-import { CurrencyModal } from './drilldowns/currency/currency.component';
-import { FaqModal } from './drilldowns/faq/faq.component';
-import { ThemesModal } from './drilldowns/themes/themes.component';
+import { NotificationsModal } from './components/notifications/notifications.component';
+import { ChartsModal } from './components/charts/charts.component';
+import { CurrencyModal } from './components/currency/currency.component';
+import { FaqModal } from './components/faq/faq.component';
+import { ThemesModal } from './components/themes/themes.component';
 
 @Component({
   selector: 'settings-modal',
@@ -16,22 +16,28 @@ export class SettingsModal {
 
   public items = [{
     id: 'notifications',
-    name: 'Notifications'
+    name: 'Notifications',
+    icon: 'notifications-outline'
   }, {
     id: 'charts',
-    name: 'Charts'
+    name: 'Charts',
+    icon: 'stats'
   }, {
     id: 'currency',
-    name: 'Currency'
+    name: 'Currency',
+    icon: 'cash'
   }, {
     id: 'theme',
-    name: 'Theme'
+    name: 'Theme',
+    icon: 'color-palette'
   }, {
     id: 'faq',
-    name: 'FAQ'
+    name: 'FAQ',
+    icon: 'help'
   }, {
     id: 'aboutUs',
-    name: 'About Us'
+    name: 'About Us',
+    icon: 'information-circle'
   }];
 
   constructor(

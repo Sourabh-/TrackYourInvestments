@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar [color]="getTheme()">
+        <ion-title>
+            Reminders
+        </ion-title>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">
+                <span ion-text showWhen="ios">Cancel</span>
+                <ion-icon name="md-close" showWhen="android,windows,core"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list [style.display]="reminderService.reminders && reminderService.reminders.length ? 'block' : 'none'">
+        <ion-item-sliding *ngFor="let reminder of reminderService.reminders; let i = index">
+            <ion-item text-wrap [ngClass]="{'item-done': reminderService.isWhenDatePassed(reminder.whenDate)}" (click)="openAddOrEditReminderModal(reminder, i)">
+                <span>{{reminder.notes | textEllipses: 50}}</span>
+                <p class="item-details">For Investment <b>{{reminder.investmentName || "-"}}</b></p>
+                <p class="item-details">Scheduled For {{utilService.getDateTime(reminder.whenDate)}}</p>
+                <ion-icon [hidden]="!reminderService.isWhenDatePassed(reminder.whenDate)" name="checkmark-circle" item-end class="item-done-checkmark"></ion-icon>
+            </ion-item>
+            <ion-item-options side="right">
+                <button ion-button color="danger" (click)="delete(reminder, i)">
+                    DELETE
+                </button>
+                <button ion-button color="dark" (click)="openAddOrEditReminderModal(reminder, i, true)">
+                    EDIT
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list>
+    <div [hidden]="isLoading || (reminderService.reminders && reminderService.reminders.length)" class="no-data">
+        <ion-icon name="ios-basket-outline"></ion-icon><br />
+        You haven't set any reminders yet.
+    </div>
+    <ion-fab bottom right>
+        <button ion-fab color="getTheme()" (click)="openAddOrEditReminderModal()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+</ion-content>

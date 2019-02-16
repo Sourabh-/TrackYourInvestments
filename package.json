@@ -9,7 +9,13 @@
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
     "ionic:build": "ionic-app-scripts build",
-    "ionic:serve": "ionic-app-scripts serve"
+    "ionic:serve": "ionic-app-scripts serve",
+    "serve": "ionic serve",
+    "android": "ionic cordova run android",
+    "build:prod": "ionic cordova build android --prod --release",
+    "copy:linux": "cp ./platforms/android/app/build/outputs//apk/release/app-release-unsigned.apk ./apk-keys",
+    "jarsigner": "cd ./apk-keys/ && rm InvestmentTracker.apk && jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks app-release-unsigned.apk my-alias",
+    "zipalign": "cd ./apk-keys/ && zipalign -v 4 app-release-unsigned.apk InvestmentTracker.apk"
   },
   "dependencies": {
     "@angular/common": "5.0.3",

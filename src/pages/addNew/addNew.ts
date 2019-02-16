@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NavController, PopoverController, ToastController, ModalController, Nav, Tabs } from 'ionic-angular';
-import { DashboardPage } from '../dashboard/dashboard';
 import { PopoverPage } from '../../components/popover/popover.component';
 import { FormComponent } from '../../components/investmentForm/investmentForm.component';
 import { CalcModal } from '../../components/calcModal/calcModal.component';
-import { SQLStorageService } from '../../services/storage.service';
-import { UtilService } from '../../services/util.service';
+import { SQLStorageService } from '../../shared/services/storage.service';
+import { UtilService } from '../../shared/services/util.service';
+import { NotificationService } from '../../shared/services/notification.service';
 let _;
 
 @Component({
@@ -29,6 +29,7 @@ export class AddNewPage {
     public sqlStorageService: SQLStorageService,
     public toastCtrl: ToastController,
     private utilService: UtilService,
+    private notificationService: NotificationService,
     private nav: Nav
   ) {
     _ = this;
@@ -77,8 +78,7 @@ export class AddNewPage {
       name: '',
       amount: 0,
       period: 1,
-      tillDate: null,
-      done: false
+      tillDate: null
     };
   }
 
@@ -87,8 +87,7 @@ export class AddNewPage {
       name: '',
       profit: 0,
       period: 1,
-      tillDate: null,
-      done: false
+      tillDate: null
     };
   }
 
@@ -188,7 +187,6 @@ export class AddNewPage {
           }, 1000);
         }
         //=============================================//
-        
         _.utilService.addToInvestmentsInMemory(_.sqlStorageService.allInvestments, _investment);
         _.utilService.emitChangeEvent();
         setTimeout(() => {
@@ -219,7 +217,7 @@ export class AddNewPage {
 
   setNotifIfNeeded(investment) {
     if(investment.remindMe == 'true') {
-      this.utilService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
+      this.notificationService.setNotification(investment.name, investment.name, "Hi! A reminder. This investment is maturing today.", (investment.maturityDate + (1000 * 60 * 60 * 7)), investment);
     }
   }
 }

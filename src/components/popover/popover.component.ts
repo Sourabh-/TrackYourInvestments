@@ -3,11 +3,11 @@ import { ToastController, ViewController, AlertController, ModalController } fro
 import { Market } from '@ionic-native/market';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { SocialSharing } from '@ionic-native/social-sharing';
-import { UtilService } from '../../services/util.service';
+import { UtilService } from '../../shared/services/util.service';
 import { EmailModal } from '../emailModal/emailModal.component';
 import { HelpModal } from '../helpModal/helpModal.component';
 import { SettingsModal } from '../settingsModal/settingsModal.component';
-import { ReminderModal } from '../reminderModal/reminder.component';
+import { ReminderModal } from '../reminderModal/reminderModal.component';
 
 @Component({
   selector: 'page-popover',

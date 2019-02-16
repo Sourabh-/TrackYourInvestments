@@ -13,13 +13,13 @@
 </ion-header>
 <ion-content>
     <ion-list>
-        <ion-item *ngFor="let item of _faqs">
+        <ion-item *ngFor="let item of _faqs" text-wrap>
             <h3 class="question" (click)="item.toggle = !item.toggle">
-                {{item.question}}
+                <span [innerHTML]="item.question"></span>
                 <ion-icon class="arrow-icon" [name]="item.toggle ? 'ios-arrow-down' : 'ios-arrow-forward'"></ion-icon>
             </h3>
             <p class="answer" [ngClass]="item.toggle ? 'card-show': 'card-hide'">
-                {{item.answer}}
+                <span [innerHTML]="item.answer"></span>
             </p>
         </ion-item>
     </ion-list>

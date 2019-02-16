@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
 import Chart from 'chart.js';
-import { UtilService } from '../../services/util.service';
-import { types } from '../../data/data';
-import { SQLStorageService } from '../../services/storage.service';
+import { UtilService } from '../../shared/services/util.service';
+import { types } from '../../shared/data/data';
+import { SQLStorageService } from '../../shared/services/storage.service';
 
 @Component({
   selector: 'drilldown-modal',
