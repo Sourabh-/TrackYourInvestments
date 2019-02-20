@@ -10,6 +10,7 @@ import { HistoryService } from './services/history.service';
 import { NotificationService } from './services/notification.service';
 import { SQLite } from '@ionic-native/sqlite';
 import { TextEllipses } from './pipes/textEllipsis.pipe';
+import { AutoUpdateService } from './services/autoUpdate.service';
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import { TextEllipses } from './pipes/textEllipsis.pipe';
         BasicService,
         CurrencyService,
         HistoryService,
-        NotificationService
+        NotificationService,
+        AutoUpdateService
     ]
 })
 export class SharedModule { }

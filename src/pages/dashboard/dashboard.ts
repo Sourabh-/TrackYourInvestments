@@ -10,6 +10,7 @@ import { SQLStorageService } from '../../shared/services/storage.service';
 import { CurrencyService } from '../../shared/services/currency.service';
 import { categories, types } from '../../shared/data/data';
 import { SettingsService } from '../../components/settingsModal/services/settings.service';
+import { AutoUpdateService } from '../../shared/services/autoUpdate.service';
 
 @Component({
   selector: 'page-dashboard',
@@ -68,7 +69,8 @@ export class DashboardPage implements OnInit {
     public sqlStorageService: SQLStorageService,
     public toastCtrl: ToastController,
     public currencyService: CurrencyService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private autoUpdateService: AutoUpdateService
   ) {
     //MAKE KEY:VALUE FROM TYPES
     for(let i=0; i<types.length; i++) {
@@ -107,6 +109,7 @@ export class DashboardPage implements OnInit {
         this.sqlStorageService.allInvestments = _invs;  
         this.combineAutoFields();
         this.setCharts();
+        this.autoUpdateService.checkNUpdate();
       } else {
         //SHOW NO DATA SCREEN
         this.noData = true;

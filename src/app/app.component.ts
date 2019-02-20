@@ -48,15 +48,15 @@ export class MyApp implements OnInit {
   localNotifListener() {
     this.localNotif.on('click').subscribe((inv) => { 
 
-      if(inv.data && inv.data.isQuote) {
+      if(inv.data && (inv.data.isQuote || inv.data.isReminder)) {
         //Show alert with the quote
-        const quoteAlert = this.alertCtrl.create({
-          title: 'Quote Of The Day',
+        const otherAlert = this.alertCtrl.create({
+          title: inv.title,
           subTitle: inv.text,
           buttons: ["OK"]
         });
 
-        quoteAlert.present();
+        otherAlert.present();
         return;
       } 
 

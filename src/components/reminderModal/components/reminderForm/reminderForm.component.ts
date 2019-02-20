@@ -118,7 +118,7 @@ export class ReminderForm {
             position: 'bottom'
         }).present();
         this.reminderService[key](reminder);
-        this.notificationService.setNotificationForAll(reminder.id, reminder.investmentName || 'Reminder', reminder.notes, reminder.whenDate);
+        this.notificationService.setNotificationForAll(reminder.id, reminder.investmentName || 'Reminder', reminder.notes, reminder.whenDate, { isReminder: true });
         this.dismiss();
     }
 

@@ -171,7 +171,7 @@ export class EditModal {
           if (!_.basic.isEqual(_.addition, _.oldAdd)) {
             if (_.addition.amount && Number(_.addition.amount) > 0) {
               _add.name = _investment.name;
-              if (_add.tillDate) {
+              if (_add.tillDate && _add.tillDate != 'null') {
                 let aDate = _add.tillDate.split('-');
                 _add.tillDate = new Date(aDate[0], Number(aDate[1]) - 1).getTime();
               }
@@ -182,7 +182,7 @@ export class EditModal {
               // not affect UI changes
               setTimeout(() => {
                 _.sqlStorageService.updateAddOrProfitAdd(_add, 'addition', _add.name)
-                  .then(() => { 
+                  .then(() => {
                     console.log("UPDATED"); 
                     //Update history
                     _.historyService.addToAutoUpdatesInHistory(_investment.name, 'addition', _.addition, _.oldAdd);
@@ -210,7 +210,7 @@ export class EditModal {
           if (!_.basic.isEqual(_.profitAddition, _.oldProfitAdd)) {
             if (_.profitAddition.profit && Number(_.profitAddition.profit) > 0) {
               _profitAdd.name = _investment.name;
-              if (_profitAdd.tillDate) {
+              if (_profitAdd.tillDate && _profitAdd.tillDate !== 'null') {
                 let aDate = _profitAdd.tillDate.split('-');
                 _profitAdd.tillDate = new Date(aDate[0], Number(aDate[1]) - 1).getTime();
               }
@@ -220,6 +220,7 @@ export class EditModal {
               // not affect UI changes
               _.sqlStorageService.updateAddOrProfitAdd(_profitAdd, 'profitAddition', _profitAdd.name)
                 .then(() => {  
+                  console.log("UPDATED PROFIT");
                   //Update history
                   _.historyService.addToAutoUpdatesInHistory(_investment.name, 'profitAddition', _.profitAddition, _.oldProfitAdd);
                   _.resetProfitAddition();

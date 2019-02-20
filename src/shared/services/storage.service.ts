@@ -265,7 +265,7 @@ export class SQLStorageService {
     }
   }
 
-  updateAddOrProfitAdd(obj, dbName, name) {
+  async updateAddOrProfitAdd(obj, dbName, name) {
     if(this.dbObj) {
        obj['modifiedDate'] = new Date().getTime();
 
@@ -277,7 +277,19 @@ export class SQLStorageService {
        }
 
        let query = `UPDATE ${dbName} SET ${_update} WHERE name='${name}'`;
-       return this.dbObj.executeSql(query, {});
+       return this.dbObj.executeSql(query, {})
+       .then((res) => {
+        if(!res.rowsAffected)
+          return this.setAddOrProfitAdd(obj, dbName);
+        else return "SUCCESS";
+      })
+      .catch((err) => { 
+        if(err.code == 5) {
+          return this.setAddOrProfitAdd(obj, dbName);
+        } else {
+          throw new Error('Error');
+        }
+      })
     } else {
       throw new Error('DB NOT READY');
     }

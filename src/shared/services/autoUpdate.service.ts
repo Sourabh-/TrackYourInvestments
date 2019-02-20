@@ -17,14 +17,14 @@ export class AutoUpdateService {
         // Delay by sometime as its not needed immediately
         // and should not affect UI rendering
         setTimeout(() => {
-            let investments = [...this.sqlStorageService.allInvestments];
+            let investments = JSON.parse(JSON.stringify(this.sqlStorageService.allInvestments));
             let today = new Date().getTime();
             // Loop through each investment
             for (let i = 0; i < investments.length; i++) {
                 ((i) => {
                     let update: any = {};
                     let oldValue: any = {};
-                    if (investments[i].addition && today <= investments[i].addition.tillDate) {
+                    if (investments[i].addition && (investments[i].addition.tillDate && investments[i].addition.tillDate !== 'null' ? today <= Number(investments[i].addition.tillDate) : true)) {
                         // Check if auto update is needed
                         let quotient = this.calculateNUpdate(investments[i], 'addition', today);
                         if (quotient >= 1) {
@@ -34,7 +34,7 @@ export class AutoUpdateService {
                         }
                     }
 
-                    if (investments[i].profitAddition && today <= investments[i].profitAddition.tillDate) {
+                    if (investments[i].profitAddition && (investments[i].profitAddition.tillDate && investments[i].profitAddition.tillDate !== 'null' ? today <= Number(investments[i].profitAddition.tillDate) : true)) {
                         // Check if auto update is needed
                         let quotient = this.calculateNUpdate(investments[i], 'profitAddition', today);
                         if (quotient >= 1) {
