@@ -108,6 +108,6 @@ export class AutoUpdateService {
         let lastUpdated = updateValues.modifiedDate;
         // Difference in months
         let diffInMonths = (today - lastUpdated) / (1000 * 60 * 60 * 24 * 30);
-        return Math.ceil(diffInMonths / updateValues.period);
+        return Math.floor(diffInMonths / updateValues.period);
     }
 }

@@ -109,6 +109,9 @@ export class ViewModal implements OnInit {
     this.isDisabled = true; 
     let investment = JSON.parse(JSON.stringify(this.investment));
     investment.remindMe = investment.remindMe == 'true' ? 'false' : 'true';
+    //DELETE ADDITION & PROFIT ADDITION
+    delete investment.addition;
+    delete investment.profitAddition;
 
     this.sqlStorageService.updateInvestment(investment.name, investment)
     .then((response) => {

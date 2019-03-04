@@ -134,9 +134,17 @@ export class EditModal {
     } else {
       _.isDisabled = true;
       let _investment = JSON.parse(JSON.stringify(_.investment));
-
       let _add = JSON.parse(JSON.stringify(_.addition));
+      if (_add.tillDate && _add.tillDate != 'null') {
+        let aDate = _add.tillDate.split('-');
+        _add.tillDate = new Date(aDate[0], Number(aDate[1]) - 1).getTime();
+      }
+
       let _profitAdd = JSON.parse(JSON.stringify(_.profitAddition));
+      if (_profitAdd.tillDate && _profitAdd.tillDate !== 'null') {
+        let aDate = _profitAdd.tillDate.split('-');
+        _profitAdd.tillDate = new Date(aDate[0], Number(aDate[1]) - 1).getTime();
+      }
 
       let sDate = _investment.startDate.split('-');
       _investment.startDate = new Date(sDate[0], Number(sDate[1]) - 1, sDate[2]).getTime();
@@ -168,14 +176,9 @@ export class EditModal {
           _.setOrRemoveNotifIfNeeded(_investment);
 
           //================SET ADDITION=================//
-          if (!_.basic.isEqual(_.addition, _.oldAdd)) {
+          if (!_.basic.isEqual(_add, _.oldAdd)) {
             if (_.addition.amount && Number(_.addition.amount) > 0) {
               _add.name = _investment.name;
-              if (_add.tillDate && _add.tillDate != 'null') {
-                let aDate = _add.tillDate.split('-');
-                _add.tillDate = new Date(aDate[0], Number(aDate[1]) - 1).getTime();
-              }
-
               _investment.addition = { ..._add };
 
               // A timeout as this update is not needed urgently and should
@@ -203,17 +206,15 @@ export class EditModal {
                   .catch((err) => { console.log("ADDITION DELETION FAILED"); console.log(err); })
               }, 1000);
             }
+          } else if(_add.amount && Number(_add.amount) > 0) {
+            _investment.addition = { ..._add };
           }
           //=============================================//
 
           //============SET PROFIT-ADDITION==============//
-          if (!_.basic.isEqual(_.profitAddition, _.oldProfitAdd)) {
+          if (!_.basic.isEqual(_profitAdd, _.oldProfitAdd)) {
             if (_.profitAddition.profit && Number(_.profitAddition.profit) > 0) {
               _profitAdd.name = _investment.name;
-              if (_profitAdd.tillDate && _profitAdd.tillDate !== 'null') {
-                let aDate = _profitAdd.tillDate.split('-');
-                _profitAdd.tillDate = new Date(aDate[0], Number(aDate[1]) - 1).getTime();
-              }
 
               _investment.profitAddition = { ..._profitAdd };
               // A timeout as this update is not needed urgently and should
@@ -237,6 +238,8 @@ export class EditModal {
                 })
                 .catch((err) => { console.log("PROFIT ADDITION DELETION FAILED"); console.log(err); })
             }
+          } else if(_profitAdd.profit && Number(_profitAdd.profit) > 0) {
+            _investment.profitAddition = { ..._profitAdd };
           }
           //=============================================//
 
